@@ -8,6 +8,6 @@ const { authCheck } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/create-or-update-user', authCheck, auth.createOrUpdateUser);
+router.post('/create-or-update-user', authCheck, auth.createOrUpdateUser);
 
 module.exports = router;

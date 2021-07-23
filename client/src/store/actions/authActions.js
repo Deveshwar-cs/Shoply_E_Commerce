@@ -1,5 +1,6 @@
 import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 import {
   AUTH_INFO_SUCCESS,
@@ -80,6 +81,19 @@ const displayErrorMessage = (error) => {
 };
 // ERROR HANDLING -- FINISH
 
+// Helper functions
+const createOrUpdateUser = async (authToken) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API}/create-or-update-user`,
+    {},
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
+
 // Send Email link for signup
 export const sendEmail = (email) => async (dispatch) => {
   const config = {
@@ -158,7 +172,12 @@ export const login = (email, password) => async (dispatch) => {
 
     const result = await auth.signInWithEmailAndPassword(email, password);
 
-    console.log('authActions--login =>', result.user);
+    // id token
+    const idTokenResult = await result.user.getIdTokenResult();
+
+    createOrUpdateUser(idTokenResult.token)
+      .then((res) => console.log('createOrUpdateUser RES', res))
+      .catch((err) => console.log(err.message));
 
     dispatch(loginSuccess());
   } catch (error) {

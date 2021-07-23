@@ -20,7 +20,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.auth);
-  console.log('Header.js', user);
 
   const handleClick = (e) => {
     setCurrent(e.key);
