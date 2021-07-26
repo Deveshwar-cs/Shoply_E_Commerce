@@ -174,12 +174,13 @@ export const login = (email, password) => async (dispatch) => {
 
     // id token
     const idTokenResult = await result.user.getIdTokenResult();
-
+    console.log('idTokenResult.token RES', idTokenResult.token);
     createOrUpdateUser(idTokenResult.token)
-      .then((res) => console.log('createOrUpdateUser RES', res))
-      .catch((err) => console.log(err.message));
-
-    dispatch(loginSuccess());
+      .then((res) => {
+        console.log('createOrUpdateUser RES', res);
+        dispatch(loginSuccess());
+      })
+      .catch((error) => dispatch(loginError(error.message)));
   } catch (error) {
     console.log(error);
 
