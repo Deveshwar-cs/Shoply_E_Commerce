@@ -1,6 +1,5 @@
 import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
 import {
   AUTH_INFO_SUCCESS,
@@ -24,6 +23,8 @@ import {
   LOGOUT_ERROR,
 } from '../actions/types';
 
+import { createOrUpdateUser } from '../../functions/auth';
+
 export const sendEmailInRequest = () => ({ type: SEND_EMAIL_REQUEST });
 export const sendEmailSuccess = () => ({ type: SEND_EMAIL_SUCCESS });
 export const sendEmailError = (e) => ({ type: SEND_EMAIL_ERROR, payload: e });
@@ -40,18 +41,24 @@ export const sendForgotPasswordEmailError = (e) => ({
 });
 
 export const loginRequest = () => ({ type: LOGIN_REQUEST });
-export const loginSuccess = () => ({ type: LOGIN_SUCCESS });
+export const loginSuccess = (user) => ({ type: LOGIN_SUCCESS, payload: user });
 export const loginError = (e) => ({ type: LOGIN_ERROR, payload: e });
 
 export const loginGoogleRequest = () => ({ type: LOGIN_GOOGLE_REQUEST });
-export const loginGoogleSuccess = () => ({ type: LOGIN_GOOGLE_SUCCESS });
+export const loginGoogleSuccess = (user) => ({
+  type: LOGIN_GOOGLE_SUCCESS,
+  payload: user,
+});
 export const loginGoogleError = (e) => ({
   type: LOGIN_GOOGLE_ERROR,
   payload: e,
 });
 
 export const signupRequest = () => ({ type: SIGNUP_REQUEST });
-export const signupSuccess = () => ({ type: SIGNUP_SUCCESS });
+export const signupSuccess = (user) => ({
+  type: SIGNUP_SUCCESS,
+  payload: user,
+});
 export const signupError = (e) => ({ type: SIGNUP_ERROR, payload: e });
 
 export const logoutRequest = () => ({ type: LOGOUT_REQUEST });
@@ -80,19 +87,6 @@ const displayErrorMessage = (error) => {
   }
 };
 // ERROR HANDLING -- FINISH
-
-// Helper functions
-const createOrUpdateUser = async (authToken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API}/create-or-update-user`,
-    {},
-    {
-      headers: {
-        authToken,
-      },
-    }
-  );
-};
 
 // Send Email link for signup
 export const sendEmail = (email) => async (dispatch) => {
@@ -127,8 +121,6 @@ export const signUp = (email, password) => async (dispatch) => {
 
     const result = await auth.signInWithEmailLink(email, window.location.href); // in case with broken "email link" get Uncought errror in console
 
-    console.log('RESULT', result);
-
     if (result.user.emailVerified) {
       // delete user email from localStorage
       window.localStorage.removeItem('emailForRegistration');
@@ -139,18 +131,23 @@ export const signUp = (email, password) => async (dispatch) => {
       // set password for current user
       await user.updatePassword(password);
 
-      // // id token
-      // const idTokenResult = await user.getIdTokenResult();
-
-      // console.log(
-      //   'authActions -- user',
-      //   user,
-      //   'authActions -- idTokenResult',
-      //   idTokenResult
-      // );
+      // id token
+      const idTokenResult = await user.getIdTokenResult();
 
       // redux store
-      dispatch(signupSuccess());
+      createOrUpdateUser(idTokenResult.token)
+        .then((res) => {
+          dispatch(
+            signupSuccess({
+              email: res.data.email,
+              token: idTokenResult.token, // token from client
+              name: res.data.name,
+              role: res.data.role,
+              _id: res.data._id,
+            })
+          );
+        })
+        .catch((error) => dispatch(signupError(error.message)));
 
       // notification
       toast.success(`Сongratulations, your account ${email} has been created!`);
@@ -174,11 +171,18 @@ export const login = (email, password) => async (dispatch) => {
 
     // id token
     const idTokenResult = await result.user.getIdTokenResult();
-    console.log('idTokenResult.token RES', idTokenResult.token);
+
     createOrUpdateUser(idTokenResult.token)
       .then((res) => {
-        console.log('createOrUpdateUser RES', res);
-        dispatch(loginSuccess());
+        dispatch(
+          loginSuccess({
+            email: res.data.email,
+            token: idTokenResult.token, // token from client
+            name: res.data.name,
+            role: res.data.role,
+            _id: res.data._id,
+          })
+        );
       })
       .catch((error) => dispatch(loginError(error.message)));
   } catch (error) {
@@ -202,9 +206,22 @@ export const googleLogin = (email, password) => async (dispatch) => {
 
     const idTokenResult = await user.getIdTokenResult();
 
-    console.log('authActions--login =>', user, idTokenResult);
+    // console.log('authActions--login =>', user);
+    console.log('authActions--login idTokenResult =>', idTokenResult.token);
 
-    dispatch(loginGoogleSuccess());
+    createOrUpdateUser(idTokenResult.token)
+      .then((res) => {
+        dispatch(
+          loginGoogleSuccess({
+            email: res.data.email,
+            token: idTokenResult.token, // token from client
+            name: res.data.name,
+            role: res.data.role,
+            _id: res.data._id,
+          })
+        );
+      })
+      .catch((error) => dispatch(loginGoogleError(error.message)));
   } catch (error) {
     console.log(error);
 
