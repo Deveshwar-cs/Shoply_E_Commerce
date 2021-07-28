@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Spin } from 'antd';
+import LoadingToRedirect from './LoadingToRedirect';
 
 const UserRoute = ({ children, ...rest }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -9,9 +9,7 @@ const UserRoute = ({ children, ...rest }) => {
   return isAuthenticated ? (
     <Route {...rest} render={() => children} />
   ) : (
-    <div className="spiner">
-      <Spin size="large" />
-    </div>
+    <LoadingToRedirect />
   );
 };
 
