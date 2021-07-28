@@ -23,7 +23,7 @@ import {
   LOGOUT_ERROR,
 } from '../actions/types';
 
-import { createOrUpdateUser } from '../../functions/auth';
+import { createOrUpdateUser } from '../../functions/authFunctions';
 
 export const sendEmailInRequest = () => ({ type: SEND_EMAIL_REQUEST });
 export const sendEmailSuccess = () => ({ type: SEND_EMAIL_SUCCESS });
