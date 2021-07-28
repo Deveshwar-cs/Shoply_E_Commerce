@@ -23,3 +23,11 @@ export const currentUser = async (authToken) => {
     }
   );
 };
+
+export const roleBasedRedirect = (user, history) => {
+  if (user.role === 'admin') {
+    history.push('/admin/dashboard');
+  } else {
+    history.push('/user/history');
+  }
+};

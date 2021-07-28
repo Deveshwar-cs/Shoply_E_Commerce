@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import { login, googleLogin } from '../../store/actions/authActions';
+import { roleBasedRedirect } from '../../functions/authFunctions';
 
 const { Title } = Typography;
 const { Item } = Form;
@@ -13,12 +14,15 @@ const { Item } = Form;
 const Login = ({ history }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { loginInProgress, isAuthenticated, loginGoogleInProgress } =
+  const { loginInProgress, isAuthenticated, loginGoogleInProgress, user } =
     useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isAuthenticated) return history.push('/');
-  }, [history, isAuthenticated]);
+    if (isAuthenticated) {
+      // role based redirect
+      roleBasedRedirect(user, history);
+    }
+  }, [history, isAuthenticated, user]);
 
   const formItemLayout = {
     labelCol: {
