@@ -22,7 +22,9 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register-complete" component={RegisterComplete} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
-        <UserRoute exact path="/user/history" component={History} />
+        <UserRoute exact path="/user/history">
+          <History />
+        </UserRoute>
       </Switch>
     </>
   );
