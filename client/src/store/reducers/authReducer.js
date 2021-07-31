@@ -1,5 +1,7 @@
 import {
+  AUTH_INFO_REQUEST,
   AUTH_INFO_SUCCESS,
+  AUTH_INFO_ERROR,
   SEND_EMAIL_REQUEST,
   SEND_EMAIL_SUCCESS,
   SEND_EMAIL_ERROR,
@@ -22,6 +24,9 @@ import {
 
 const initialState = {
   isAuthenticated: false,
+
+  authInfoInProgress: false,
+  authInfoError: null,
 
   sendEmailInProgress: false,
   sendEmailError: null,
@@ -47,12 +52,17 @@ const initialState = {
 export const authReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
   switch (type) {
+    case AUTH_INFO_REQUEST:
+      return { ...state, authInfoInProgress: true, authInfoError: null };
     case AUTH_INFO_SUCCESS:
       return {
         ...state,
+        authInfoInProgress: false,
         isAuthenticated: !!payload,
         user: payload,
       };
+    case AUTH_INFO_ERROR:
+      return { ...state, authInfoInProgress: false, authInfoError: payload };
 
     case SEND_EMAIL_REQUEST:
       return { ...state, sendEmailInProgress: true, sendEmailError: null };

@@ -2,7 +2,9 @@ import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
 
 import {
+  AUTH_INFO_REQUEST,
   AUTH_INFO_SUCCESS,
+  AUTH_INFO_ERROR,
   SEND_EMAIL_REQUEST,
   SEND_EMAIL_SUCCESS,
   SEND_EMAIL_ERROR,
@@ -24,6 +26,13 @@ import {
 } from '../actions/types';
 
 import { createOrUpdateUser } from '../../functions/authFunctions';
+
+export const authInfoInRequest = () => ({ type: AUTH_INFO_REQUEST });
+export const authInfoSuccess = (user) => ({
+  type: AUTH_INFO_SUCCESS,
+  payload: user,
+});
+export const authInfoError = (e) => ({ type: AUTH_INFO_ERROR, payload: e });
 
 export const sendEmailInRequest = () => ({ type: SEND_EMAIL_REQUEST });
 export const sendEmailSuccess = () => ({ type: SEND_EMAIL_SUCCESS });
@@ -64,11 +73,6 @@ export const signupError = (e) => ({ type: SIGNUP_ERROR, payload: e });
 export const logoutRequest = () => ({ type: LOGOUT_REQUEST });
 export const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
 export const logoutError = (e) => ({ type: LOGOUT_ERROR, payload: e });
-
-export const authInfoSuccess = (user) => ({
-  type: AUTH_INFO_SUCCESS,
-  payload: user,
-});
 
 // ERROR HANDLING -- START
 // Error Codes

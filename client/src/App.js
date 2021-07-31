@@ -1,6 +1,9 @@
+import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { Spin } from 'antd';
 
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -12,7 +15,13 @@ import History from './pages/user/History';
 import UserRoute from './components/routes/UserRoute';
 
 const App = () => {
-  return (
+  const { authInfoInProgress } = useSelector((state) => state.auth);
+
+  return authInfoInProgress ? (
+    <div className="spiner">
+      <Spin size="large" />
+    </div>
+  ) : (
     <>
       <Header />
       <ToastContainer />

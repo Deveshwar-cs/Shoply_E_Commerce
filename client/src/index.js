@@ -9,12 +9,18 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { auth } from './firebase';
-import { authInfoSuccess } from './store/actions/authActions';
+import {
+  authInfoSuccess,
+  authInfoInRequest,
+  authInfoError,
+} from './store/actions/authActions';
 import { currentUser } from './functions/authFunctions';
 
 auth.onAuthStateChanged(async (user) => {
   if (user) {
     const idTokenResult = await user.getIdTokenResult();
+
+    store.dispatch(authInfoInRequest());
 
     currentUser(idTokenResult.token)
       .then((res) => {
@@ -28,7 +34,7 @@ auth.onAuthStateChanged(async (user) => {
           })
         );
       })
-      .catch((error) => console.log('Error in currentUser', error));
+      .catch((error) => store.dispatch(authInfoError(error)));
   }
   ReactDOM.render(
     //<React.StrictMode>
