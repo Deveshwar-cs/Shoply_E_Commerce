@@ -12,6 +12,8 @@ import Home from './pages/Home';
 import Header from './components/nav/Header';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import History from './pages/user/History';
+import Password from './pages/user/Password';
+import Wishlist from './pages/user/Wishlist';
 import UserRoute from './components/routes/UserRoute';
 
 const App = () => {
@@ -33,6 +35,12 @@ const App = () => {
         <Route exact path="/forgot-password" component={ForgotPassword} />
         <UserRoute exact path="/user/history">
           <History />
+        </UserRoute>
+        <UserRoute exact path="/user/password">
+          <Password />
+        </UserRoute>
+        <UserRoute exact path="/user/wishlist">
+          <Wishlist />
         </UserRoute>
       </Switch>
     </>

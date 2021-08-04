@@ -2,22 +2,22 @@ import { Layout, Typography } from 'antd';
 
 import UserNav from '../../components/nav/UserNav';
 
-const { Header, Footer, Content } = Layout;
-const { Title, Text } = Typography;
+const { Header, Content } = Layout;
+const { Title } = Typography;
 
-const History = () => {
+const Wishlist = () => {
   return (
     <>
       <Layout>
         <Header>
           <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            User History Page
+            User Wishlist Page
           </Title>
         </Header>
         <Layout hasSider>
           <UserNav />
           <Content style={{ backgroundColor: 'white' }}>
-            History Content
+            Wishlist Content
           </Content>
         </Layout>
       </Layout>
@@ -25,4 +25,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default Wishlist;

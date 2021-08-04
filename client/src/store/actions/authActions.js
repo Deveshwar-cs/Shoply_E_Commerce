@@ -1,4 +1,6 @@
 import { auth, googleAuthProvider } from '../../firebase';
+// need use firebase import. Credential it's a static method in a static class that's why you need the namespace
+import firebase from 'firebase';
 import { toast } from 'react-toastify';
 
 import {
@@ -11,6 +13,9 @@ import {
   SEND_FORGOT_PASSWORD_EMAIL_REQUEST,
   SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
   SEND_FORGOT_PASSWORD_EMAIL_ERROR,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_ERROR,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
@@ -46,6 +51,13 @@ export const sendForgotPasswordEmailSuccess = () => ({
 });
 export const sendForgotPasswordEmailError = (e) => ({
   type: SEND_FORGOT_PASSWORD_EMAIL_ERROR,
+  payload: e,
+});
+
+export const updatePasswordRequest = () => ({ type: UPDATE_PASSWORD_REQUEST });
+export const updatePasswordSuccess = () => ({ type: UPDATE_PASSWORD_SUCCESS });
+export const updatePasswordError = (e) => ({
+  type: UPDATE_PASSWORD_ERROR,
   payload: e,
 });
 
@@ -274,3 +286,62 @@ export const forgotPassword = (email) => async (dispatch) => {
     toast.error(error.message);
   }
 };
+
+// Update password
+
+export const updatePassword =
+  (currentPassword, newPassword) => async (dispatch) => {
+    const reauthenticate = (currentPassword) => {
+      const user = auth.currentUser;
+      // need use firebase import. Credential it's a static method in a static class that's why you need the namespace
+      const credential = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        currentPassword
+      );
+      return user.reauthenticateWithCredential(credential);
+    };
+
+    // ASYNC/AWAIT IMPLEMENTATION
+    try {
+      dispatch(updatePasswordRequest());
+
+      await reauthenticate(currentPassword);
+
+      const user = auth.currentUser;
+
+      await user.updatePassword(newPassword);
+
+      dispatch(updatePasswordSuccess());
+
+      toast.success('Password successfully updated!');
+    } catch (error) {
+      dispatch(updatePasswordError());
+      toast.error(error.message);
+    }
+
+    // PROMISE IMPLEMENTATION
+
+    //dispatch(updatePasswordRequest());
+
+    // reauthenticate(currentPassword)
+    //   .then(() => {
+    //     const user = auth.currentUser;
+
+    //     user
+    //       .updatePassword(newPassword)
+    //       .then(() => {
+    //         //success
+    //         dispatch(updatePasswordSuccess());
+    //         toast.success('Password successfully updated!');
+    //       })
+    //       .catch((error) => {
+    //         //error
+    //         dispatch(updatePasswordError());
+    //         toast.error(error.message);
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     dispatch(updatePasswordError());
+    //     toast.error(error.message);
+    //   });
+  };
