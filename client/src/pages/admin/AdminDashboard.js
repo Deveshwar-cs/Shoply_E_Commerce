@@ -1,23 +1,23 @@
 import { Layout, Typography } from 'antd';
 
-import UserNav from '../../components/nav/UserNav';
+// import UserNav from '../../components/nav/UserNav';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-const History = () => {
+const AdminDashboard = () => {
   return (
     <>
       <Layout>
         <Header>
           <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            User History Page
+            Admin Dashboard Page
           </Title>
         </Header>
         <Layout hasSider>
-          <UserNav />
+          {/* <UserNav /> */}
           <Content style={{ backgroundColor: 'white' }}>
-            History Content
+            Dashboard Content
           </Content>
         </Layout>
       </Layout>
@@ -25,4 +25,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default AdminDashboard;
