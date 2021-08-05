@@ -4,7 +4,7 @@ const express = require('express');
 const authController = require('../controllers/authController');
 
 // middlewares
-const { authCheck } = require('../middlewares/authMiddleware');
+const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -14,5 +14,11 @@ router.post(
   authController.createOrUpdateUser
 );
 router.post('/current-user', authCheck, authController.currentUser);
+// router.post(
+//   '/current-admin',
+//   authCheck,
+//   adminCheck,
+//   authController.currentUser
+// );
 
 module.exports = router;
