@@ -19,16 +19,16 @@ exports.authCheck = async (req, res, next) => {
   }
 };
 
-// exports.adminCheck = async (req, res, next) => {
-//   //console.log('authCheck middleware', req.headers);
-//   const { email } = req.user;
+exports.adminCheck = async (req, res, next) => {
+  //console.log('authCheck middleware', req.headers);
+  const { email } = req.user;
 
-//   const adminUser = await User.findOne({ email }).exec();
+  const adminUser = await User.findOne({ email }).exec();
 
-//   if (adminUser.role !== 'admin') {
-//     res.status(403).json({
-//       error: 'Admin resource. Access denied.',
-//     });
-//   }
-//   next();
-// };
+  if (adminUser.role !== 'admin') {
+    res.status(403).json({
+      error: 'Admin resource. Access denied.',
+    });
+  }
+  next();
+};
