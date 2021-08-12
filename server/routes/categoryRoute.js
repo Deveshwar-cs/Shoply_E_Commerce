@@ -15,7 +15,7 @@ router.get('/categories/:slug', categoryController.getCategory);
 router.use(authCheck, adminCheck);
 
 router.post('/categories', categoryController.createCategory);
-router.patch('/categories/:slug', categoryController.updateCategory);
+router.put('/categories/:slug', categoryController.updateCategory);
 router.delete('/categories/:slug', categoryController.deleteCategory);
 
 module.exports = router;
