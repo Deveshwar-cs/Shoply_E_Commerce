@@ -9,29 +9,13 @@ const categoryController = require('../controllers/categoryController');
 const router = express.Router();
 
 router.get('/categories', categoryController.getAllCategories);
-router.post(
-  '/category',
-  authCheck,
-  adminCheck,
-  categoryController.createCategory
-);
-router.get(
-  '/category/:slug',
-  authCheck,
-  adminCheck,
-  categoryController.getCategory
-);
-router.patch(
-  '/category/:slug',
-  authCheck,
-  adminCheck,
-  categoryController.updateCategory
-);
-router.delete(
-  '/category/:slug',
-  authCheck,
-  adminCheck,
-  categoryController.deleteCategory
-);
+router.get('/categories/:slug', categoryController.getCategory);
+
+// protected routes after this line
+router.use(authCheck, adminCheck);
+
+router.post('/categories', categoryController.createCategory);
+router.patch('/categories/:slug', categoryController.updateCategory);
+router.delete('/categories/:slug', categoryController.deleteCategory);
 
 module.exports = router;
