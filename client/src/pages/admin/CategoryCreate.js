@@ -5,19 +5,19 @@ import AdminNav from '../../components/nav/AdminNav';
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-const AdminDashboard = () => {
+const CategoryCreate = () => {
   return (
     <>
       <Layout>
         <Header>
           <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            Admin Dashboard Page
+            Admin Category Create Page
           </Title>
         </Header>
         <Layout hasSider>
           <AdminNav />
           <Content style={{ backgroundColor: 'white' }}>
-            Dashboard Content
+            Category Create Content
           </Content>
         </Layout>
       </Layout>
@@ -25,4 +25,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default CategoryCreate;
