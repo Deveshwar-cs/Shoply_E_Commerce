@@ -42,9 +42,17 @@ const Header = () => {
           title={user.email}
           className="ml-auto"
         >
-          <Item key="setting:1">Option 1</Item>
-          <Item key="setting:2">Option 2</Item>
-          <Item key="setting:3" icon={<LogoutOutlined />} onClick={onLogout}>
+          {user && user.role === 'subscriber' && (
+            <Item key="setting:1">
+              <Link to="/user/history">Dashboard</Link>
+            </Item>
+          )}
+          {user && user.role === 'admin' && (
+            <Item key="setting:1">
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </Item>
+          )}
+          <Item key="setting:2" icon={<LogoutOutlined />} onClick={onLogout}>
             Logout
           </Item>
         </SubMenu>
