@@ -13,6 +13,7 @@ exports.createCategory = async (req, res) => {
 
     res.status(201).json(newCategory);
   } catch (error) {
+    console.log('createCategory API request error', error);
     res.status(400).send('Create category failed!');
   }
 };
