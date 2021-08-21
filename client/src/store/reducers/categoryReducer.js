@@ -5,6 +5,9 @@ import {
   GET_CATEGORIES_REQUEST,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_ERROR,
+  DELETE_CATEGORY_REQUEST,
+  DELETE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -13,6 +16,9 @@ const initialState = {
 
   getCategoriesInProgress: false,
   getCategoriesError: null,
+
+  deleteCategoryInProgress: false,
+  deleteCategoryError: null,
 
   allCategories: [],
 };
@@ -57,6 +63,25 @@ export const categoryReducer = (state = initialState, action = {}) => {
         ...state,
         getCategoriesInProgress: false,
         getCategoriesError: payload,
+      };
+
+    case DELETE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        deleteCategoryInProgress: true,
+        deleteCategoryError: null,
+      };
+    case DELETE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        deleteCategoryInProgress: false,
+        deleteCategoryError: null,
+      };
+    case DELETE_CATEGORY_ERROR:
+      return {
+        ...state,
+        deleteCategoryInProgress: false,
+        deleteCategoryError: payload,
       };
 
     default:

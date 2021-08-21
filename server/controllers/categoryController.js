@@ -69,7 +69,8 @@ exports.deleteCategory = async (req, res, next) => {
         )
       );
     }
-    res.status(204);
+    // need to send json
+    res.status(204).json(deletedCategory);
   } catch (error) {
     res.status(400).send('Delete category failed!');
   }
