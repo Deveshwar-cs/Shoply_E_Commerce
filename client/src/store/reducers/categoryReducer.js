@@ -8,6 +8,12 @@ import {
   DELETE_CATEGORY_REQUEST,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_ERROR,
+  GET_ONE_CATEGORY_REQUEST,
+  GET_ONE_CATEGORY_SUCCESS,
+  GET_ONE_CATEGORY_ERROR,
+  UPDATE_CATEGORY_REQUEST,
+  UPDATE_CATEGORY_SUCCESS,
+  UPDATE_CATEGORY_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -20,7 +26,15 @@ const initialState = {
   deleteCategoryInProgress: false,
   deleteCategoryError: null,
 
+  updateCategoryInProgress: false,
+  updateCategoryError: null,
+
+  getOneCategoryInProgress: false,
+  getOneCategoryError: null,
+
   allCategories: [],
+
+  oneCategory: null,
 };
 
 export const categoryReducer = (state = initialState, action = {}) => {
@@ -57,6 +71,7 @@ export const categoryReducer = (state = initialState, action = {}) => {
         getCategoriesInProgress: false,
         getCategoriesError: null,
         allCategories: [...payload],
+        oneCategory: null,
       };
     case GET_CATEGORIES_ERROR:
       return {
@@ -82,6 +97,46 @@ export const categoryReducer = (state = initialState, action = {}) => {
         ...state,
         deleteCategoryInProgress: false,
         deleteCategoryError: payload,
+      };
+
+    case UPDATE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        updateCategoryInProgress: true,
+        updateCategoryError: null,
+        oneCategory: null,
+      };
+    case UPDATE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        updateCategoryInProgress: false,
+        updateCategoryError: null,
+      };
+    case UPDATE_CATEGORY_ERROR:
+      return {
+        ...state,
+        updateCategoryInProgress: false,
+        updateCategoryError: payload,
+      };
+
+    case GET_ONE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        getOneCategoryInProgress: true,
+        getOneCategoryError: null,
+      };
+    case GET_ONE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        getOneCategoryInProgress: false,
+        getOneCategoryError: null,
+        oneCategory: payload,
+      };
+    case GET_ONE_CATEGORY_ERROR:
+      return {
+        ...state,
+        getOneCategoryInProgress: false,
+        getOneCategoryError: payload,
       };
 
     default:

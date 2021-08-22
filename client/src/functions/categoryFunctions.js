@@ -14,7 +14,7 @@ export const deleteCategory = async (slug, authToken) =>
   });
 
 export const updateCategory = async (slug, updatedCategory, authToken) =>
-  await axios.patch(
+  await axios.put(
     `${process.env.REACT_APP_API}/categories/${slug}`,
     updatedCategory,
     {

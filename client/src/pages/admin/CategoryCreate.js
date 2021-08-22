@@ -66,8 +66,6 @@ const CategoryCreate = () => {
     }
   };
 
-  console.log('CategoryCreate Render ...');
-
   const formItemLayout = {
     labelCol: {
       xs: {

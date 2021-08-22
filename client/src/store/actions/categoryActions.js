@@ -4,6 +4,8 @@ import {
   createCategory,
   getAllCategories,
   deleteCategory,
+  updateCategory,
+  getOneCategory,
 } from '../../functions/categoryFunctions';
 
 import {
@@ -16,7 +18,15 @@ import {
   DELETE_CATEGORY_REQUEST,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_ERROR,
+  UPDATE_CATEGORY_REQUEST,
+  UPDATE_CATEGORY_SUCCESS,
+  UPDATE_CATEGORY_ERROR,
+  GET_ONE_CATEGORY_REQUEST,
+  GET_ONE_CATEGORY_SUCCESS,
+  GET_ONE_CATEGORY_ERROR,
 } from '../actions/types';
+
+// Create category actions
 
 const createCategoryRequest = () => ({ type: CREATE_CATEGORY_REQUEST });
 const createCategorySuccess = () => ({
@@ -27,7 +37,6 @@ const createCategoryError = (e) => ({
   payload: e,
 });
 
-// Create category
 export const createCategoryAction = (name, token) => async (dispatch) => {
   try {
     dispatch(createCategoryRequest());
@@ -47,6 +56,8 @@ export const createCategoryAction = (name, token) => async (dispatch) => {
     });
   }
 };
+
+// Get all categories actions
 
 const getCategoriesRequest = () => ({ type: GET_CATEGORIES_REQUEST });
 const getCategoriesSuccess = (categories) => ({
@@ -70,6 +81,8 @@ export const getAllCategoriesAction = () => async (dispatch) => {
   }
 };
 
+// Delete category actions
+
 const deleteCategoryRequest = () => ({ type: DELETE_CATEGORY_REQUEST });
 const deleteCategorySuccess = () => ({
   type: DELETE_CATEGORY_SUCCESS,
@@ -92,5 +105,55 @@ export const deleteCategoryAction = (slug, token) => async (dispatch) => {
     return new Promise((resolve, reject) => {
       reject('Delete category Error');
     });
+  }
+};
+
+// Update category actions
+
+const updateCategoryRequest = () => ({ type: UPDATE_CATEGORY_REQUEST });
+const updateCategorySuccess = () => ({
+  type: UPDATE_CATEGORY_SUCCESS,
+});
+const updateCategoryError = (e) => ({
+  type: UPDATE_CATEGORY_ERROR,
+  payload: e,
+});
+
+export const updateCategoryAction =
+  (slug, category, token) => async (dispatch) => {
+    try {
+      dispatch(updateCategoryRequest());
+
+      // Request to DB
+      await updateCategory(slug, category, token);
+
+      dispatch(updateCategorySuccess());
+    } catch (error) {
+      dispatch(updateCategoryError(error));
+    }
+  };
+
+// Get one category actions
+
+const getOneCategoryRequest = () => ({ type: GET_ONE_CATEGORY_REQUEST });
+const getOneCategorySuccess = (category) => ({
+  type: GET_ONE_CATEGORY_SUCCESS,
+  payload: category,
+});
+const getOneCategoryError = (e) => ({
+  type: GET_ONE_CATEGORY_ERROR,
+  payload: e,
+});
+
+export const getOneCategoryAction = (slug) => async (dispatch) => {
+  try {
+    dispatch(getOneCategoryRequest());
+
+    // Request to DB
+    const category = await getOneCategory(slug);
+
+    dispatch(getOneCategorySuccess(category.data));
+  } catch (error) {
+    dispatch(getOneCategoryError(error));
   }
 };
