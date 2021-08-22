@@ -11,20 +11,16 @@ import {
   Row,
   Col,
   Form,
-  Input,
   Button,
   Spin,
 } from 'antd';
 
 import { toast } from 'react-toastify';
 
-import {
-  LaptopOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import AdminNav from '../../components/nav/AdminNav';
+import CategoryForm from '../../components/forms/CategoryForm';
 
 import {
   createCategoryAction,
@@ -34,7 +30,6 @@ import {
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
-const { Item } = Form;
 
 const CategoryCreate = () => {
   const [form] = Form.useForm();
@@ -66,37 +61,6 @@ const CategoryCreate = () => {
     }
   };
 
-  const formItemLayout = {
-    labelCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 8,
-      },
-    },
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 16,
-      },
-    },
-  };
-  const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  };
-
   const onFinish = ({ name }) => {
     dispatch(createCategoryAction(name, user.token))
       .then(() => {
@@ -110,58 +74,6 @@ const CategoryCreate = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  const createCategoryForm = () => (
-    <Form
-      {...formItemLayout}
-      style={{ marginTop: 20 }}
-      form={form}
-      size="large"
-      name="category"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      scrollToFirstError
-    >
-      <Item
-        name="name"
-        label="Category name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new category name!',
-          },
-        ]}
-      >
-        <Input size="large" placeholder="Enter new category name" autoFocus />
-      </Item>
-
-      <Item {...tailFormItemLayout}>
-        {createCategoryInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<LaptopOutlined />}
-            loading
-          >
-            Add new category
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<LaptopOutlined />}
-          >
-            Add new category
-          </Button>
-        )}
-      </Item>
-    </Form>
-  );
 
   return (
     <>
@@ -183,7 +95,14 @@ const CategoryCreate = () => {
             </Row>
             <Row>
               <Col lg={{ span: 12, offset: 4 }} xs={{ span: 20, offset: 2 }}>
-                {createCategoryForm()}
+                <CategoryForm
+                  form={form}
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  inProgress={createCategoryInProgress}
+                  btnText="Add new category"
+                  placeholderText="Enter new category name"
+                />
               </Col>
             </Row>
             <Row>

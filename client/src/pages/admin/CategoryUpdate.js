@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Row, Col, Form, Input, Button } from 'antd';
+import { Layout, Typography, Row, Col, Form } from 'antd';
 
 import { toast } from 'react-toastify';
 
-import { LaptopOutlined } from '@ant-design/icons';
-
 import AdminNav from '../../components/nav/AdminNav';
+import CategoryForm from '../../components/forms/CategoryForm';
 
 import {
   updateCategoryAction,
@@ -16,7 +15,6 @@ import {
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
-const { Item } = Form;
 
 const CategoryUpdate = ({ history, match }) => {
   const [form] = Form.useForm();
@@ -39,37 +37,6 @@ const CategoryUpdate = ({ history, match }) => {
     }
   }, [form, oneCategory]);
 
-  const formItemLayout = {
-    labelCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 8,
-      },
-    },
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 16,
-      },
-    },
-  };
-  const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  };
-
   const onFinish = ({ name }) => {
     if (name === oneCategory.name)
       return toast.error(`Please enter a new catogory name!`);
@@ -84,58 +51,6 @@ const CategoryUpdate = ({ history, match }) => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  const updateCategoryForm = () => (
-    <Form
-      {...formItemLayout}
-      style={{ marginTop: 20 }}
-      form={form}
-      size="large"
-      name="category"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      scrollToFirstError
-    >
-      <Item
-        name="name"
-        label="Category name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new category name!',
-          },
-        ]}
-      >
-        <Input size="large" placeholder="Enter new category name" autoFocus />
-      </Item>
-
-      <Item {...tailFormItemLayout}>
-        {updateCategoryInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<LaptopOutlined />}
-            loading
-          >
-            Update category
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<LaptopOutlined />}
-          >
-            Update category
-          </Button>
-        )}
-      </Item>
-    </Form>
-  );
 
   return (
     <>
@@ -157,7 +72,14 @@ const CategoryUpdate = ({ history, match }) => {
             </Row>
             <Row>
               <Col lg={{ span: 12, offset: 4 }} xs={{ span: 20, offset: 2 }}>
-                {updateCategoryForm()}
+                <CategoryForm
+                  form={form}
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  inProgress={updateCategoryInProgress}
+                  btnText="Update category"
+                  placeholderText="Enter updated category name"
+                />
               </Col>
             </Row>
           </Content>
