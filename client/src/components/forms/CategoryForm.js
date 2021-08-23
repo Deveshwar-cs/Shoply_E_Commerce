@@ -6,17 +6,21 @@ const formItemLayout = {
   labelCol: {
     xs: {
       span: 24,
+      offset: 0,
     },
     sm: {
-      span: 8,
+      span: 16,
+      offset: 8,
     },
   },
   wrapperCol: {
     xs: {
       span: 24,
+      offset: 0,
     },
     sm: {
-      span: 16,
+      span: 24,
+      offset: 0,
     },
   },
 };
@@ -27,8 +31,8 @@ const tailFormItemLayout = {
       offset: 0,
     },
     sm: {
-      span: 16,
-      offset: 8,
+      span: 24,
+      offset: 0,
     },
   },
 };
@@ -56,7 +60,7 @@ const CategoryForm = ({
     >
       <Item
         name="name"
-        label="Category name"
+        //label="Category name"
         rules={[
           {
             required: true,

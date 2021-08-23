@@ -11,6 +11,7 @@ import {
   Row,
   Col,
   Form,
+  Input,
   Button,
   Spin,
 } from 'antd';
@@ -43,6 +44,7 @@ const CategoryCreate = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [idOfClickedItem, setIdOfClickedItem] = useState('');
+  const [keyword, setKeyword] = useState(''); // Step 1. Category search filter – Category search input state
 
   // here we call useEffect only when component mounts, array with no dependencies
   useEffect(() => {
@@ -61,6 +63,16 @@ const CategoryCreate = () => {
     }
   };
 
+  // Step 3. Category search filter – onChange handler function
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setKeyword(e.target.value.toLowerCase());
+  };
+
+  // Step 4. Category search filter – filter method HOC
+  const serached = (keyword) => (category) =>
+    category.name.toLowerCase().includes(keyword);
+
   const onFinish = ({ name }) => {
     dispatch(createCategoryAction(name, user.token))
       .then(() => {
@@ -75,6 +87,17 @@ const CategoryCreate = () => {
     console.log('Failed:', errorInfo);
   };
 
+  // Step 2. Category search filter – input field
+
+  const searchInput = () => (
+    <Input
+      size="large"
+      placeholder="Category search"
+      value={keyword}
+      onChange={handleSearchChange}
+    />
+  );
+
   return (
     <>
       <Layout>
@@ -87,14 +110,24 @@ const CategoryCreate = () => {
           <AdminNav />
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
-              <Col lg={{ span: 8, offset: 8 }} xs={{ span: 20, offset: 2 }}>
+              <Col
+                xl={{ span: 10, offset: 7 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
                 <Title level={2} style={{ marginTop: 40 }}>
                   Create New Category
                 </Title>
               </Col>
             </Row>
             <Row>
-              <Col lg={{ span: 12, offset: 4 }} xs={{ span: 20, offset: 2 }}>
+              <Col
+                xl={{ span: 10, offset: 7 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
                 <CategoryForm
                   form={form}
                   onFinish={onFinish}
@@ -104,9 +137,25 @@ const CategoryCreate = () => {
                   placeholderText="Enter new category name"
                 />
               </Col>
+              <Col
+                xl={{ span: 10, offset: 7 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
+                <Divider style={{ fontWeight: 'bold' }}>
+                  Category Search
+                </Divider>
+                {searchInput()}
+              </Col>
             </Row>
             <Row>
-              <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
+              <Col
+                xl={{ span: 10, offset: 7 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
                 {getCategoriesInProgress ? (
                   <div className="spiner">
                     <Spin />
@@ -117,31 +166,33 @@ const CategoryCreate = () => {
                       All Categories
                     </Divider>
                     <List>
-                      {allCategories.map((category) => (
-                        <List.Item key={category._id}>
-                          <Text>{category.name}</Text>
-                          <Link
-                            to={`/admin/category/${category.slug}`}
-                            style={{ marginLeft: 'auto', marginRight: 30 }}
-                          >
-                            <EditOutlined />
-                          </Link>
-                          {deleteCategoryInProgress && // show loading state on clicked Delete button with conditional rendering
-                          idOfClickedItem === category._id ? (
-                            <Button
-                              danger
-                              loading
-                              icon={<DeleteOutlined />}
-                            ></Button>
-                          ) : (
-                            <Button
-                              danger
-                              onClick={() => handleDelete(category)}
-                              icon={<DeleteOutlined />}
-                            ></Button>
-                          )}
-                        </List.Item>
-                      ))}
+                      {allCategories
+                        .filter(serached(keyword)) // Step 5. Category search filter – use serached HOC with array filter method
+                        .map((category) => (
+                          <List.Item key={category._id}>
+                            <Text>{category.name}</Text>
+                            <Link
+                              to={`/admin/category/${category.slug}`}
+                              style={{ marginLeft: 'auto', marginRight: 30 }}
+                            >
+                              <EditOutlined />
+                            </Link>
+                            {deleteCategoryInProgress && // show loading state on clicked Delete button with conditional rendering
+                            idOfClickedItem === category._id ? (
+                              <Button
+                                danger
+                                loading
+                                icon={<DeleteOutlined />}
+                              ></Button>
+                            ) : (
+                              <Button
+                                danger
+                                onClick={() => handleDelete(category)}
+                                icon={<DeleteOutlined />}
+                              ></Button>
+                            )}
+                          </List.Item>
+                        ))}
                     </List>
                   </>
                 )}

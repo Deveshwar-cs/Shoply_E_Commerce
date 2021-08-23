@@ -64,14 +64,24 @@ const CategoryUpdate = ({ history, match }) => {
           <AdminNav />
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
-              <Col lg={{ span: 8, offset: 8 }} xs={{ span: 20, offset: 2 }}>
+              <Col
+                xl={{ span: 10, offset: 7 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
                 <Title level={2} style={{ marginTop: 40 }}>
                   Update Category Name
                 </Title>
               </Col>
             </Row>
             <Row>
-              <Col lg={{ span: 12, offset: 4 }} xs={{ span: 20, offset: 2 }}>
+              <Col
+                xl={{ span: 10, offset: 7 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
                 <CategoryForm
                   form={form}
                   onFinish={onFinish}
