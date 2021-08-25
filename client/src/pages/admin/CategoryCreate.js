@@ -11,7 +11,6 @@ import {
   Row,
   Col,
   Form,
-  Input,
   Button,
   Spin,
 } from 'antd';
@@ -22,6 +21,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import AdminNav from '../../components/nav/AdminNav';
 import CategoryForm from '../../components/forms/CategoryForm';
+import { LocalSearch, searched } from '../../components/forms/LocalSearch';
 
 import {
   createCategoryAction,
@@ -44,7 +44,7 @@ const CategoryCreate = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [idOfClickedItem, setIdOfClickedItem] = useState('');
-  const [keyword, setKeyword] = useState(''); // Step 1. Category search filter – Category search input state
+  const [keyword, setKeyword] = useState(''); // Step 1. Category search filter – Category search input local state
 
   // here we call useEffect only when component mounts, array with no dependencies
   useEffect(() => {
@@ -64,14 +64,14 @@ const CategoryCreate = () => {
   };
 
   // Step 3. Category search filter – onChange handler function
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    setKeyword(e.target.value.toLowerCase());
-  };
+  // const handleSearchChange = (e) => {
+  //   e.preventDefault();
+  //   setKeyword(e.target.value.toLowerCase());
+  // };
 
   // Step 4. Category search filter – filter method HOC
-  const serached = (keyword) => (category) =>
-    category.name.toLowerCase().includes(keyword);
+  // const serached = (keyword) => (category) =>
+  //   category.name.toLowerCase().includes(keyword);
 
   const onFinish = ({ name }) => {
     dispatch(createCategoryAction(name, user.token))
@@ -89,14 +89,14 @@ const CategoryCreate = () => {
 
   // Step 2. Category search filter – input field
 
-  const searchInput = () => (
-    <Input
-      size="large"
-      placeholder="Category search"
-      value={keyword}
-      onChange={handleSearchChange}
-    />
-  );
+  // const searchInput = () => (
+  //   <Input
+  //     size="large"
+  //     placeholder="Category search"
+  //     value={keyword}
+  //     onChange={handleSearchChange}
+  //   />
+  // );
 
   return (
     <>
@@ -146,7 +146,7 @@ const CategoryCreate = () => {
                 <Divider style={{ fontWeight: 'bold' }}>
                   Category Search
                 </Divider>
-                {searchInput()}
+                <LocalSearch keyword={keyword} setKeyword={setKeyword} />
               </Col>
             </Row>
             <Row>
@@ -167,7 +167,7 @@ const CategoryCreate = () => {
                     </Divider>
                     <List>
                       {allCategories
-                        .filter(serached(keyword)) // Step 5. Category search filter – use serached HOC with array filter method
+                        .filter(searched(keyword)) // Step 5. Category search filter – use serached HOC with array filter method
                         .map((category) => (
                           <List.Item key={category._id}>
                             <Text>{category.name}</Text>
