@@ -43,7 +43,7 @@ const AdminNav = () => {
       {
         key: '5',
         label: 'Sub Category',
-        path: '/admin/sub-category',
+        path: '/admin/subcategory',
         icon: <LaptopOutlined />,
       },
       {

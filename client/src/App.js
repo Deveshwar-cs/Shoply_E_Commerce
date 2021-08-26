@@ -15,8 +15,8 @@ import History from './pages/user/History';
 import Password from './pages/user/Password';
 import Wishlist from './pages/user/Wishlist';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import CategoryCreate from './pages/admin/CategoryCreate';
-import CategoryUpdate from './pages/admin/CategoryUpdate';
+import CategoryCreate from './pages/admin/category/CategoryCreate';
+import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
 

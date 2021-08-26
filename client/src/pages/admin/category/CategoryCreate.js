@@ -19,15 +19,15 @@ import { toast } from 'react-toastify';
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
-import AdminNav from '../../components/nav/AdminNav';
-import CategoryForm from '../../components/forms/CategoryForm';
-import { LocalSearch, searched } from '../../components/forms/LocalSearch';
+import AdminNav from '../../../components/nav/AdminNav';
+import CategoryForm from '../../../components/forms/CategoryForm';
+import { LocalSearch, searched } from '../../../components/forms/LocalSearch';
 
 import {
   createCategoryAction,
   getAllCategoriesAction,
   deleteCategoryAction,
-} from '../../store/actions/categoryActions';
+} from '../../../store/actions/categoryActions';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;

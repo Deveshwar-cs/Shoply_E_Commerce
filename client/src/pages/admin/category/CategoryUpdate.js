@@ -5,13 +5,13 @@ import { Layout, Typography, Row, Col, Form } from 'antd';
 
 import { toast } from 'react-toastify';
 
-import AdminNav from '../../components/nav/AdminNav';
-import CategoryForm from '../../components/forms/CategoryForm';
+import AdminNav from '../../../components/nav/AdminNav';
+import CategoryForm from '../../../components/forms/CategoryForm';
 
 import {
   updateCategoryAction,
   getOneCategoryAction,
-} from '../../store/actions/categoryActions';
+} from '../../../store/actions/categoryActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
