@@ -32,7 +32,7 @@ import {
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 
-const CategoryCreate = () => {
+const SubCategoryCreate = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const {
@@ -63,16 +63,6 @@ const CategoryCreate = () => {
     }
   };
 
-  // Step 3. Category search filter – onChange handler function
-  // const handleSearchChange = (e) => {
-  //   e.preventDefault();
-  //   setKeyword(e.target.value.toLowerCase());
-  // };
-
-  // Step 4. Category search filter – filter method HOC
-  // const serached = (keyword) => (category) =>
-  //   category.name.toLowerCase().includes(keyword);
-
   const onFinish = ({ name }) => {
     dispatch(createCategoryAction(name, user.token))
       .then(() => {
@@ -87,23 +77,12 @@ const CategoryCreate = () => {
     console.log('Failed:', errorInfo);
   };
 
-  // Step 2. Category search filter – input field
-
-  // const searchInput = () => (
-  //   <Input
-  //     size="large"
-  //     placeholder="Category search"
-  //     value={keyword}
-  //     onChange={handleSearchChange}
-  //   />
-  // );
-
   return (
     <>
       <Layout>
         <Header>
           <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            Admin Create Category Page
+            Admin Create Subcategory Page
           </Title>
         </Header>
         <Layout hasSider>
@@ -117,7 +96,7 @@ const CategoryCreate = () => {
                 xs={{ span: 20, offset: 2 }}
               >
                 <Title level={2} style={{ marginTop: 40 }}>
-                  Create New Category
+                  Create New Subcategory
                 </Title>
               </Col>
             </Row>
@@ -133,8 +112,8 @@ const CategoryCreate = () => {
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
                   inProgress={createCategoryInProgress}
-                  btnText="Add new category"
-                  placeholderText="Enter new category name"
+                  btnText="Add new subcategory"
+                  placeholderText="Enter new subcategory name"
                 />
               </Col>
               <Col
@@ -144,12 +123,12 @@ const CategoryCreate = () => {
                 xs={{ span: 20, offset: 2 }}
               >
                 <Divider style={{ fontWeight: 'bold' }}>
-                  Category Search
+                  Subcategory Search
                 </Divider>
                 <LocalSearch
                   keyword={keyword}
                   setKeyword={setKeyword}
-                  placeholderText="Enter new category name"
+                  placeholderText="Enter new subcategory name"
                 />
               </Col>
             </Row>
@@ -167,7 +146,7 @@ const CategoryCreate = () => {
                 ) : (
                   <>
                     <Divider style={{ fontWeight: 'bold' }}>
-                      All Categories
+                      All Subcategories
                     </Divider>
                     <List>
                       {allCategories
@@ -209,4 +188,4 @@ const CategoryCreate = () => {
   );
 };
 
-export default CategoryCreate;
+export default SubCategoryCreate;

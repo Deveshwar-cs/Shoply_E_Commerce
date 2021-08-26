@@ -1,6 +1,6 @@
 import { Input } from 'antd';
 
-export const LocalSearch = ({ keyword, setKeyword }) => {
+export const LocalSearch = ({ keyword, setKeyword, placeholderText }) => {
   const handleSearchChange = (e) => {
     e.preventDefault();
     setKeyword(e.target.value.toLowerCase());
@@ -9,7 +9,7 @@ export const LocalSearch = ({ keyword, setKeyword }) => {
   return (
     <Input
       size="large"
-      placeholder="Category search"
+      placeholder={placeholderText}
       value={keyword}
       onChange={handleSearchChange}
     />
