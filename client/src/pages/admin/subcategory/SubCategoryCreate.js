@@ -22,12 +22,15 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import { LocalSearch, searched } from '../../../components/forms/LocalSearch';
+import CategorySelect from '../../../components/forms/CategorySelect';
+
+import { getAllCategoriesAction } from '../../../store/actions/categoryActions';
 
 import {
-  createCategoryAction,
-  getAllCategoriesAction,
-  deleteCategoryAction,
-} from '../../../store/actions/categoryActions';
+  createSubCategoryAction,
+  getAllSubCategoriesAction,
+  deleteSubCategoryAction,
+} from '../../../store/actions/subCategoryActions';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
@@ -35,12 +38,14 @@ const { Title, Text } = Typography;
 const SubCategoryCreate = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { allCategories } = useSelector((state) => state.category);
   const {
-    createCategoryInProgress,
-    allCategories,
-    getCategoriesInProgress,
-    deleteCategoryInProgress,
-  } = useSelector((state) => state.category);
+    createSubCategoryInProgress,
+    allSubCategories,
+    getSubCategoriesInProgress,
+    deleteSubCategoryInProgress,
+    parentCategory,
+  } = useSelector((state) => state.sub);
   const { user } = useSelector((state) => state.auth);
 
   const [idOfClickedItem, setIdOfClickedItem] = useState('');
@@ -48,23 +53,27 @@ const SubCategoryCreate = () => {
 
   // here we call useEffect only when component mounts, array with no dependencies
   useEffect(() => {
-    dispatch(getAllCategoriesAction());
+    dispatch(getAllSubCategoriesAction()).then(() =>
+      dispatch(getAllCategoriesAction())
+    );
   }, []);
 
-  const handleDelete = (category) => {
-    if (window.confirm(`Delete ${category.name} category?`)) {
-      setIdOfClickedItem(category._id);
+  const handleDelete = (subCategory) => {
+    if (window.confirm(`Delete ${subCategory.name} category?`)) {
+      setIdOfClickedItem(subCategory._id);
 
-      dispatch(deleteCategoryAction(category.slug, user.token)).then(() => {
-        // dispatch getAllCategoriesAction after category was deleted
-        dispatch(getAllCategoriesAction());
-        toast.success(`Category ${category.name} deleted`);
-      });
+      dispatch(deleteSubCategoryAction(subCategory.slug, user.token)).then(
+        () => {
+          // dispatch getAllCategoriesAction after category was deleted
+          dispatch(getAllSubCategoriesAction());
+          toast.success(`Category ${subCategory.name} deleted`);
+        }
+      );
     }
   };
 
   const onFinish = ({ name }) => {
-    dispatch(createCategoryAction(name, user.token))
+    dispatch(createSubCategoryAction(name, parentCategory, user.token))
       .then(() => {
         // dispatch getAllCategoriesAction after category was created
         dispatch(getAllCategoriesAction());
@@ -107,11 +116,21 @@ const SubCategoryCreate = () => {
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
+                <Divider style={{ fontWeight: 'bold' }}>
+                  Parent category
+                </Divider>
+                <CategorySelect
+                  allCategories={allCategories}
+                  placeholderText="Select a parent category (Required)"
+                />
+                <Divider style={{ fontWeight: 'bold' }}>
+                  Create new subcategory
+                </Divider>
                 <CategoryForm
                   form={form}
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
-                  inProgress={createCategoryInProgress}
+                  inProgress={createSubCategoryInProgress}
                   btnText="Add new subcategory"
                   placeholderText="Enter new subcategory name"
                 />
@@ -139,7 +158,7 @@ const SubCategoryCreate = () => {
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
-                {getCategoriesInProgress ? (
+                {getSubCategoriesInProgress ? (
                   <div className="spiner">
                     <Spin />
                   </div>
@@ -149,19 +168,19 @@ const SubCategoryCreate = () => {
                       All Subcategories
                     </Divider>
                     <List>
-                      {allCategories
+                      {allSubCategories
                         .filter(searched(keyword)) // Step 5. Category search filter – use serached HOC with array filter method
-                        .map((category) => (
-                          <List.Item key={category._id}>
-                            <Text>{category.name}</Text>
+                        .map((subcategory) => (
+                          <List.Item key={subcategory._id}>
+                            <Text>{subcategory.name}</Text>
                             <Link
-                              to={`/admin/category/${category.slug}`}
+                              to={`/admin/subcategories/${subcategory.slug}`}
                               style={{ marginLeft: 'auto', marginRight: 30 }}
                             >
                               <EditOutlined />
                             </Link>
-                            {deleteCategoryInProgress && // show loading state on clicked Delete button with conditional rendering
-                            idOfClickedItem === category._id ? (
+                            {deleteSubCategoryInProgress && // show loading state on clicked Delete button with conditional rendering
+                            idOfClickedItem === subcategory._id ? (
                               <Button
                                 danger
                                 loading
@@ -170,7 +189,7 @@ const SubCategoryCreate = () => {
                             ) : (
                               <Button
                                 danger
-                                onClick={() => handleDelete(category)}
+                                onClick={() => handleDelete(subcategory)}
                                 icon={<DeleteOutlined />}
                               ></Button>
                             )}

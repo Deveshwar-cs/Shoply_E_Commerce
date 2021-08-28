@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-export const getAllSubCategories = async () =>
-  await axios.get(`${process.env.REACT_APP_API}/subcategories`);
-
+export const getAllSubCategories = async () => {
+  try {
+    await axios.get(`${process.env.REACT_APP_API}/subcategories`);
+  } catch (error) {
+    console.log('axios getAllSubCategories error =====>', error);
+  }
+};
 export const getOneSubCategory = async (slug) =>
   await axios.get(`${process.env.REACT_APP_API}/subcategories/${slug}`);
 
@@ -24,10 +28,14 @@ export const updateSubCategory = async (slug, updatedSubCategory, authToken) =>
     }
   );
 
-export const createSubCategory = async (subCategory, authToken) =>
+export const createSubCategory = async (
+  subCategory,
+  parentCategory,
+  authToken
+) =>
   await axios.post(
     `${process.env.REACT_APP_API}/subcategories`,
-    { subCategory },
+    { name: subCategory, category: parentCategory },
     {
       headers: {
         authToken,

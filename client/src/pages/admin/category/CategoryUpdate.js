@@ -38,7 +38,7 @@ const CategoryUpdate = ({ history, match }) => {
   }, [form, oneCategory]);
 
   const onFinish = ({ name }) => {
-    if (name === oneCategory.name)
+    if (name.toLowerCase().trim() === oneCategory.name.toLowerCase())
       return toast.error(`Please enter a new catogory name!`);
     dispatch(updateCategoryAction(match.params.slug, { name }, user.token))
       .then((res) => {

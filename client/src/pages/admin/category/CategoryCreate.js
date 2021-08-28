@@ -128,6 +128,9 @@ const CategoryCreate = () => {
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
+                <Divider style={{ fontWeight: 'bold' }}>
+                  Create new category
+                </Divider>
                 <CategoryForm
                   form={form}
                   onFinish={onFinish}
