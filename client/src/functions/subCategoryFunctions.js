@@ -1,12 +1,8 @@
 import axios from 'axios';
 
-export const getAllSubCategories = async () => {
-  try {
-    await axios.get(`${process.env.REACT_APP_API}/subcategories`);
-  } catch (error) {
-    console.log('axios getAllSubCategories error =====>', error);
-  }
-};
+export const getAllSubCategories = async () =>
+  await axios.get(`${process.env.REACT_APP_API}/subcategories`);
+
 export const getOneSubCategory = async (slug) =>
   await axios.get(`${process.env.REACT_APP_API}/subcategories/${slug}`);
 

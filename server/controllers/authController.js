@@ -2,7 +2,6 @@ const User = require('../models/userModel');
 
 exports.createOrUpdateUser = async (req, res) => {
   const { email, name, picture } = req.user;
-  console.log('AUTH createOrUpdateUser CONTROLLER', email, name, picture);
 
   const user = await User.findOneAndUpdate(
     { email },

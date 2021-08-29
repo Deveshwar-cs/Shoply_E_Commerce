@@ -76,14 +76,8 @@ export const getAllSubCategoriesAction = () => async (dispatch) => {
     // Request to DB
     const subCategories = await getAllSubCategories();
 
-    console.log(
-      'getAllSubCategoriesAction subCategories ======>',
-      subCategories
-    );
-
     dispatch(getSubCategoriesSuccess(subCategories.data));
   } catch (error) {
-    console.log('getAllSubCategoriesAction error ===========>', error);
     dispatch(getSubCategoriesError(error));
   }
 };

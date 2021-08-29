@@ -11,11 +11,23 @@ const router = express.Router();
 router.get('/subcategories', subCategoryController.getAllSubCategories);
 router.get('/subcategories/:slug', subCategoryController.getSubCategory);
 
-// protected routes after this line
-router.use(authCheck, adminCheck);
-
-router.post('/subcategories', subCategoryController.createSubCategory);
-router.put('/subcategories/:slug', subCategoryController.updateSubCategory);
-router.delete('/subcategories/:slug', subCategoryController.deleteSubCategory);
+router.post(
+  '/subcategories',
+  authCheck,
+  adminCheck,
+  subCategoryController.createSubCategory
+);
+router.put(
+  '/subcategories/:slug',
+  authCheck,
+  adminCheck,
+  subCategoryController.updateSubCategory
+);
+router.delete(
+  '/subcategories/:slug',
+  authCheck,
+  adminCheck,
+  subCategoryController.deleteSubCategory
+);
 
 module.exports = router;

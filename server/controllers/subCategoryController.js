@@ -55,16 +55,11 @@ exports.deleteSubCategory = async (req, res) => {
 };
 
 exports.getAllSubCategories = async (req, res) => {
-  console.log('server subCategoryController getAllSubCategories =============');
   try {
     const allSubCategories = await SubCategory.find({})
       .sort({ createdAt: -1 })
       .exec();
 
-    console.log(
-      'getAllSubCategories ---- <allSubCategories> ======>',
-      allSubCategories
-    );
     res.status(200).json(allSubCategories);
   } catch (error) {
     res.status(400).send('Get all subcategories failed!');
