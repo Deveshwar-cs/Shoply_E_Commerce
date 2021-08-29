@@ -59,14 +59,14 @@ const SubCategoryCreate = () => {
   }, []);
 
   const handleDelete = (subCategory) => {
-    if (window.confirm(`Delete ${subCategory.name} category?`)) {
+    if (window.confirm(`Delete ${subCategory.name} subcategory?`)) {
       setIdOfClickedItem(subCategory._id);
 
       dispatch(deleteSubCategoryAction(subCategory.slug, user.token)).then(
         () => {
-          // dispatch getAllCategoriesAction after category was deleted
+          // dispatch getAllCategoriesAction after subcategory was deleted
           dispatch(getAllSubCategoriesAction());
-          toast.success(`Category ${subCategory.name} deleted`);
+          toast.success(`Subcategory ${subCategory.name} deleted`);
         }
       );
     }
@@ -75,8 +75,8 @@ const SubCategoryCreate = () => {
   const onFinish = ({ name }) => {
     dispatch(createSubCategoryAction(name, parentCategory, user.token))
       .then(() => {
-        // dispatch getAllCategoriesAction after category was created
-        dispatch(getAllCategoriesAction());
+        // dispatch getAllSubCategoriesAction after subcategory was created
+        dispatch(getAllSubCategoriesAction());
       })
       .catch((error) => console.log(error));
     form.resetFields();
@@ -167,14 +167,14 @@ const SubCategoryCreate = () => {
                     <Divider style={{ fontWeight: 'bold' }}>
                       All Subcategories
                     </Divider>
-                    <List>
+                    <List style={{ marginBottom: 40 }}>
                       {allSubCategories
                         .filter(searched(keyword)) // Step 5. Category search filter – use serached HOC with array filter method
                         .map((subcategory) => (
                           <List.Item key={subcategory._id}>
                             <Text>{subcategory.name}</Text>
                             <Link
-                              to={`/admin/subcategories/${subcategory.slug}`}
+                              to={`/admin/subcategory/${subcategory.slug}`}
                               style={{ marginLeft: 'auto', marginRight: 30 }}
                             >
                               <EditOutlined />

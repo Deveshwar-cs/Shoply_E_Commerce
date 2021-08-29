@@ -28,6 +28,7 @@ import {
   getAllCategoriesAction,
   deleteCategoryAction,
 } from '../../../store/actions/categoryActions';
+import { clearParentCategory } from '../../../store/actions/subCategoryActions';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
@@ -48,8 +49,10 @@ const CategoryCreate = () => {
 
   // here we call useEffect only when component mounts, array with no dependencies
   useEffect(() => {
+    //Clear parentCategory in SubCategory initialState
+    dispatch(clearParentCategory());
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = (category) => {
     if (window.confirm(`Delete ${category.name} category?`)) {
@@ -172,7 +175,7 @@ const CategoryCreate = () => {
                     <Divider style={{ fontWeight: 'bold' }}>
                       All Categories
                     </Divider>
-                    <List>
+                    <List style={{ marginBottom: 40 }}>
                       {allCategories
                         .filter(searched(keyword)) // Step 5. Category search filter – use serached HOC with array filter method
                         .map((category) => (

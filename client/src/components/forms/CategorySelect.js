@@ -8,21 +8,21 @@ const CategorySelect = ({ allCategories, placeholderText }) => {
   const dispatch = useDispatch();
 
   function onChange(value) {
-    console.log(`selected ${value}`);
+    //console.log(`selected ${value}`);
     dispatch(setParentCategory(value));
   }
 
-  function onBlur() {
-    console.log('blur');
-  }
+  // function onBlur() {
+  //   console.log('blur');
+  // }
 
-  function onFocus() {
-    console.log('focus');
-  }
+  // function onFocus() {
+  //   console.log('focus');
+  // }
 
-  function onSearch(val) {
-    console.log('search:', val);
-  }
+  // function onSearch(val) {
+  //   console.log('search:', val);
+  // }
 
   return (
     <Select
@@ -32,9 +32,9 @@ const CategorySelect = ({ allCategories, placeholderText }) => {
       placeholder={placeholderText}
       optionFilterProp="children"
       onChange={onChange}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onSearch={onSearch}
+      // onFocus={onFocus}
+      // onBlur={onBlur}
+      // onSearch={onSearch}
       filterOption={(input, option) =>
         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
