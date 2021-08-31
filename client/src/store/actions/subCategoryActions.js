@@ -121,12 +121,12 @@ const updateSubCategoryError = (e) => ({
 });
 
 export const updateSubCategoryAction =
-  (slug, category, token) => async (dispatch) => {
+  (slug, subCategory, token) => async (dispatch) => {
     try {
       dispatch(updateSubCategoryRequest());
 
       // Request to DB
-      await updateSubCategory(slug, category, token);
+      await updateSubCategory(slug, subCategory, token);
 
       dispatch(updateSubCategorySuccess());
     } catch (error) {

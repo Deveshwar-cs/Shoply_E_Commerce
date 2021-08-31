@@ -19,6 +19,7 @@ exports.createSubCategory = async (req, res) => {
 };
 
 exports.getSubCategory = async (req, res) => {
+  console.log('SERVER  getSubCategory req.params.slug', req.params.slug);
   try {
     const subCategory = await SubCategory.findOne({
       slug: req.params.slug,
@@ -30,11 +31,12 @@ exports.getSubCategory = async (req, res) => {
 };
 
 exports.updateSubCategory = async (req, res) => {
-  const { name } = req.body;
+  // here category is a parent category of sub
+  const { name, category } = req.body;
   try {
     const updatedSubCategory = await SubCategory.findOneAndUpdate(
       { slug: req.params.slug },
-      { name, slug: slugify(name, { lower: true }) },
+      { name, category, slug: slugify(name, { lower: true }) },
       { new: true }
     );
     res.status(200).json(updatedSubCategory);

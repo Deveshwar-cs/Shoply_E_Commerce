@@ -53,9 +53,8 @@ const SubCategoryCreate = () => {
 
   // here we call useEffect only when component mounts, array with no dependencies
   useEffect(() => {
-    dispatch(getAllSubCategoriesAction()).then(() =>
-      dispatch(getAllCategoriesAction())
-    );
+    dispatch(getAllSubCategoriesAction());
+    dispatch(getAllCategoriesAction());
   }, []);
 
   const handleDelete = (subCategory) => {

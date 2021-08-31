@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Row, Col, Form } from 'antd';
+import { Layout, Typography, Row, Col, Form, Divider } from 'antd';
 
 import { toast } from 'react-toastify';
 
@@ -82,6 +82,9 @@ const CategoryUpdate = ({ history, match }) => {
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
+                <Divider style={{ fontWeight: 'bold' }}>
+                  New category name
+                </Divider>
                 <CategoryForm
                   form={form}
                   onFinish={onFinish}

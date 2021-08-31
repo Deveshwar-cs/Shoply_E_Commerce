@@ -28,7 +28,6 @@ import {
   getAllCategoriesAction,
   deleteCategoryAction,
 } from '../../../store/actions/categoryActions';
-import { clearParentCategory } from '../../../store/actions/subCategoryActions';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
@@ -49,8 +48,6 @@ const CategoryCreate = () => {
 
   // here we call useEffect only when component mounts, array with no dependencies
   useEffect(() => {
-    //Clear parentCategory in SubCategory initialState
-    dispatch(clearParentCategory());
     dispatch(getAllCategoriesAction());
   }, [dispatch]);
 
