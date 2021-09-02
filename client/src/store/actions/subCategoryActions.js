@@ -46,15 +46,12 @@ export const createSubCategoryAction =
       // Request to DB
       await createSubCategory(name, category, token);
 
-      dispatch(createSubCategorySuccess(name));
+      dispatch(createSubCategorySuccess());
 
       toast.success(`Subcategory ${name} successfully created!`);
     } catch (error) {
-      dispatch(createSubCategoryError());
+      dispatch(createSubCategoryError(error));
       toast.error(error.message);
-      return new Promise((resolve, reject) => {
-        reject('Something went wrong. Maybe this subcategory already exist');
-      });
     }
   };
 
