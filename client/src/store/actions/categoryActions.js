@@ -43,17 +43,13 @@ export const createCategoryAction = (name, token) => async (dispatch) => {
     // Request to DB
     await createCategory(name, token);
 
-    dispatch(createCategorySuccess(name));
+    dispatch(createCategorySuccess());
 
     toast.success(`Category ${name} successfully created!`);
   } catch (error) {
-    dispatch(createCategoryError());
+    dispatch(createCategoryError(error));
     toast.error(error.message);
     console.log('createCategoryAction error', error);
-    console.log('createCategoryAction error message', error.message);
-    return new Promise((resolve, reject) => {
-      reject('Something went wrong. Maybe this category already exist');
-    });
   }
 };
 
