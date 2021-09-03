@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Link } from 'react-router-dom';
-
 import {
   Layout,
   Typography,
@@ -10,21 +8,34 @@ import {
   Row,
   Col,
   Form,
+  Input,
   Button,
-  Spin,
+  Select,
 } from 'antd';
 
 import { toast } from 'react-toastify';
 
 import AdminNav from '../../../components/nav/AdminNav';
-import CategoryForm from '../../../components/forms/CategoryForm';
-import { LocalSearch, searched } from '../../../components/forms/LocalSearch';
+
+import { createProductAction } from '../../../store/actions/productActions';
 
 const { Header, Content } = Layout;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const ProductCreate = () => {
   const [form] = Form.useForm();
+  // hardcoded with data from product model
+  const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
+  const brands = [
+    'Apple',
+    'Samsung',
+    'Microsoft',
+    'Lenovo',
+    'Dell',
+    'Xiaomi',
+    'Google',
+    'ASUS',
+  ];
 
   //   const handleDelete = (category) => {
   //     if (window.confirm(`Delete ${category.name} category?`)) {
@@ -79,27 +90,6 @@ const ProductCreate = () => {
                 <Divider style={{ fontWeight: 'bold' }}>
                   Create new product
                 </Divider>
-                <CategoryForm
-                  form={form}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  //   inProgress={createProductInProgress}
-                  btnText="Add new product"
-                  placeholderText="Enter new category name"
-                />
-              </Col>
-              <Col
-                xl={{ span: 10, offset: 7 }}
-                lg={{ span: 20, offset: 2 }}
-                md={{ span: 20, offset: 2 }}
-                xs={{ span: 20, offset: 2 }}
-              >
-                <Divider style={{ fontWeight: 'bold' }}>Product Search</Divider>
-                {/* <LocalSearch
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                  placeholderText="Enter new category name"
-                /> */}
               </Col>
             </Row>
             <Row>
@@ -109,17 +99,154 @@ const ProductCreate = () => {
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
-                {/* {getProductsInProgress ? (
-                  <div className="spiner">
-                    <Spin />
-                  </div>
-                ) : (
-                  <>
-                    <Divider style={{ fontWeight: 'bold' }}>
-                      All products
-                    </Divider>
-                  </>
-                )} */}
+                <Form
+                  form={form}
+                  name="product"
+                  layout="vertical"
+                  size="large"
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  initialValues={{
+                    shipping: 'Please select',
+                    color: 'Please select',
+                    brand: 'Please select',
+                  }}
+                >
+                  <Form.Item
+                    name="title"
+                    label="Title"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input new product title!',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="description"
+                    label="Description"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input new product description!',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="price"
+                    label="Price"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input new product price!',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="category"
+                    label="Category"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input new product category!',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="subcategory"
+                    label="Subcategory"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input new product subcategory!',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="shipping"
+                    label="Shipping"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please select shipping!',
+                      },
+                    ]}
+                  >
+                    <Select>
+                      <Select.Option value="No">No</Select.Option>
+                      <Select.Option value="Yes">Yes</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="quantity"
+                    label="Quantity"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input product quantity!',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="color"
+                    label="Color"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please select product color!',
+                      },
+                    ]}
+                  >
+                    <Select>
+                      {colors.map((color) => (
+                        <Select.Option key={color} value={color}>
+                          {color}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="brand"
+                    label="Brand"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please select product brand!',
+                      },
+                    ]}
+                  >
+                    <Select>
+                      {brands.map((brand) => (
+                        <Select.Option key={brand} value={brand}>
+                          {brand}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ marginTop: 10, marginBottom: 40 }}
+                      size="large"
+                      block
+                    >
+                      Create product
+                    </Button>
+                  </Form.Item>
+                </Form>
               </Col>
             </Row>
           </Content>

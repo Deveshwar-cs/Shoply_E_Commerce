@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema(
     },
     color: {
       type: String,
-      enum: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
+      enum: ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'],
     },
     // if needed, we can make Brand model, like we did with Categories
     brand: {
