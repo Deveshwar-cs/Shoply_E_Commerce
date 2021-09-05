@@ -30,6 +30,7 @@ export const createProductAction = (product, token) => async (dispatch) => {
     toast.success(`Product ${product.title} successfully created!`);
   } catch (error) {
     dispatch(createProductError(error));
-    toast.error(error.message);
+    //here we grab error message from server productController error response with axios
+    toast.error(error.response.data.errormessage);
   }
 };
