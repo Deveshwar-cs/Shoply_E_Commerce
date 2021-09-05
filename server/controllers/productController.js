@@ -15,3 +15,15 @@ exports.createProduct = async (req, res) => {
     });
   }
 };
+
+exports.getAllProducts = async (req, res) => {
+  try {
+    const allProducts = await Product.find({});
+
+    res.status(201).json(allProducts);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
