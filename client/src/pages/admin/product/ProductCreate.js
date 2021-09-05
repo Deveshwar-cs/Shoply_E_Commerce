@@ -41,6 +41,7 @@ const ProductCreate = () => {
 
   const onFinish = (values) => {
     dispatch(createProductAction(values, user.token));
+    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo) => {
