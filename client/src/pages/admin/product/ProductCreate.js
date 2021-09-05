@@ -24,6 +24,8 @@ const { Title } = Typography;
 
 const ProductCreate = () => {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   // hardcoded with data from product model
   const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
   const brands = [
@@ -37,20 +39,8 @@ const ProductCreate = () => {
     'ASUS',
   ];
 
-  //   const handleDelete = (category) => {
-  //     if (window.confirm(`Delete ${category.name} category?`)) {
-  //       setIdOfClickedItem(category._id);
-
-  //       dispatch(deleteCategoryAction(category.slug, user.token)).then(() => {
-  //         // dispatch getAllCategoriesAction after category was deleted
-  //         dispatch(getAllCategoriesAction());
-  //         toast.success(`Category ${category.name} deleted`);
-  //       });
-  //     }
-  //   };
-
   const onFinish = (values) => {
-    console.log(values);
+    dispatch(createProductAction(values, user.token));
   };
 
   const onFinishFailed = (errorInfo) => {

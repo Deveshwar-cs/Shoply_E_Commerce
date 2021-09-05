@@ -27,11 +27,9 @@ export const createProductAction = (product, token) => async (dispatch) => {
 
     dispatch(createProductSuccess());
 
-    toast.success(`Category ${product} successfully created!`);
+    toast.success(`Product ${product.title} successfully created!`);
   } catch (error) {
     dispatch(createProductError(error));
-    console.log('createCategoryAction error', error);
-    console.log('createCategoryAction error message', error.message);
     toast.error(error.message);
   }
 };
