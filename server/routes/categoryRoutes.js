@@ -29,5 +29,10 @@ router.delete(
   adminCheck,
   categoryController.deleteCategory
 );
+// Get all subcategories by parent category
+router.get(
+  '/categories/subcategories/:_id',
+  categoryController.getAllSubcategoriesByCategory
+);
 
 module.exports = router;

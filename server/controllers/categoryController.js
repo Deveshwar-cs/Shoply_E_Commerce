@@ -1,6 +1,7 @@
 const slugify = require('slugify');
 
 const Category = require('../models/categoryModel');
+const SubCategory = require('../models/subCategoryModel');
 
 exports.createCategory = async (req, res) => {
   try {
@@ -84,5 +85,19 @@ exports.getAllCategories = async (req, res) => {
     res.status(200).json(allCategories);
   } catch (error) {
     res.status(400).send('Get all categories failed!');
+  }
+};
+
+exports.getAllSubcategoriesByCategory = async (req, res) => {
+  try {
+    const { _id } = req.params;
+
+    const subCategoriesByParentCategory = await SubCategory.find({
+      category: _id,
+    });
+
+    res.status(200).json(subCategoriesByParentCategory);
+  } catch (error) {
+    res.status(400).send('Get all subcategories by parent category failed!');
   }
 };
