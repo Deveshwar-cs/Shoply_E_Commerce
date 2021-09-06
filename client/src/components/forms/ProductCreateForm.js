@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Select } from 'antd';
 
+import { FileAddOutlined } from '@ant-design/icons';
+
 import { createProductAction } from '../../store/actions/productActions';
+import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
 const brands = [
   'Apple',
@@ -20,6 +25,13 @@ const ProductCreateForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { allCategories } = useSelector((state) => state.category);
+  const { createProductInProgress } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    // get all categories to fill Category select
+    dispatch(getAllCategoriesAction());
+  }, []);
 
   const onFinish = (values) => {
     dispatch(createProductAction(values, user.token));
@@ -42,6 +54,7 @@ const ProductCreateForm = () => {
         shipping: 'Please select',
         color: 'Please select',
         brand: 'Please select',
+        category: 'Please select',
       }}
     >
       <Form.Item
@@ -86,11 +99,18 @@ const ProductCreateForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input new product category!',
+            message: 'Please select category for new product!',
           },
         ]}
       >
-        <Input />
+        <Select>
+          {allCategories.length > 0 &&
+            allCategories.map((category) => (
+              <Select.Option key={category._id} value={category._id}>
+                {category.name}
+              </Select.Option>
+            ))}
+        </Select>
       </Form.Item>
       <Form.Item
         name="subcategory"
@@ -168,15 +188,29 @@ const ProductCreateForm = () => {
         </Select>
       </Form.Item>
       <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          style={{ marginTop: 10, marginBottom: 40 }}
-          size="large"
-          block
-        >
-          Create product
-        </Button>
+        {createProductInProgress ? (
+          <Button
+            type="primary"
+            style={{ marginTop: 10, marginBottom: 40 }}
+            size="large"
+            block
+            icon={<FileAddOutlined />}
+            loading
+          >
+            Create product
+          </Button>
+        ) : (
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ marginTop: 10, marginBottom: 40 }}
+            size="large"
+            block
+            icon={<FileAddOutlined />}
+          >
+            Create product
+          </Button>
+        )}
       </Form.Item>
     </Form>
   );
