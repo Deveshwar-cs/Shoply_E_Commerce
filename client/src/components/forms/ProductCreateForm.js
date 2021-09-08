@@ -1,11 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Select } from 'antd';
 
 import { FileAddOutlined } from '@ant-design/icons';
 
-import { createProductAction } from '../../store/actions/productActions';
+import {
+  createProductAction,
+  getAllSubCategoriesByParentAction,
+  clearAllSubCategoriesByParent,
+} from '../../store/actions/productActions';
 import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
 const brands = [
@@ -23,15 +27,43 @@ const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
 
 const ProductCreateForm = () => {
   const [form] = Form.useForm();
+
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.auth);
   const { allCategories } = useSelector((state) => state.category);
-  const { createProductInProgress } = useSelector((state) => state.product);
+  const {
+    createProductInProgress,
+    getAllSubByParentInProgress,
+    allSubsByParent,
+  } = useSelector((state) => state.product);
+
+  let [parentCategoryId, setParentCategoryId] = useState('');
 
   useEffect(() => {
     // get all categories to fill Category select
     dispatch(getAllCategoriesAction());
   }, []);
+
+  useEffect(() => {
+    if (parentCategoryId.length > 0) {
+      //get subcategories by parent category to fill subcategories select option
+      dispatch(getAllSubCategoriesByParentAction(parentCategoryId));
+    }
+  }, [parentCategoryId]);
+
+  useEffect(() => {
+    form.resetFields(['subcategory']);
+  }, [parentCategoryId]);
+
+  //clear local state with parent category and redux state allSubsByParent when component unmount
+  useEffect(
+    () => () => {
+      setParentCategoryId('');
+      dispatch(clearAllSubCategoriesByParent());
+    },
+    []
+  );
 
   const onFinish = (values) => {
     dispatch(createProductAction(values, user.token));
@@ -40,6 +72,10 @@ const ProductCreateForm = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+  };
+  // dispatch parent category to redux store
+  const onParentCategoryChange = (parentCategoryId) => {
+    setParentCategoryId(parentCategoryId);
   };
 
   return (
@@ -55,6 +91,7 @@ const ProductCreateForm = () => {
         color: 'Please select',
         brand: 'Please select',
         category: 'Please select',
+        subcategorydisabled: 'Please select category first',
       }}
     >
       <Form.Item
@@ -103,7 +140,7 @@ const ProductCreateForm = () => {
           },
         ]}
       >
-        <Select>
+        <Select onChange={onParentCategoryChange}>
           {allCategories.length > 0 &&
             allCategories.map((category) => (
               <Select.Option key={category._id} value={category._id}>
@@ -112,18 +149,44 @@ const ProductCreateForm = () => {
             ))}
         </Select>
       </Form.Item>
-      <Form.Item
-        name="subcategory"
-        label="Subcategory"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new product subcategory!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+
+      {allSubsByParent.length === 0 && (
+        <Form.Item name="subcategorydisabled" label="Subcategory">
+          <Select disabled>
+            <Select.Option>Option</Select.Option>
+          </Select>
+        </Form.Item>
+      )}
+
+      {allSubsByParent.length > 0 && getAllSubByParentInProgress && (
+        <Form.Item name="subcategory" label="Subcategory" loading>
+          <Select mode="multiple" loading>
+            <Select.Option>Option</Select.Option>
+          </Select>
+        </Form.Item>
+      )}
+
+      {allSubsByParent.length > 0 && !getAllSubByParentInProgress && (
+        <Form.Item
+          name="subcategory"
+          label="Subcategory"
+          rules={[
+            {
+              required: true,
+              message: 'Please input new product subcategory!',
+            },
+          ]}
+        >
+          <Select mode="multiple">
+            {allSubsByParent.map((category) => (
+              <Select.Option key={category._id} value={category._id}>
+                {category.name}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      )}
+
       <Form.Item
         name="shipping"
         label="Shipping"
