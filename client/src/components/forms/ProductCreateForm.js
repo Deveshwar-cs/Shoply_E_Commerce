@@ -5,6 +5,8 @@ import { Form, Input, Button, Select } from 'antd';
 
 import { FileAddOutlined } from '@ant-design/icons';
 
+import FileUpload from './FileUpload';
+
 import {
   createProductAction,
   getAllSubCategoriesByParentAction,
@@ -250,6 +252,7 @@ const ProductCreateForm = () => {
           ))}
         </Select>
       </Form.Item>
+      <FileUpload />
       <Form.Item>
         {createProductInProgress ? (
           <Button
