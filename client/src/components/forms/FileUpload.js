@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import Resizer from 'react-image-file-resizer';
@@ -10,44 +10,92 @@ import { UploadOutlined } from '@ant-design/icons';
 const FileUpload = () => {
   const { user } = useSelector((state) => state.auth);
   const [defaultFileList, setDefaultFileList] = useState([]);
+  //
+  const [imgURLs, setimgURLs] = useState([]);
 
-  const handleOnChange = ({ file, fileList, event }) => {
-    setDefaultFileList(fileList);
+  const [progress, setProgress] = useState(0);
 
-    // 1) resize
-    if (defaultFileList.length > 0) {
-      for (let i = 0; i < defaultFileList.length; i++) {
-        Resizer.imageFileResizer(
-          fileList[i].originFileObj,
-          720,
-          720,
-          'JPEG',
-          100,
-          0,
-          (uri) => {
-            console.log('uri', uri);
-          },
-          'base64'
-        );
-      }
-    }
+  console.log('url state', imgURLs);
 
-    // 2) send to cloudinary
+  console.log('defaultFileList', defaultFileList);
+
+  const resizeAndUpload = ({ onSuccess, onError, file, onProgress }) => {
+    // const config = {
+    //   headers: { 'content-type': 'multipart/form-data', authToken: user.token },
+    //   onUploadProgress: (event) => {
+    //     const percent = Math.floor((event.loaded / event.total) * 100);
+    //     setProgress(percent);
+    //     if (percent === 100) {
+    //       setTimeout(() => setProgress(0), 1000);
+    //     }
+    //     onProgress({ percent: (event.loaded / event.total) * 100 });
+    //   },
+    // };
+    // 1) resize – maybe use beforeUpload hook for this task
+    Resizer.imageFileResizer(
+      file,
+      720,
+      720,
+      'JPEG',
+      85,
+      0,
+      (uri) => {
+        //console.log('uri', uri);
+        // 2) send to cloudinary
+        axios
+          .post(
+            `${process.env.REACT_APP_API}/images`,
+            { image: uri },
+            {
+              headers: {
+                authToken: user.token,
+              },
+              onUploadProgress: (event) => {
+                const percent = Math.floor((event.loaded / event.total) * 100);
+                setProgress(percent);
+                if (percent === 100) {
+                  setTimeout(() => setProgress(0), 1000);
+                }
+                onProgress({ percent: (event.loaded / event.total) * 100 });
+              },
+            }
+          )
+          .then((res) => {
+            setimgURLs((prevItems) => [...prevItems, res.data]);
+            onSuccess('Ok');
+            message.success(`${file.name} upload successfully`);
+          })
+          .catch((error) => {
+            console.log(error);
+            onError(error);
+          });
+      },
+      'base64'
+    );
 
     // 3) get response from cloudinary and set images [] in parent form component
   };
 
+  const handleChange = ({ fileList }) => {
+    setDefaultFileList(fileList);
+  };
+
   return (
-    <Upload
-      accept="image/*"
-      onChange={handleOnChange}
-      fileList={defaultFileList}
-      className="image-upload-grid"
-      multiple
-    >
-      <Button icon={<UploadOutlined />}>Select File</Button>
-    </Upload>
+    <Form.Item label="Upload product images">
+      <Upload
+        name="image"
+        accept="image/*"
+        defaultFileList={defaultFileList}
+        customRequest={resizeAndUpload}
+        onChange={handleChange}
+        //className="image-upload-grid"
+        listType="picture"
+        multiple
+      >
+        <Button icon={<UploadOutlined />}>Select File</Button>
+      </Upload>
+    </Form.Item>
   );
 };
 
-export default FileUpload;
+export default memo(FileUpload);
