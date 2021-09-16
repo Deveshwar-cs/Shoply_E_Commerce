@@ -15,6 +15,6 @@ router.post(
   productController.createProduct
 );
 
-router.get('/products', productController.getAllProducts);
+router.get('/products/:count', productController.getAllProducts);
 
 module.exports = router;
