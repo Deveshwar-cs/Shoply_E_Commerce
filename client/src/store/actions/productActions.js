@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { notification } from 'antd';
 
 import { createProduct } from '../../functions/productFunctions';
 import { getAllSubCategoriesByParent } from '../../functions/categoryFunctions';
@@ -10,7 +10,9 @@ import {
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_REQUEST,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_ERROR,
-  CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
+  CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
+  SET_IMGURL_IN_PRODUCT_FORM,
+  CLEAR_IMGURL_IN_PRODUCT_FORM,
 } from '../actions/types';
 
 // Create product actions
@@ -32,11 +34,16 @@ export const createProductAction = (product, token) => async (dispatch) => {
 
     dispatch(createProductSuccess());
 
-    toast.success(`Product ${product.title} successfully created!`);
+    notification.success({
+      message: `Product ${product.title} successfully created!`,
+    });
   } catch (error) {
     dispatch(createProductError(error));
     //here we grab error message from server productController error response with axios
-    toast.error(error.response.data.errormessage);
+    notification.error({
+      message: `Create product ${product.title} failed!`,
+      description: error.response.data.errormessage,
+    });
   }
 };
 
@@ -54,7 +61,7 @@ const getAllSubCategoriesByParentError = (e) => ({
 });
 
 export const clearAllSubCategoriesByParent = () => ({
-  type: CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
+  type: CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
 });
 
 export const getAllSubCategoriesByParentAction =
@@ -72,10 +79,10 @@ export const getAllSubCategoriesByParentAction =
     }
   };
 
-// export const setProductParentCategory = (parentCategory) => ({
-//   type: SET_PRODUCT_PARENT_CATEGORY,
-//   payload: parentCategory,
-// });
-// export const clearProductParentCategory = () => ({
-//   type: CLEAR_PRODUCT_PARENT_CATEGORY,
-// });
+export const setImgInProductForm = (imgsArray) => ({
+  type: SET_IMGURL_IN_PRODUCT_FORM,
+  payload: imgsArray,
+});
+export const clearImgInProductForm = () => ({
+  type: CLEAR_IMGURL_IN_PRODUCT_FORM,
+});

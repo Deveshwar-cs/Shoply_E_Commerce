@@ -5,7 +5,9 @@ import {
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_REQUEST,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_ERROR,
-  CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
+  CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
+  SET_IMGURL_IN_PRODUCT_FORM,
+  CLEAR_IMGURL_IN_PRODUCT_FORM,
 } from '../actions/types';
 
 const initialState = {
@@ -31,6 +33,8 @@ const initialState = {
 
   allSubsByParent: [],
   oneProduct: null,
+
+  imgURLs: [],
 };
 
 export const productReducer = (state = initialState, action = {}) => {
@@ -77,10 +81,21 @@ export const productReducer = (state = initialState, action = {}) => {
         getAllSubByParentError: payload,
       };
 
-    case CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS:
+    case CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT:
       return {
         ...state,
-        allSubsByParent: '',
+        allSubsByParent: [],
+      };
+
+    case SET_IMGURL_IN_PRODUCT_FORM:
+      return {
+        ...state,
+        imgURLs: [...payload],
+      };
+    case CLEAR_IMGURL_IN_PRODUCT_FORM:
+      return {
+        ...state,
+        imgURLs: [],
       };
 
     default:

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Select } from 'antd';
@@ -11,6 +11,7 @@ import {
   createProductAction,
   getAllSubCategoriesByParentAction,
   clearAllSubCategoriesByParent,
+  clearImgInProductForm,
 } from '../../store/actions/productActions';
 import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
@@ -38,6 +39,7 @@ const ProductCreateForm = () => {
     createProductInProgress,
     getAllSubByParentInProgress,
     allSubsByParent,
+    imgURLs,
   } = useSelector((state) => state.product);
 
   let [parentCategoryId, setParentCategoryId] = useState('');
@@ -47,13 +49,14 @@ const ProductCreateForm = () => {
     dispatch(getAllCategoriesAction());
   }, []);
 
+  //get subcategories by parent category and fill subcategories select option
   useEffect(() => {
     if (parentCategoryId.length > 0) {
-      //get subcategories by parent category to fill subcategories select option
       dispatch(getAllSubCategoriesByParentAction(parentCategoryId));
     }
   }, [parentCategoryId]);
 
+  // Clear subcategory select when parentCategoryId changed
   useEffect(() => {
     form.resetFields(['subcategory']);
   }, [parentCategoryId]);
@@ -68,8 +71,24 @@ const ProductCreateForm = () => {
   );
 
   const onFinish = (values) => {
-    dispatch(createProductAction(values, user.token));
-    form.resetFields();
+    dispatch(
+      createProductAction({ ...values, images: [...imgURLs] }, user.token)
+    );
+
+    dispatch(clearAllSubCategoriesByParent());
+    dispatch(clearImgInProductForm());
+
+    form.resetFields([
+      'title',
+      'description',
+      'price',
+      'category',
+      'subcategory',
+      'shipping',
+      'quantity',
+      'color',
+      'brand',
+    ]);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -88,17 +107,15 @@ const ProductCreateForm = () => {
       size="large"
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      initialValues={{
-        shipping: 'Please select',
-        color: 'Please select',
-        brand: 'Please select',
-        category: 'Please select',
-        subcategorydisabled: 'Please select category first',
-      }}
+      // initialValues={{
+      //   ...defaultValues,
+      //   //subcategorydisabled: 'Please select category first!',
+      // }}
+      //onValuesChange={onValuesChange}
     >
       <Form.Item
         name="title"
-        label="Title"
+        label="Title (52 charachters maximum)"
         rules={[
           {
             required: true,
@@ -110,7 +127,7 @@ const ProductCreateForm = () => {
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description"
+        label="Description (2000 charachters maximum)"
         rules={[
           {
             required: true,
@@ -153,7 +170,10 @@ const ProductCreateForm = () => {
       </Form.Item>
 
       {allSubsByParent.length === 0 && (
-        <Form.Item name="subcategorydisabled" label="Subcategory">
+        <Form.Item
+          name="subcategory"
+          label="Subcategory (Select parent category firts)"
+        >
           <Select disabled>
             <Select.Option>Option</Select.Option>
           </Select>
@@ -282,4 +302,4 @@ const ProductCreateForm = () => {
   );
 };
 
-export default ProductCreateForm;
+export default memo(ProductCreateForm);
