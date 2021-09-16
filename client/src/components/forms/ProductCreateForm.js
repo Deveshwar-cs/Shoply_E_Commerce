@@ -107,11 +107,6 @@ const ProductCreateForm = () => {
       size="large"
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      // initialValues={{
-      //   ...defaultValues,
-      //   //subcategorydisabled: 'Please select category first!',
-      // }}
-      //onValuesChange={onValuesChange}
     >
       <Form.Item
         name="title"
