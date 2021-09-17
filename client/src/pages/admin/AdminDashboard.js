@@ -1,11 +1,24 @@
-import { Layout, Typography } from 'antd';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Layout, Typography, Divider, Row, Col } from 'antd';
 
 import AdminNav from '../../components/nav/AdminNav';
+import { getAllProductsAction } from '../../store/actions/productActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const AdminDashboard = () => {
+  const { getProductsInProgress, allProducts } = useSelector(
+    (state) => state.product
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProductsAction(20));
+  }, []);
+
   return (
     <>
       <Layout>
@@ -17,7 +30,29 @@ const AdminDashboard = () => {
         <Layout hasSider>
           <AdminNav />
           <Content style={{ backgroundColor: 'white' }}>
-            Dashboard Content
+            <Row>
+              <Col
+                xl={{ span: 20, offset: 2 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
+                <Title level={2} style={{ marginTop: 40 }}>
+                  All products
+                </Title>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col
+                xl={{ span: 20, offset: 2 }}
+                lg={{ span: 20, offset: 2 }}
+                md={{ span: 20, offset: 2 }}
+                xs={{ span: 20, offset: 2 }}
+              >
+                Some placeholder content
+              </Col>
+            </Row>
           </Content>
         </Layout>
       </Layout>

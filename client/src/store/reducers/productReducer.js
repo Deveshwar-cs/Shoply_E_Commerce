@@ -8,6 +8,9 @@ import {
   CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
   SET_IMGURL_IN_PRODUCT_FORM,
   CLEAR_IMGURL_IN_PRODUCT_FORM,
+  GET_ALL_PRODUCTS_REQUEST,
+  GET_ALL_PRODUCTS_SUCCESS,
+  GET_ALL_PRODUCTS_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -96,6 +99,23 @@ export const productReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         imgURLs: [],
+      };
+    case GET_ALL_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        getProductsInProgress: true,
+      };
+    case GET_ALL_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        getProductsInProgress: false,
+        allProducts: [...payload],
+      };
+    case GET_ALL_PRODUCTS_ERROR:
+      return {
+        ...state,
+        getProductsInProgress: false,
+        getProductsError: payload,
       };
 
     default:

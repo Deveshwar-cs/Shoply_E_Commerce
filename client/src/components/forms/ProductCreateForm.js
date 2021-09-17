@@ -167,7 +167,7 @@ const ProductCreateForm = () => {
       {allSubsByParent.length === 0 && (
         <Form.Item
           name="subcategory"
-          label="Subcategory (Select parent category firts)"
+          label="Subcategory (Select parent category first)"
         >
           <Select disabled>
             <Select.Option>Option</Select.Option>

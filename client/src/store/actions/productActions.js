@@ -1,6 +1,9 @@
 import { notification } from 'antd';
 
-import { createProduct } from '../../functions/productFunctions';
+import {
+  createProduct,
+  getAllProductsByCount,
+} from '../../functions/productFunctions';
 import { getAllSubCategoriesByParent } from '../../functions/categoryFunctions';
 
 import {
@@ -13,6 +16,9 @@ import {
   CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
   SET_IMGURL_IN_PRODUCT_FORM,
   CLEAR_IMGURL_IN_PRODUCT_FORM,
+  GET_ALL_PRODUCTS_REQUEST,
+  GET_ALL_PRODUCTS_SUCCESS,
+  GET_ALL_PRODUCTS_ERROR,
 } from '../actions/types';
 
 // Create product actions
@@ -78,7 +84,7 @@ export const getAllSubCategoriesByParentAction =
       dispatch(getAllSubCategoriesByParentError(error));
     }
   };
-
+// Set and clear uploaded images state
 export const setImgInProductForm = (imgsArray) => ({
   type: SET_IMGURL_IN_PRODUCT_FORM,
   payload: imgsArray,
@@ -86,3 +92,29 @@ export const setImgInProductForm = (imgsArray) => ({
 export const clearImgInProductForm = () => ({
   type: CLEAR_IMGURL_IN_PRODUCT_FORM,
 });
+
+// Get all products actions
+
+const getAllProductsRequest = () => ({
+  type: GET_ALL_PRODUCTS_REQUEST,
+});
+const getAllProductsSuccess = (subCategories) => ({
+  type: GET_ALL_PRODUCTS_SUCCESS,
+  payload: subCategories,
+});
+const getAllProductsError = (e) => ({
+  type: GET_ALL_PRODUCTS_ERROR,
+  payload: e,
+});
+
+export const getAllProductsAction = (count) => async (dispatch) => {
+  try {
+    dispatch(getAllProductsRequest());
+    // Request to DB
+    const products = await getAllProductsByCount(count);
+
+    dispatch(getAllProductsSuccess(products.data));
+  } catch (error) {
+    dispatch(getAllProductsError());
+  }
+};
