@@ -16,5 +16,11 @@ router.post(
 );
 
 router.get('/products/:count', productController.getAllProducts);
+router.delete(
+  'product/:slug',
+  authCheck,
+  adminCheck,
+  productController.deleteProduct
+);
 
 module.exports = router;
