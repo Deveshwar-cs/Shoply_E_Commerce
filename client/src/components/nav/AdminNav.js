@@ -14,57 +14,58 @@ import {
 const { Sider } = Layout;
 
 const AdminNav = () => {
-  const items = useMemo(
-    () => [
-      {
-        key: '1',
-        label: 'Dashboard',
-        path: '/admin/dashboard',
-        icon: <HistoryOutlined />,
-      },
-      {
-        key: '2',
-        label: 'Product',
-        path: '/admin/product',
-        icon: <FileAddOutlined />,
-      },
-      {
-        key: '3',
-        label: 'All Products',
-        path: '/admin/products',
-        icon: <ShoppingCartOutlined />,
-      },
-      {
-        key: '4',
-        label: 'Category',
-        path: '/admin/category',
-        icon: <LaptopOutlined />,
-      },
-      {
-        key: '5',
-        label: 'Sub Category',
-        path: '/admin/subcategory',
-        icon: <LaptopOutlined />,
-      },
-      {
-        key: '6',
-        label: 'Coupon',
-        path: '/admin/coupon',
-        icon: <PercentageOutlined />,
-      },
-      {
-        key: '7',
-        label: 'Password',
-        path: '/admin/password',
-        icon: <UnlockOutlined />,
-      },
-    ],
-    []
-  );
+  const items = [
+    {
+      key: '1',
+      label: 'Dashboard',
+      path: '/admin/dashboard',
+      icon: <HistoryOutlined />,
+    },
+    {
+      key: '2',
+      label: 'Product',
+      path: '/admin/product',
+      icon: <FileAddOutlined />,
+    },
+    {
+      key: '3',
+      label: 'All Products',
+      path: '/admin/allproducts',
+      icon: <ShoppingCartOutlined />,
+    },
+    {
+      key: '4',
+      label: 'Category',
+      path: '/admin/category',
+      icon: <LaptopOutlined />,
+    },
+    {
+      key: '5',
+      label: 'Sub Category',
+      path: '/admin/subcategory',
+      icon: <LaptopOutlined />,
+    },
+    {
+      key: '6',
+      label: 'Coupon',
+      path: '/admin/coupon',
+      icon: <PercentageOutlined />,
+    },
+    {
+      key: '7',
+      label: 'Password',
+      path: '/admin/password',
+      icon: <UnlockOutlined />,
+    },
+  ];
 
   const location = useLocation();
   const history = useHistory();
   const [selectedKey, setSelectedKey] = useState(
+    // Not very good decision to use String.startsWith or String.includes methods with similar pathnames
+    // For example using admin/product and admin/products pathnmames have impact to selected item in admin navigation
+    // When admin/products selected it always select admin/product in menu, you know why.
+    // In this case just used admin/allproducts instead of admin/products
     items.find((_item) => location.pathname.startsWith(_item.path)).key
   );
 
@@ -74,8 +75,10 @@ const AdminNav = () => {
   };
 
   useEffect(() => {
-    setSelectedKey(items.find((_item) => location.pathname === _item.path).key);
-  }, [location, items]);
+    setSelectedKey(
+      items.find((_item) => location.pathname.startsWith(_item.path)).key
+    );
+  }, [location]);
 
   return (
     <Sider style={{ backgroundColor: 'white' }}>

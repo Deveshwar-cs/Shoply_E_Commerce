@@ -62,7 +62,7 @@ const App = () => {
           component={SubCategoryUpdate}
         />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
-        <AdminRoute exact path="/admin/products" component={AllProducts} />
+        <AdminRoute exact path="/admin/allproducts" component={AllProducts} />
       </Switch>
     </>
   );
