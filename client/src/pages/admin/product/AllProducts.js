@@ -62,7 +62,14 @@ const AllProducts = () => {
                 ) : (
                   <Row gutter={[16, 16]}>
                     {allProducts.map((product) => (
-                      <Col span={6} key={product._id}>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={12}
+                        lg={8}
+                        xl={6}
+                        key={product._id}
+                      >
                         <AdminProductCard {...product} />
                       </Col>
                     ))}
