@@ -74,9 +74,7 @@ const AdminNav = () => {
   };
 
   useEffect(() => {
-    setSelectedKey(
-      items.find((_item) => location.pathname.startsWith(_item.path)).key
-    );
+    setSelectedKey(items.find((_item) => location.pathname === _item.path).key);
   }, [location, items]);
 
   return (
