@@ -6,8 +6,7 @@ import ProductCreateForm from '../../../components/forms/ProductCreateForm';
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-// This component is only markup, all logic in ProductCreateForm. Maybe it's a not good practice
-const ProductUpdate = () => (
+const ProductUpdate = ({ match }) => (
   <>
     <Layout>
       <Header>

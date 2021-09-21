@@ -16,8 +16,11 @@ router.post(
 );
 
 router.get('/products/:count', productController.getAllProducts);
+
+router.get('/product/:slug', productController.getOneProduct);
+
 router.delete(
-  '/product/:slug',
+  '/products/:slug',
   authCheck,
   adminCheck,
   productController.deleteProduct

@@ -33,12 +33,27 @@ exports.getAllProducts = async (req, res) => {
 };
 
 exports.deleteProduct = async (req, res) => {
-  console.log('SERVER CONTROLLER deleteProduct req.params', req.params);
   try {
     const deletedProduct = await Product.findOneAndDelete({
       slug: req.params.slug,
     });
     res.status(204).json(deletedProduct);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+exports.getOneProduct = async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      slug: req.params.slug,
+    })
+      .populate('category')
+      .populate('subcategory');
+
+    res.status(201).json(product);
   } catch (error) {
     res.status(400).json({
       errormessage: error.message,

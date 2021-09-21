@@ -8,7 +8,7 @@ export const createProduct = async (product, authToken) =>
   });
 
 export const deleteProduct = async (slug, authToken) =>
-  await axios.delete(`${process.env.REACT_APP_API}/product/${slug}`, {
+  await axios.delete(`${process.env.REACT_APP_API}/products/${slug}`, {
     headers: {
       authToken,
     },
