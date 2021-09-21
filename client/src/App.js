@@ -20,6 +20,7 @@ import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import SubCategoryCreate from './pages/admin/subcategory/SubCategoryCreate';
 import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
 import ProductCreate from './pages/admin/product/ProductCreate';
+import ProductUpdate from './pages/admin/product/ProductUpdate';
 import AllProducts from './pages/admin/product/AllProducts';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
@@ -63,6 +64,11 @@ const App = () => {
         />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <AdminRoute exact path="/admin/allproducts" component={AllProducts} />
+        <AdminRoute
+          exact
+          path="/admin/allproducts/:slug"
+          component={ProductUpdate}
+        />
       </Switch>
     </>
   );

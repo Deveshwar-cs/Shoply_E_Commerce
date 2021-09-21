@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Modal } from 'antd';
+import { Link } from 'react-router-dom';
 
 import {
   EditOutlined,
@@ -47,7 +48,9 @@ const AdminProductCard = ({ title, images, description, slug }) => {
         />
       }
       actions={[
-        <EditOutlined key="edit" style={{ color: 'green' }} />,
+        <Link to={`/admin/allproducts/${slug}`}>
+          <EditOutlined key="edit" style={{ color: 'green' }} />
+        </Link>,
         <DeleteOutlined
           key="delete"
           style={{ color: 'red' }}
