@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import {
   createProduct,
   getAllProductsByCount,
+  deleteProduct,
 } from '../../functions/productFunctions';
 import { getAllSubCategoriesByParent } from '../../functions/categoryFunctions';
 
@@ -19,6 +20,9 @@ import {
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
 } from '../actions/types';
 
 // Create product actions
@@ -84,6 +88,7 @@ export const getAllSubCategoriesByParentAction =
       dispatch(getAllSubCategoriesByParentError(error));
     }
   };
+
 // Set and clear uploaded images state
 export const setImgInProductForm = (imgsArray) => ({
   type: SET_IMGURL_IN_PRODUCT_FORM,
@@ -116,5 +121,36 @@ export const getAllProductsAction = (count) => async (dispatch) => {
     dispatch(getAllProductsSuccess(products.data));
   } catch (error) {
     dispatch(getAllProductsError());
+  }
+};
+
+// Delete product actions
+
+const deleteProductRequest = () => ({ type: DELETE_PRODUCT_REQUEST });
+const deleteProductSuccess = () => ({
+  type: DELETE_PRODUCT_SUCCESS,
+});
+const deleteProductError = (e) => ({
+  type: DELETE_PRODUCT_ERROR,
+  payload: e,
+});
+
+export const deleteProductAction = (slug, token) => async (dispatch) => {
+  try {
+    dispatch(deleteProductRequest());
+
+    // Request to DB
+    await deleteProduct(slug, token);
+
+    dispatch(deleteProductSuccess());
+    notification.success({
+      message: `Product successfully deleted!`,
+    });
+  } catch (error) {
+    dispatch(deleteProductError(error));
+    notification.error({
+      message: `Create product failed!`,
+      description: error.message,
+    });
   }
 };

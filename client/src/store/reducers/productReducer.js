@@ -11,6 +11,9 @@ import {
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -116,6 +119,23 @@ export const productReducer = (state = initialState, action = {}) => {
         ...state,
         getProductsInProgress: false,
         getProductsError: payload,
+      };
+
+    case DELETE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        deleteProductInProgress: true,
+      };
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        deleteProductInProgress: false,
+      };
+    case DELETE_PRODUCT_ERROR:
+      return {
+        ...state,
+        deleteProductInProgress: false,
+        deleteProductError: payload,
       };
 
     default:

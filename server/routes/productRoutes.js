@@ -17,7 +17,7 @@ router.post(
 
 router.get('/products/:count', productController.getAllProducts);
 router.delete(
-  'product/:slug',
+  '/product/:slug',
   authCheck,
   adminCheck,
   productController.deleteProduct

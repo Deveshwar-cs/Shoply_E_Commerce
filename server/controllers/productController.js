@@ -33,8 +33,9 @@ exports.getAllProducts = async (req, res) => {
 };
 
 exports.deleteProduct = async (req, res) => {
+  console.log('SERVER CONTROLLER deleteProduct req.params', req.params);
   try {
-    const deletedProduct = await Product.findOneAndRemove({
+    const deletedProduct = await Product.findOneAndDelete({
       slug: req.params.slug,
     });
     res.status(204).json(deletedProduct);

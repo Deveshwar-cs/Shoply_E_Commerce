@@ -99,7 +99,7 @@ export const deleteSubCategoryAction = (slug, token) => async (dispatch) => {
 
     dispatch(deleteSubCategorySuccess());
   } catch (error) {
-    dispatch(deleteSubCategoryError());
+    dispatch(deleteSubCategoryError(error));
     return new Promise((resolve, reject) => {
       reject('Delete category Error');
     });

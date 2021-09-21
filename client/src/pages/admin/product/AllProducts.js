@@ -11,9 +11,8 @@ const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const AllProducts = () => {
-  const { getProductsInProgress, allProducts } = useSelector(
-    (state) => state.product
-  );
+  const { getProductsInProgress, allProducts, deleteProductInProgress } =
+    useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const AllProducts = () => {
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
-                {getProductsInProgress ? (
+                {getProductsInProgress || deleteProductInProgress ? (
                   <Row>
                     <Col span={24}>
                       <div className="spiner">
