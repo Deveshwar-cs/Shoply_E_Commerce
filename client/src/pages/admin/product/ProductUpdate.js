@@ -1,7 +1,7 @@
 import { Layout, Typography, Divider, Row, Col } from 'antd';
 
 import AdminNav from '../../../components/nav/AdminNav';
-import ProductCreateForm from '../../../components/forms/ProductCreateForm';
+import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -46,7 +46,7 @@ const ProductUpdate = ({ match }) => (
               md={{ span: 20, offset: 2 }}
               xs={{ span: 20, offset: 2 }}
             >
-              <ProductCreateForm />
+              <ProductUpdateForm />
             </Col>
           </Row>
         </Content>

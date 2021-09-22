@@ -4,6 +4,7 @@ import {
   createProduct,
   getAllProductsByCount,
   deleteProduct,
+  getOneProduct,
 } from '../../functions/productFunctions';
 import { getAllSubCategoriesByParent } from '../../functions/categoryFunctions';
 
@@ -23,6 +24,9 @@ import {
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_ERROR,
+  GET_ONE_PRODUCT_REQUEST,
+  GET_ONE_PRODUCT_SUCCESS,
+  GET_ONE_PRODUCT_ERROR,
 } from '../actions/types';
 
 // Create product actions
@@ -152,5 +156,30 @@ export const deleteProductAction = (slug, token) => async (dispatch) => {
       message: `Create product failed!`,
       description: error.message,
     });
+  }
+};
+
+// Get one product actions
+
+const getOneProductRequest = () => ({ type: GET_ONE_PRODUCT_REQUEST });
+const getOneProductSuccess = (product) => ({
+  type: GET_ONE_PRODUCT_SUCCESS,
+  payload: product,
+});
+const getOneProductError = (e) => ({
+  type: GET_ONE_PRODUCT_ERROR,
+  payload: e,
+});
+
+export const getOneProductAction = (slug) => async (dispatch) => {
+  try {
+    dispatch(getOneProductRequest());
+
+    // Request to DB
+    const product = await getOneProduct(slug);
+
+    dispatch(getOneProductSuccess(product.data));
+  } catch (error) {
+    dispatch(getOneProductError(error));
   }
 };
