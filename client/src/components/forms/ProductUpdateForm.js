@@ -13,7 +13,7 @@ import {
   clearImgInProductForm,
   getOneProductAction,
 } from '../../store/actions/productActions';
-//import { getOneProductAction } from '../../store/actions/categoryActions';
+import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
 const brands = [
   'Apple',
@@ -28,7 +28,7 @@ const brands = [
 
 const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
 
-const ProductUpdateForm = ({ match }) => {
+const ProductUpdateForm = () => {
   const [form] = Form.useForm();
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -48,6 +48,27 @@ const ProductUpdateForm = ({ match }) => {
   useEffect(() => {
     // get One category to fill all fields
     dispatch(getOneProductAction(slug));
+  }, []);
+
+  useEffect(() => {
+    if (oneProduct) {
+      form.setFieldsValue({
+        title: oneProduct.title,
+        description: oneProduct.description,
+        price: oneProduct.price,
+        category: oneProduct.category._id,
+        //subcategory: oneProduct.subcategory,
+        shipping: oneProduct.shipping,
+        quantity: oneProduct.quantity,
+        color: oneProduct.color,
+        brand: oneProduct.brand,
+      });
+    }
+  }, [oneProduct]);
+
+  useEffect(() => {
+    // get all categories to fill Category select
+    dispatch(getAllCategoriesAction());
   }, []);
 
   //get subcategories by parent category and fill subcategories select option
@@ -75,21 +96,21 @@ const ProductUpdateForm = ({ match }) => {
     // dispatch(
     //   createProductAction({ ...values, images: [...imgURLs] }, user.token)
     // );
+    console.log('onFinish values', values);
+    //dispatch(clearAllSubCategoriesByParent());
+    //dispatch(clearImgInProductForm());
 
-    dispatch(clearAllSubCategoriesByParent());
-    dispatch(clearImgInProductForm());
-
-    form.resetFields([
-      'title',
-      'description',
-      'price',
-      'category',
-      'subcategory',
-      'shipping',
-      'quantity',
-      'color',
-      'brand',
-    ]);
+    // form.resetFields([
+    //   'title',
+    //   'description',
+    //   'price',
+    //   'category',
+    //   'subcategory',
+    //   'shipping',
+    //   'quantity',
+    //   'color',
+    //   'brand',
+    // ]);
   };
 
   const onFinishFailed = (errorInfo) => {
