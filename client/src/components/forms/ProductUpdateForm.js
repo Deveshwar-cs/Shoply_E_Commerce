@@ -57,12 +57,13 @@ const ProductUpdateForm = () => {
         description: oneProduct.description,
         price: oneProduct.price,
         category: oneProduct.category._id,
-        //subcategory: oneProduct.subcategory,
+        subcategory: oneProduct.subcategory.map((sub) => sub._id),
         shipping: oneProduct.shipping,
         quantity: oneProduct.quantity,
         color: oneProduct.color,
         brand: oneProduct.brand,
       });
+      setParentCategoryId(oneProduct.category._id);
     }
   }, [oneProduct]);
 
@@ -72,16 +73,25 @@ const ProductUpdateForm = () => {
   }, []);
 
   //get subcategories by parent category and fill subcategories select option
-  //   useEffect(() => {
-  //     if (parentCategoryId.length > 0) {
-  //       dispatch(getAllSubCategoriesByParentAction(parentCategoryId));
-  //     }
-  //   }, [parentCategoryId]);
+  useEffect(() => {
+    if (parentCategoryId.length > 0) {
+      dispatch(getAllSubCategoriesByParentAction(parentCategoryId));
+    }
+  }, [parentCategoryId]);
 
   // Clear subcategory select when parentCategoryId changed
-  //   useEffect(() => {
-  //     form.resetFields(['subcategory']);
-  //   }, [parentCategoryId]);
+  useEffect(() => {
+    form.resetFields(['subcategory']);
+  }, [parentCategoryId]);
+
+  // If Admin rutern to original product category fill Select with
+  useEffect(() => {
+    if (parentCategoryId === oneProduct.category._id) {
+      form.setFieldsValue({
+        subcategory: oneProduct.subcategory.map((sub) => sub._id),
+      });
+    }
+  }, [parentCategoryId]);
 
   //clear local state with parent category and redux state allSubsByParent when component unmount
   //   useEffect(
