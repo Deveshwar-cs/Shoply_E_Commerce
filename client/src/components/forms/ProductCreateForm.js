@@ -11,7 +11,7 @@ import {
   createProductAction,
   getAllSubCategoriesByParentAction,
   clearAllSubCategoriesByParent,
-  clearImgInProductForm,
+  clearImgInUpload,
 } from '../../store/actions/productActions';
 import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
@@ -76,7 +76,7 @@ const ProductCreateForm = () => {
     );
 
     dispatch(clearAllSubCategoriesByParent());
-    dispatch(clearImgInProductForm());
+    dispatch(clearImgInUpload());
 
     form.resetFields([
       'title',

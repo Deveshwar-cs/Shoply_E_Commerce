@@ -6,8 +6,8 @@ import {
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_ERROR,
   CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
-  SET_IMGURL_IN_PRODUCT_FORM,
-  CLEAR_IMGURL_IN_PRODUCT_FORM,
+  SET_IMGURL_IN_UPLOAD,
+  CLEAR_IMGURL_IN_UPLOAD,
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
@@ -96,12 +96,12 @@ export const productReducer = (state = initialState, action = {}) => {
         allSubsByParent: [],
       };
 
-    case SET_IMGURL_IN_PRODUCT_FORM:
+    case SET_IMGURL_IN_UPLOAD:
       return {
         ...state,
         imgURLs: [...payload],
       };
-    case CLEAR_IMGURL_IN_PRODUCT_FORM:
+    case CLEAR_IMGURL_IN_UPLOAD:
       return {
         ...state,
         imgURLs: [],

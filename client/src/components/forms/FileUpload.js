@@ -7,9 +7,9 @@ import axios from 'axios';
 import { Upload, Button, Form, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
-import { setImgInProductForm } from '../../store/actions/productActions';
+import { setImgInUpload } from '../../store/actions/productActions';
 
-const FileUpload = () => {
+const FileUpload = ({ defaultFileList }) => {
   const { user } = useSelector((state) => state.auth);
   const { createProductInProgress } = useSelector((state) => state.product);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const FileUpload = () => {
 
   // set images [] in Redux store for parent form component
   useEffect(() => {
-    if (imgURLs.length > 0) dispatch(setImgInProductForm(imgURLs));
+    if (imgURLs.length > 0) dispatch(setImgInUpload(imgURLs));
   }, [dispatch, imgURLs]);
 
   // clear defaultFileList when product create
@@ -88,7 +88,7 @@ const FileUpload = () => {
 
     setimgURLs([...imgURLs.filter((img) => img.uid !== file.uid)]);
 
-    dispatch(setImgInProductForm(imgURLs));
+    dispatch(setImgInUpload(imgURLs));
 
     const config = {
       headers: {
@@ -104,7 +104,7 @@ const FileUpload = () => {
   };
 
   return (
-    <Form.Item label="Upload product images (5 images maximum)">
+    <Form.Item label="Upload product images (5 images maximum at once)">
       <Upload
         accept="image/*"
         fileList={fileList}

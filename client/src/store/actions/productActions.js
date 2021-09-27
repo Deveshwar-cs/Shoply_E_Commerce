@@ -16,8 +16,8 @@ import {
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_ERROR,
   CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
-  SET_IMGURL_IN_PRODUCT_FORM,
-  CLEAR_IMGURL_IN_PRODUCT_FORM,
+  SET_IMGURL_IN_UPLOAD,
+  CLEAR_IMGURL_IN_UPLOAD,
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
@@ -94,12 +94,12 @@ export const getAllSubCategoriesByParentAction =
   };
 
 // Set and clear uploaded images state
-export const setImgInProductForm = (imgsArray) => ({
-  type: SET_IMGURL_IN_PRODUCT_FORM,
+export const setImgInUpload = (imgsArray) => ({
+  type: SET_IMGURL_IN_UPLOAD,
   payload: imgsArray,
 });
-export const clearImgInProductForm = () => ({
-  type: CLEAR_IMGURL_IN_PRODUCT_FORM,
+export const clearImgInUpload = () => ({
+  type: CLEAR_IMGURL_IN_UPLOAD,
 });
 
 // Get all products actions
