@@ -1,9 +1,24 @@
 import { useEffect, useState, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button, Select } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  Divider,
+  Row,
+  Col,
+  Card,
+  Modal,
+  Image,
+} from 'antd';
 
-import { FileAddOutlined } from '@ant-design/icons';
+import {
+  FileAddOutlined,
+  ExclamationCircleOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 
 import FileUpload from './FileUpload';
 
@@ -27,6 +42,9 @@ const brands = [
 ];
 
 const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
+
+const { confirm } = Modal;
+const { Meta } = Card;
 
 const ProductUpdateForm = () => {
   const [form] = Form.useForm();
@@ -84,9 +102,9 @@ const ProductUpdateForm = () => {
     form.resetFields(['subcategory']);
   }, [parentCategoryId]);
 
-  // If Admin rutern to original product category fill Select with
+  // // If Admin rutern to original product category fill Select with
   useEffect(() => {
-    if (parentCategoryId === oneProduct.category._id) {
+    if (oneProduct && parentCategoryId === oneProduct.category._id) {
       form.setFieldsValue({
         subcategory: oneProduct.subcategory.map((sub) => sub._id),
       });
@@ -129,6 +147,21 @@ const ProductUpdateForm = () => {
   // dispatch parent category to redux store
   const onParentCategoryChange = (parentCategoryId) => {
     setParentCategoryId(parentCategoryId);
+  };
+
+  // Delete uploaded Image
+  const handleImageDelete = (public_id) => {
+    confirm({
+      title: `Do you Want to delete this image from ${oneProduct.title} product?`,
+      icon: <ExclamationCircleOutlined />,
+      content: 'This action delete image from product item and Cloudinary!',
+      onOk() {
+        console.log('IMAGE DELETED public_id', public_id);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
   };
 
   return (
@@ -208,7 +241,7 @@ const ProductUpdateForm = () => {
       )}
 
       {allSubsByParent.length > 0 && getAllSubByParentInProgress && (
-        <Form.Item name="subcategory" label="Subcategory" loading>
+        <Form.Item name="subcategory" label="Subcategory">
           <Select mode="multiple" loading>
             <Select.Option>Option</Select.Option>
           </Select>
@@ -299,6 +332,55 @@ const ProductUpdateForm = () => {
           ))}
         </Select>
       </Form.Item>
+      <Divider style={{ fontWeight: 'bold' }}>Uploaded Product Images</Divider>
+      <div className="site-card-wrapper">
+        <Row gutter={[8, 8]}>
+          {oneProduct &&
+            oneProduct.images.map((img) => (
+              <Col
+                xs={24}
+                sm={24}
+                md={12}
+                lg={12}
+                xl={8}
+                xxl={6}
+                key={img.public_id}
+              >
+                <Card
+                  style={{
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Image
+                    src={img.url}
+                    style={{
+                      objectFit: 'cover',
+                      height: 120,
+                      display: 'block',
+                    }}
+                  />
+                  <Button
+                    size="middle"
+                    icon={<DeleteOutlined />}
+                    //block
+                    danger
+                    type="primary"
+                    style={{
+                      marginTop: 10,
+                      margin: '15px auto 0',
+                      display: 'block',
+                    }}
+                    onClick={() => handleImageDelete(img.public_id)}
+                  >
+                    Delete
+                  </Button>
+                </Card>
+              </Col>
+            ))}
+        </Row>
+      </div>
       <FileUpload />
       <Form.Item>
         {createProductInProgress ? (
@@ -310,7 +392,7 @@ const ProductUpdateForm = () => {
             icon={<FileAddOutlined />}
             loading
           >
-            Create product
+            Update product
           </Button>
         ) : (
           <Button
@@ -321,7 +403,7 @@ const ProductUpdateForm = () => {
             block
             icon={<FileAddOutlined />}
           >
-            Create product
+            Update product
           </Button>
         )}
       </Form.Item>
