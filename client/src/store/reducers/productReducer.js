@@ -17,6 +17,7 @@ import {
   GET_ONE_PRODUCT_REQUEST,
   GET_ONE_PRODUCT_SUCCESS,
   GET_ONE_PRODUCT_ERROR,
+  CLAER_ONE_PRODUCT,
 } from '../actions/types';
 
 const initialState = {
@@ -43,7 +44,7 @@ const initialState = {
   allSubsByParent: [],
   oneProduct: null,
 
-  imgURLs: [],
+  uploadedImages: [],
 };
 
 export const productReducer = (state = initialState, action = {}) => {
@@ -99,12 +100,12 @@ export const productReducer = (state = initialState, action = {}) => {
     case SET_IMGURL_IN_UPLOAD:
       return {
         ...state,
-        imgURLs: [...payload],
+        uploadedImages: [...payload],
       };
     case CLEAR_IMGURL_IN_UPLOAD:
       return {
         ...state,
-        imgURLs: [],
+        uploadedImages: [],
       };
     case GET_ALL_PRODUCTS_REQUEST:
       return {
@@ -157,6 +158,11 @@ export const productReducer = (state = initialState, action = {}) => {
         ...state,
         getOneProductInProgress: false,
         getOneProductError: payload,
+      };
+    case CLAER_ONE_PRODUCT:
+      return {
+        ...state,
+        oneProduct: null,
       };
 
     default:

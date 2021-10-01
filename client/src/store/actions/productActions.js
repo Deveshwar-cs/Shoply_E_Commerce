@@ -27,6 +27,7 @@ import {
   GET_ONE_PRODUCT_REQUEST,
   GET_ONE_PRODUCT_SUCCESS,
   GET_ONE_PRODUCT_ERROR,
+  CLAER_ONE_PRODUCT,
 } from '../actions/types';
 
 // Create product actions
@@ -128,6 +129,9 @@ export const getAllProductsAction = (count) => async (dispatch) => {
   }
 };
 
+export const clearAllProducts = () => ({
+  type: 'CLEAR_ALL_PRODUCTS',
+});
 // Delete product actions
 
 const deleteProductRequest = () => ({ type: DELETE_PRODUCT_REQUEST });
@@ -183,3 +187,5 @@ export const getOneProductAction = (slug) => async (dispatch) => {
     dispatch(getOneProductError(error));
   }
 };
+
+export const clearOneProduct = () => ({ type: CLAER_ONE_PRODUCT });

@@ -9,19 +9,19 @@ import { UploadOutlined } from '@ant-design/icons';
 
 import { setImgInUpload } from '../../store/actions/productActions';
 
-const FileUpload = ({ defaultFileList }) => {
+const FileUpload = () => {
   const { user } = useSelector((state) => state.auth);
   const { createProductInProgress } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [fileList, setFileList] = useState([]);
 
   // Images data to send to parent form
-  const [imgURLs, setimgURLs] = useState([]);
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   // set images [] in Redux store for parent form component
   useEffect(() => {
-    if (imgURLs.length > 0) dispatch(setImgInUpload(imgURLs));
-  }, [dispatch, imgURLs]);
+    dispatch(setImgInUpload(uploadedImages));
+  }, [dispatch, uploadedImages]);
 
   // clear defaultFileList when product create
   useEffect(() => {
@@ -65,7 +65,7 @@ const FileUpload = ({ defaultFileList }) => {
               name: file.name,
             };
             onSuccess(file);
-            setimgURLs((prevItems) => [...prevItems, img]);
+            setUploadedImages((prevItems) => [...prevItems, img]);
             message.success(`${file.name} upload successfully`);
           })
           .catch((error) => {
@@ -82,13 +82,13 @@ const FileUpload = ({ defaultFileList }) => {
     setFileList(fileList);
   };
 
-  // Delete from imgURLs state and Cloudinary
+  // Delete from uploadedImages state and Cloudinary
   const handleRemove = (file) => {
-    const deletedImg = imgURLs.filter((img) => img.uid === file.uid)[0];
+    const deletedImg = uploadedImages.filter((img) => img.uid === file.uid)[0];
 
-    setimgURLs([...imgURLs.filter((img) => img.uid !== file.uid)]);
-
-    dispatch(setImgInUpload(imgURLs));
+    setUploadedImages([
+      ...uploadedImages.filter((img) => img.uid !== file.uid),
+    ]);
 
     const config = {
       headers: {
@@ -101,6 +101,8 @@ const FileUpload = ({ defaultFileList }) => {
     };
 
     axios.delete(`${process.env.REACT_APP_API}/images`, config);
+
+    dispatch(setImgInUpload(uploadedImages));
   };
 
   return (
