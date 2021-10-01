@@ -199,11 +199,12 @@ const ProductUpdateForm = () => {
     });
   };
 
-  return getOneProductInProgress || allSubsByParent.length === 0 ? (
-    <div className="spiner">
-      <Spin size="large" />
-    </div>
-  ) : (
+  // getOneProductInProgress || allSubsByParent.length === 0
+  // <div className="spiner">
+  //     <Spin size="large" />
+  //   </div>
+
+  return (
     <Form
       form={form}
       name="product"
@@ -212,219 +213,229 @@ const ProductUpdateForm = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item
-        name="title"
-        label="Title (52 charachters maximum)"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new product title!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="description"
-        label="Description (2000 charachters maximum)"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new product description!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="price"
-        label="Price"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new product price!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="category"
-        label="Category"
-        rules={[
-          {
-            required: true,
-            message: 'Please select category for new product!',
-          },
-        ]}
-      >
-        <Select onChange={onParentCategoryChange}>
-          {allCategories.length > 0 &&
-            allCategories.map((category) => (
-              <Select.Option key={category._id} value={category._id}>
-                {category.name}
-              </Select.Option>
-            ))}
-        </Select>
-      </Form.Item>
+      {getOneProductInProgress || allSubsByParent.length === 0 ? (
+        <div className="spiner">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <>
+          <Form.Item
+            name="title"
+            label="Title (52 charachters maximum)"
+            rules={[
+              {
+                required: true,
+                message: 'Please input new product title!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="Description (2000 charachters maximum)"
+            rules={[
+              {
+                required: true,
+                message: 'Please input new product description!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="price"
+            label="Price"
+            rules={[
+              {
+                required: true,
+                message: 'Please input new product price!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="category"
+            label="Category"
+            rules={[
+              {
+                required: true,
+                message: 'Please select category for new product!',
+              },
+            ]}
+          >
+            <Select onChange={onParentCategoryChange}>
+              {allCategories.length > 0 &&
+                allCategories.map((category) => (
+                  <Select.Option key={category._id} value={category._id}>
+                    {category.name}
+                  </Select.Option>
+                ))}
+            </Select>
+          </Form.Item>
 
-      <Form.Item
-        name="subcategory"
-        label="Subcategory"
-        rules={[
-          {
-            required: true,
-            message: 'Please input new product subcategory!',
-          },
-        ]}
-      >
-        <Select mode="multiple">
-          {allSubsByParent.map((category) => (
-            <Select.Option key={category._id} value={category._id}>
-              {category.name}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
+          <Form.Item
+            name="subcategory"
+            label="Subcategory"
+            rules={[
+              {
+                required: true,
+                message: 'Please input new product subcategory!',
+              },
+            ]}
+          >
+            <Select mode="multiple">
+              {allSubsByParent.map((category) => (
+                <Select.Option key={category._id} value={category._id}>
+                  {category.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-      <Form.Item
-        name="shipping"
-        label="Shipping"
-        rules={[
-          {
-            required: true,
-            message: 'Please select shipping!',
-          },
-        ]}
-      >
-        <Select>
-          <Select.Option value="No">No</Select.Option>
-          <Select.Option value="Yes">Yes</Select.Option>
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="quantity"
-        label="Quantity"
-        rules={[
-          {
-            required: true,
-            message: 'Please input product quantity!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="color"
-        label="Color"
-        rules={[
-          {
-            required: true,
-            message: 'Please select product color!',
-          },
-        ]}
-      >
-        <Select>
-          {colors.map((color) => (
-            <Select.Option key={color} value={color}>
-              {color}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="brand"
-        label="Brand"
-        rules={[
-          {
-            required: true,
-            message: 'Please select product brand!',
-          },
-        ]}
-      >
-        <Select>
-          {brands.map((brand) => (
-            <Select.Option key={brand} value={brand}>
-              {brand}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Divider style={{ fontWeight: 'bold' }}>Uploaded Product Images</Divider>
-      <div className="site-card-wrapper">
-        <Row gutter={[8, 8]}>
-          {productImages &&
-            productImages.map((img) => (
-              <Col
-                xs={24}
-                sm={24}
-                md={12}
-                lg={12}
-                xl={8}
-                xxl={6}
-                key={img.public_id}
-              >
-                <Card
-                  style={{
-                    textAlign: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Image
-                    src={img.url}
-                    style={{
-                      objectFit: 'cover',
-                      height: 120,
-                      display: 'block',
-                    }}
-                  />
-                  <Button
-                    size="middle"
-                    icon={<DeleteOutlined />}
-                    //block
-                    danger
-                    type="primary"
-                    style={{
-                      marginTop: 10,
-                      margin: '15px auto 0',
-                      display: 'block',
-                    }}
-                    onClick={() => handleImageDelete(img.public_id)}
+          <Form.Item
+            name="shipping"
+            label="Shipping"
+            rules={[
+              {
+                required: true,
+                message: 'Please select shipping!',
+              },
+            ]}
+          >
+            <Select>
+              <Select.Option value="No">No</Select.Option>
+              <Select.Option value="Yes">Yes</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="quantity"
+            label="Quantity"
+            rules={[
+              {
+                required: true,
+                message: 'Please input product quantity!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="color"
+            label="Color"
+            rules={[
+              {
+                required: true,
+                message: 'Please select product color!',
+              },
+            ]}
+          >
+            <Select>
+              {colors.map((color) => (
+                <Select.Option key={color} value={color}>
+                  {color}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="brand"
+            label="Brand"
+            rules={[
+              {
+                required: true,
+                message: 'Please select product brand!',
+              },
+            ]}
+          >
+            <Select>
+              {brands.map((brand) => (
+                <Select.Option key={brand} value={brand}>
+                  {brand}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Divider style={{ fontWeight: 'bold' }}>
+            Uploaded Product Images
+          </Divider>
+          <div className="site-card-wrapper">
+            <Row gutter={[8, 8]}>
+              {productImages &&
+                productImages.map((img) => (
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={12}
+                    lg={12}
+                    xl={8}
+                    xxl={6}
+                    key={img.public_id}
                   >
-                    Delete
-                  </Button>
-                </Card>
-              </Col>
-            ))}
-        </Row>
-      </div>
-      <FileUpload />
-      <Form.Item>
-        {createProductInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10, marginBottom: 40 }}
-            size="large"
-            block
-            icon={<FileAddOutlined />}
-            loading
-          >
-            Update product
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10, marginBottom: 40 }}
-            size="large"
-            block
-            icon={<FileAddOutlined />}
-          >
-            Update product
-          </Button>
-        )}
-      </Form.Item>
+                    <Card
+                      style={{
+                        textAlign: 'center',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      <Image
+                        src={img.url}
+                        style={{
+                          objectFit: 'cover',
+                          height: 120,
+                          display: 'block',
+                        }}
+                      />
+                      <Button
+                        size="middle"
+                        icon={<DeleteOutlined />}
+                        //block
+                        danger
+                        type="primary"
+                        style={{
+                          marginTop: 10,
+                          margin: '15px auto 0',
+                          display: 'block',
+                        }}
+                        onClick={() => handleImageDelete(img.public_id)}
+                      >
+                        Delete
+                      </Button>
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+          </div>
+          <FileUpload />
+          <Form.Item>
+            {createProductInProgress ? (
+              <Button
+                type="primary"
+                style={{ marginTop: 10, marginBottom: 40 }}
+                size="large"
+                block
+                icon={<FileAddOutlined />}
+                loading
+              >
+                Update product
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ marginTop: 10, marginBottom: 40 }}
+                size="large"
+                block
+                icon={<FileAddOutlined />}
+              >
+                Update product
+              </Button>
+            )}
+          </Form.Item>
+        </>
+      )}
     </Form>
   );
 };
