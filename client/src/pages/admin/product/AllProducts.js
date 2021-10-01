@@ -5,7 +5,10 @@ import { Layout, Typography, Spin, Row, Col } from 'antd';
 
 import AdminNav from '../../../components/nav/AdminNav';
 import AdminProductCard from '../../../components/cards/AdminProductCard';
-import { getAllProductsAction } from '../../../store/actions/productActions';
+import {
+  getAllProductsAction,
+  clearAllProducts,
+} from '../../../store/actions/productActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -18,6 +21,13 @@ const AllProducts = () => {
   useEffect(() => {
     dispatch(getAllProductsAction(20));
   }, []);
+
+  useEffect(
+    () => () => {
+      dispatch(clearAllProducts());
+    },
+    []
+  );
 
   return (
     <>

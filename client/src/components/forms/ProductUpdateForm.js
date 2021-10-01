@@ -12,7 +12,10 @@ import {
   Card,
   Modal,
   Image,
+  Spin,
 } from 'antd';
+
+import axios from 'axios';
 
 import {
   FileAddOutlined,
@@ -27,6 +30,7 @@ import {
   clearAllSubCategoriesByParent,
   clearImgInProductForm,
   getOneProductAction,
+  clearOneProduct,
 } from '../../store/actions/productActions';
 import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
@@ -44,7 +48,6 @@ const brands = [
 const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
 
 const { confirm } = Modal;
-const { Meta } = Card;
 
 const ProductUpdateForm = () => {
   const [form] = Form.useForm();
@@ -55,33 +58,36 @@ const ProductUpdateForm = () => {
   const { allCategories } = useSelector((state) => state.category);
   const {
     createProductInProgress,
-    getAllSubByParentInProgress,
+    getOneProductInProgress,
     allSubsByParent,
-    imgURLs,
+    uploadedImages,
     oneProduct,
   } = useSelector((state) => state.product);
 
-  let [parentCategoryId, setParentCategoryId] = useState('');
+  const [parentCategoryId, setParentCategoryId] = useState('');
+  const [productImages, setProductImages] = useState([]);
 
   useEffect(() => {
     // get One category to fill all fields
     dispatch(getOneProductAction(slug));
   }, []);
 
+  // Populate fields with product data
   useEffect(() => {
     if (oneProduct) {
+      setParentCategoryId(oneProduct.category._id);
+      setProductImages([...oneProduct.images]);
       form.setFieldsValue({
         title: oneProduct.title,
         description: oneProduct.description,
         price: oneProduct.price,
         category: oneProduct.category._id,
-        subcategory: oneProduct.subcategory.map((sub) => sub._id),
+        //subcategory: oneProduct.subcategory.map((sub) => sub._id),
         shipping: oneProduct.shipping,
         quantity: oneProduct.quantity,
         color: oneProduct.color,
         brand: oneProduct.brand,
       });
-      setParentCategoryId(oneProduct.category._id);
     }
   }, [oneProduct]);
 
@@ -94,6 +100,9 @@ const ProductUpdateForm = () => {
   useEffect(() => {
     if (parentCategoryId.length > 0) {
       dispatch(getAllSubCategoriesByParentAction(parentCategoryId));
+      form.setFieldsValue({
+        subcategory: oneProduct.subcategory.map((sub) => sub._id),
+      });
     }
   }, [parentCategoryId]);
 
@@ -112,17 +121,29 @@ const ProductUpdateForm = () => {
   }, [parentCategoryId]);
 
   //clear local state with parent category and redux state allSubsByParent when component unmount
-  //   useEffect(
-  //     () => () => {
-  //       setParentCategoryId('');
-  //       dispatch(clearAllSubCategoriesByParent());
-  //     },
-  //     []
-  //   );
+  useEffect(
+    () => () => {
+      setParentCategoryId('');
+      dispatch(clearAllSubCategoriesByParent());
+      dispatch(clearOneProduct());
+      form.resetFields([
+        'title',
+        'description',
+        'price',
+        'category',
+        'subcategory',
+        'shipping',
+        'quantity',
+        'color',
+        'brand',
+      ]);
+    },
+    []
+  );
 
   const onFinish = (values) => {
     // dispatch(
-    //   createProductAction({ ...values, images: [...imgURLs] }, user.token)
+    //   updateProductAction({ ...values, images: [...productImages, ...uploadedImages] }, user.token)
     // );
     console.log('onFinish values', values);
     //dispatch(clearAllSubCategoriesByParent());
@@ -144,19 +165,33 @@ const ProductUpdateForm = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  // dispatch parent category to redux store
+
   const onParentCategoryChange = (parentCategoryId) => {
     setParentCategoryId(parentCategoryId);
   };
 
-  // Delete uploaded Image
+  // Delete already uploaded Image
   const handleImageDelete = (public_id) => {
     confirm({
       title: `Do you Want to delete this image from ${oneProduct.title} product?`,
       icon: <ExclamationCircleOutlined />,
-      content: 'This action delete image from product item and Cloudinary!',
+      content: 'This action delete image from Cloudinary!',
       onOk() {
-        console.log('IMAGE DELETED public_id', public_id);
+        const config = {
+          headers: {
+            authToken: user.token,
+          },
+          //Take note of the `data` keyword. This is the request body in DELETE method.
+          data: {
+            public_id,
+          },
+        };
+
+        axios.delete(`${process.env.REACT_APP_API}/images`, config);
+
+        setProductImages([
+          ...productImages.filter((img) => img.public_id !== public_id),
+        ]);
       },
       onCancel() {
         console.log('Cancel');
@@ -164,7 +199,11 @@ const ProductUpdateForm = () => {
     });
   };
 
-  return (
+  return getOneProductInProgress || allSubsByParent.length === 0 ? (
+    <div className="spiner">
+      <Spin size="large" />
+    </div>
+  ) : (
     <Form
       form={form}
       name="product"
@@ -229,45 +268,24 @@ const ProductUpdateForm = () => {
         </Select>
       </Form.Item>
 
-      {allSubsByParent.length === 0 && (
-        <Form.Item
-          name="subcategory"
-          label="Subcategory (Select parent category first)"
-        >
-          <Select disabled>
-            <Select.Option>Option</Select.Option>
-          </Select>
-        </Form.Item>
-      )}
-
-      {allSubsByParent.length > 0 && getAllSubByParentInProgress && (
-        <Form.Item name="subcategory" label="Subcategory">
-          <Select mode="multiple" loading>
-            <Select.Option>Option</Select.Option>
-          </Select>
-        </Form.Item>
-      )}
-
-      {allSubsByParent.length > 0 && !getAllSubByParentInProgress && (
-        <Form.Item
-          name="subcategory"
-          label="Subcategory"
-          rules={[
-            {
-              required: true,
-              message: 'Please input new product subcategory!',
-            },
-          ]}
-        >
-          <Select mode="multiple">
-            {allSubsByParent.map((category) => (
-              <Select.Option key={category._id} value={category._id}>
-                {category.name}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      )}
+      <Form.Item
+        name="subcategory"
+        label="Subcategory"
+        rules={[
+          {
+            required: true,
+            message: 'Please input new product subcategory!',
+          },
+        ]}
+      >
+        <Select mode="multiple">
+          {allSubsByParent.map((category) => (
+            <Select.Option key={category._id} value={category._id}>
+              {category.name}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
 
       <Form.Item
         name="shipping"
@@ -335,8 +353,8 @@ const ProductUpdateForm = () => {
       <Divider style={{ fontWeight: 'bold' }}>Uploaded Product Images</Divider>
       <div className="site-card-wrapper">
         <Row gutter={[8, 8]}>
-          {oneProduct &&
-            oneProduct.images.map((img) => (
+          {productImages &&
+            productImages.map((img) => (
               <Col
                 xs={24}
                 sm={24}

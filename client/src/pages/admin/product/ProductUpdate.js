@@ -6,7 +6,7 @@ import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
-const ProductUpdate = ({ match }) => (
+const ProductUpdate = () => (
   <>
     <Layout>
       <Header>

@@ -39,7 +39,7 @@ const ProductCreateForm = () => {
     createProductInProgress,
     getAllSubByParentInProgress,
     allSubsByParent,
-    imgURLs,
+    uploadedImages,
   } = useSelector((state) => state.product);
 
   let [parentCategoryId, setParentCategoryId] = useState('');
@@ -72,7 +72,10 @@ const ProductCreateForm = () => {
 
   const onFinish = (values) => {
     dispatch(
-      createProductAction({ ...values, images: [...imgURLs] }, user.token)
+      createProductAction(
+        { ...values, images: [...uploadedImages] },
+        user.token
+      )
     );
 
     dispatch(clearAllSubCategoriesByParent());
