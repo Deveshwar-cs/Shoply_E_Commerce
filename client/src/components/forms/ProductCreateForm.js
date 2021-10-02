@@ -28,6 +28,8 @@ const brands = [
 
 const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'];
 
+const { TextArea } = Input;
+
 const ProductCreateForm = () => {
   const [form] = Form.useForm();
 
@@ -125,7 +127,7 @@ const ProductCreateForm = () => {
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description (2000 charachters maximum)"
+        label="Description (1000 charachters maximum)"
         rules={[
           {
             required: true,
@@ -133,7 +135,7 @@ const ProductCreateForm = () => {
           },
         ]}
       >
-        <Input />
+        <TextArea rows={5} />
       </Form.Item>
       <Form.Item
         name="price"
