@@ -26,4 +26,11 @@ router.delete(
   productController.deleteProduct
 );
 
+router.put(
+  '/products/:slug',
+  authCheck,
+  adminCheck,
+  productController.updateProduct
+);
+
 module.exports = router;

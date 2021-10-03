@@ -53,7 +53,32 @@ exports.getOneProduct = async (req, res) => {
       .populate('category')
       .populate('subcategory');
 
-    res.status(201).json(product);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+exports.updateProduct = async (req, res) => {
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    const updatedProduct = await Product.findOneAndUpdate(
+      {
+        slug: req.params.slug,
+      },
+      req.body,
+      {
+        new: true,
+      }
+    )
+      .populate('category')
+      .populate('subcategory');
+
+    res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(400).json({
       errormessage: error.message,
