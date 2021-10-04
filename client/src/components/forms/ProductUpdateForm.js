@@ -1,5 +1,5 @@
 import { useEffect, useState, memo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Form,
@@ -28,9 +28,10 @@ import FileUpload from './FileUpload';
 import {
   getAllSubCategoriesByParentAction,
   clearAllSubCategoriesByParent,
-  clearImgInProductForm,
+  clearImgInUpload,
   getOneProductAction,
   clearOneProduct,
+  updateProductAction,
 } from '../../store/actions/productActions';
 import { getAllCategoriesAction } from '../../store/actions/categoryActions';
 
@@ -54,6 +55,7 @@ const ProductUpdateForm = () => {
   const [form] = Form.useForm();
   const { slug } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { user } = useSelector((state) => state.auth);
   const { allCategories } = useSelector((state) => state.category);
@@ -127,6 +129,7 @@ const ProductUpdateForm = () => {
       setParentCategoryId('');
       dispatch(clearAllSubCategoriesByParent());
       dispatch(clearOneProduct());
+      dispatch(clearImgInUpload());
       form.resetFields([
         'title',
         'description',
@@ -143,24 +146,13 @@ const ProductUpdateForm = () => {
   );
 
   const onFinish = (values) => {
-    // dispatch(
-    //   updateProductAction({ ...values, images: [...productImages, ...uploadedImages] }, user.token)
-    // );
-    console.log('onFinish values', values);
-    //dispatch(clearAllSubCategoriesByParent());
-    //dispatch(clearImgInProductForm());
-
-    // form.resetFields([
-    //   'title',
-    //   'description',
-    //   'price',
-    //   'category',
-    //   'subcategory',
-    //   'shipping',
-    //   'quantity',
-    //   'color',
-    //   'brand',
-    // ]);
+    dispatch(
+      updateProductAction(
+        oneProduct.slug,
+        { ...values, images: [...productImages, ...uploadedImages] },
+        user.token
+      )
+    ).then(() => history.push('/admin/allproducts'));
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -199,11 +191,6 @@ const ProductUpdateForm = () => {
       },
     });
   };
-
-  // getOneProductInProgress || allSubsByParent.length === 0
-  // <div className="spiner">
-  //     <Spin size="large" />
-  //   </div>
 
   return (
     <Form

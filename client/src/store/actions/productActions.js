@@ -5,6 +5,7 @@ import {
   getAllProductsByCount,
   deleteProduct,
   getOneProduct,
+  updateProduct,
 } from '../../functions/productFunctions';
 import { getAllSubCategoriesByParent } from '../../functions/categoryFunctions';
 
@@ -16,8 +17,8 @@ import {
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_ERROR,
   CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
-  SET_IMGURL_IN_UPLOAD,
-  CLEAR_IMGURL_IN_UPLOAD,
+  SET_UPLOADED_IMAGES,
+  CLEAR_UPLOADED_IMAGES,
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
@@ -28,6 +29,9 @@ import {
   GET_ONE_PRODUCT_SUCCESS,
   GET_ONE_PRODUCT_ERROR,
   CLAER_ONE_PRODUCT,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_ERROR,
 } from '../actions/types';
 
 // Create product actions
@@ -96,11 +100,11 @@ export const getAllSubCategoriesByParentAction =
 
 // Set and clear uploaded images state
 export const setImgInUpload = (imgsArray) => ({
-  type: SET_IMGURL_IN_UPLOAD,
+  type: SET_UPLOADED_IMAGES,
   payload: imgsArray,
 });
 export const clearImgInUpload = () => ({
-  type: CLEAR_IMGURL_IN_UPLOAD,
+  type: CLEAR_UPLOADED_IMAGES,
 });
 
 // Get all products actions
@@ -189,3 +193,36 @@ export const getOneProductAction = (slug) => async (dispatch) => {
 };
 
 export const clearOneProduct = () => ({ type: CLAER_ONE_PRODUCT });
+
+// Update product actions
+
+const updateProductRequest = () => ({ type: UPDATE_PRODUCT_REQUEST });
+const updateProductSuccess = () => ({
+  type: UPDATE_PRODUCT_SUCCESS,
+});
+const updateProductError = (e) => ({
+  type: UPDATE_PRODUCT_ERROR,
+  payload: e,
+});
+
+export const updateProductAction =
+  (slug, updatedProduct, token) => async (dispatch) => {
+    try {
+      dispatch(updateProductRequest());
+
+      // Request to DB
+      const response = await updateProduct(slug, updatedProduct, token);
+
+      dispatch(updateProductSuccess());
+
+      notification.success({
+        message: `${response.data.title} product is updated!`,
+      });
+    } catch (error) {
+      dispatch(updateProductError(error));
+      notification.error({
+        message: `Update product failed!`,
+        description: error.message,
+      });
+    }
+  };

@@ -19,3 +19,14 @@ export const getAllProductsByCount = async (count) =>
 
 export const getOneProduct = async (slug) =>
   await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
+
+export const updateProduct = async (slug, updatedProduct, authToken) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/products/${slug}`,
+    updatedProduct,
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );

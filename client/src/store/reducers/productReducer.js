@@ -6,8 +6,8 @@ import {
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_SUCCESS,
   GET_SUBCATEGORIES_BY_PARENT_PRODUCT_ERROR,
   CLEAR_SUBCATEGORIES_BY_PARENT_PRODUCT,
-  SET_IMGURL_IN_UPLOAD,
-  CLEAR_IMGURL_IN_UPLOAD,
+  SET_UPLOADED_IMAGES,
+  CLEAR_UPLOADED_IMAGES,
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
@@ -43,7 +43,7 @@ const initialState = {
 
   allSubsByParent: [],
   oneProduct: null,
-
+  // here we store uploaded images (from FileUpload component) that using in ProductCreateForm and ProductUpdateForm
   uploadedImages: [],
 };
 
@@ -97,12 +97,12 @@ export const productReducer = (state = initialState, action = {}) => {
         allSubsByParent: [],
       };
 
-    case SET_IMGURL_IN_UPLOAD:
+    case SET_UPLOADED_IMAGES:
       return {
         ...state,
         uploadedImages: [...payload],
       };
-    case CLEAR_IMGURL_IN_UPLOAD:
+    case CLEAR_UPLOADED_IMAGES:
       return {
         ...state,
         uploadedImages: [],
