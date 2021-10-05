@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Layout, Typography, Spin, Row, Col } from 'antd';
 
 import ProductCard from '../components/cards/ProductCard';
+import Jumbotron from '../components/cards/Jumbotron';
 
 import {
   getAllProductsAction,
@@ -26,16 +27,22 @@ const Home = () => {
     <>
       <Row>
         <Col span={24}>
+          <Jumbotron text={['New Arrivals', 'Best Sellers']} />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
           <Title
             level={2}
             style={{
               color: 'black',
-              padding: '80px 0',
+              padding: '20px 0',
               textAlign: 'center',
               backgroundColor: '#f0f5ff',
+              fontSize: 30,
             }}
           >
-            New products
+            New Arrivals
           </Title>
         </Col>
       </Row>
