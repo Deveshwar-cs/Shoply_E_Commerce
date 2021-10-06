@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Modal } from 'antd';
+import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
@@ -11,12 +11,8 @@ import {
 } from '../../store/actions/productActions';
 
 const { Meta } = Card;
-const { confirm } = Modal;
 
 const ProductCard = ({ title, images, description, slug, price }) => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-
   return (
     <Card
       bordered

@@ -5,6 +5,7 @@ import { Layout, Typography, Spin, Row, Col } from 'antd';
 
 import ProductCard from '../components/cards/ProductCard';
 import Jumbotron from '../components/cards/Jumbotron';
+import LoadinCardList from '../components/cards/LoadingCardList';
 
 import {
   getAllProductsAction,
@@ -54,13 +55,7 @@ const Home = () => {
           xs={{ span: 20, offset: 2 }}
         >
           {getProductsInProgress ? (
-            <Row>
-              <Col span={24}>
-                <div className="spiner">
-                  <Spin />
-                </div>
-              </Col>
-            </Row>
+            <LoadinCardList count={3} />
           ) : (
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
               {allProducts.map((product) => (
