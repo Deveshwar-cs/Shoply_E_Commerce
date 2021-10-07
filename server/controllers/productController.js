@@ -85,3 +85,22 @@ exports.updateProduct = async (req, res) => {
     });
   }
 };
+
+exports.customProductList = async (req, res) => {
+  try {
+    // createdAt/updatedAt, desc/asc, 3
+    const { sort, order, limit } = req.body;
+
+    const customList = await Product.find({})
+      .populate('category')
+      .populate('subcategory')
+      .sort([[sort, order]]) // some Mongoose weird syntax  ==> https://stackoverflow.com/questions/4299991/how-to-sort-in-mongoose
+      .limit(limit);
+
+    res.status(200).json(customList);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};

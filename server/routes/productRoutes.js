@@ -33,4 +33,8 @@ router.put(
   productController.updateProduct
 );
 
+// get list of products with sort, filter or limit
+// using POST becouse we need send some data with request
+router.post('/products', productController.customProductList);
+
 module.exports = router;
