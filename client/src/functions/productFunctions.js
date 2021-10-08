@@ -30,3 +30,11 @@ export const updateProduct = async (slug, updatedProduct, authToken) =>
       },
     }
   );
+
+// get Product list with options (sort, order, limit)
+export const getCustomProductList = async (sort, order, limit) =>
+  await axios.post(`${process.env.REACT_APP_API}/customproductlist`, {
+    sort,
+    order,
+    limit,
+  });

@@ -22,6 +22,7 @@ import {
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
+  CLEAR_ALL_PRODUCTS,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_ERROR,
@@ -134,7 +135,7 @@ export const getAllProductsAction = (count) => async (dispatch) => {
 };
 
 export const clearAllProducts = () => ({
-  type: 'CLEAR_ALL_PRODUCTS',
+  type: CLEAR_ALL_PRODUCTS,
 });
 // Delete product actions
 

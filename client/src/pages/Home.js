@@ -1,29 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Typography, Row, Col } from 'antd';
 
-import { Layout, Typography, Spin, Row, Col } from 'antd';
-
-import ProductCard from '../components/cards/ProductCard';
 import Jumbotron from '../components/cards/Jumbotron';
-import LoadinCardList from '../components/cards/LoadingCardList';
-
-import {
-  getAllProductsAction,
-  clearAllProducts,
-} from '../store/actions/productActions';
+import NewArrivals from '../components/home/NewArrivals';
 
 const { Title } = Typography;
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { getProductsInProgress, allProducts } = useSelector(
-    (state) => state.product
-  );
-
-  useEffect(() => {
-    dispatch(getAllProductsAction(3));
-  }, []);
-
   return (
     <>
       <Row>
@@ -54,17 +36,7 @@ const Home = () => {
           md={{ span: 20, offset: 2 }}
           xs={{ span: 20, offset: 2 }}
         >
-          {getProductsInProgress ? (
-            <LoadinCardList count={3} />
-          ) : (
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              {allProducts.map((product) => (
-                <Col xs={24} sm={24} md={12} lg={8} xl={8} key={product._id}>
-                  <ProductCard {...product} />
-                </Col>
-              ))}
-            </Row>
-          )}
+          <NewArrivals />
         </Col>
       </Row>
     </>
