@@ -7,14 +7,14 @@ import ProductCard from '../cards/ProductCard';
 
 import { getCustomProductList } from '../../functions/productFunctions';
 
-const NewArrivals = () => {
+const BestSellers = () => {
   // Here we use component local state instead of Redux global state because on Home page we can have several different product lists based on custom parameters
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
-    getCustomProductList('createdAt', 'desc', 3).then((res) => {
+    getCustomProductList('sold', 'desc', 3).then((res) => {
       setProducts(res.data);
       setIsLoading(false);
     });
@@ -37,4 +37,4 @@ const NewArrivals = () => {
   );
 };
 
-export default NewArrivals;
+export default BestSellers;

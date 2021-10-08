@@ -1,14 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 import defaultImage from '../../images/placeholder.png';
-import {
-  deleteProductAction,
-  getAllProductsAction,
-} from '../../store/actions/productActions';
 
 const { Meta } = Card;
 
