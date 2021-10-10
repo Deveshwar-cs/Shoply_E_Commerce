@@ -104,3 +104,15 @@ exports.customProductList = async (req, res) => {
     });
   }
 };
+
+exports.productsCount = async (req, res) => {
+  try {
+    const total = await Product.find({}).estimatedDocumentCount();
+
+    res.status(200).json(total);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};

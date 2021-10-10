@@ -15,6 +15,9 @@ router.post(
   productController.createProduct
 );
 
+// get products total count alias
+router.get('/totalproducts', productController.productsCount);
+
 router.get('/products/:count', productController.getAllProducts);
 
 router.get('/product/:slug', productController.getOneProduct);
