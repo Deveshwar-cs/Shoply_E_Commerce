@@ -22,8 +22,9 @@ const Home = () => {
               color: 'black',
               padding: '20px 0',
               textAlign: 'center',
-              backgroundColor: '#f0f5ff',
+              backgroundColor: '#f6ffed',
               fontSize: 30,
+              margin: '40px 0',
             }}
           >
             New Arrivals
@@ -48,9 +49,9 @@ const Home = () => {
               color: 'black',
               padding: '20px 0',
               textAlign: 'center',
-              backgroundColor: '#f0f5ff',
+              backgroundColor: '#fff1f0',
               fontSize: 30,
-              marginTop: 20,
+              margin: '40px 0',
             }}
           >
             Best Sellers

@@ -7,12 +7,11 @@ const Jumbotron = ({ text }) => {
       style={{
         display: 'block',
         color: '#fa541c',
-        padding: '80px 0',
+        padding: '60px 0',
         textAlign: 'center',
         backgroundColor: '#f0f5ff',
         fontSize: 60,
         fontWeight: 'bold',
-        marginBottom: 16,
       }}
     >
       <Typewriter
