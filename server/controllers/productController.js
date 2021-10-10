@@ -86,16 +86,40 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
+// WITHOUT PAGINAGITION
+// exports.customProductList = async (req, res) => {
+//   try {
+//     // createdAt/updatedAt, desc/asc, 3
+//     const { sort, order, limit } = req.body;
+
+//     const customList = await Product.find({})
+//       .populate('category')
+//       .populate('subcategory')
+//       .sort([[sort, order]]) // some Mongoose weird syntax  ==> https://stackoverflow.com/questions/4299991/how-to-sort-in-mongoose
+//       .limit(limit);
+
+//     res.status(200).json(customList);
+//   } catch (error) {
+//     res.status(400).json({
+//       errormessage: error.message,
+//     });
+//   }
+// };
+
+// WITH PAGINATION
 exports.customProductList = async (req, res) => {
   try {
     // createdAt/updatedAt, desc/asc, 3
-    const { sort, order, limit } = req.body;
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 3;
 
     const customList = await Product.find({})
+      .skip((currentPage - 1) * perPage)
       .populate('category')
       .populate('subcategory')
       .sort([[sort, order]]) // some Mongoose weird syntax  ==> https://stackoverflow.com/questions/4299991/how-to-sort-in-mongoose
-      .limit(limit);
+      .limit(perPage);
 
     res.status(200).json(customList);
   } catch (error) {
