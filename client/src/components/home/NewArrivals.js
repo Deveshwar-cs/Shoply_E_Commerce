@@ -1,22 +1,39 @@
 import { useState, useEffect } from 'react';
 
-import { Row, Col } from 'antd';
+import { Row, Col, Pagination } from 'antd';
 
 import LoadinCardList from '../cards/LoadingCardList';
 import ProductCard from '../cards/ProductCard';
 
-import { getCustomProductList } from '../../functions/productFunctions';
+import {
+  getCustomProductList,
+  getProductsTotal,
+} from '../../functions/productFunctions';
 
 const NewArrivals = () => {
   // Here we use component local state instead of Redux global state because on Home page we can have several different product lists based on custom parameters
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [productsTotal, setProductsTotal] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
-    getCustomProductList('createdAt', 'desc', 3).then((res) => {
-      setProducts(res.data);
-      setIsLoading(false);
+    getCustomProductList('createdAt', 'desc', page)
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [page]);
+
+  useEffect(() => {
+    getProductsTotal().then((res) => {
+      setProductsTotal(res.data);
     });
   }, []);
 
@@ -33,6 +50,14 @@ const NewArrivals = () => {
           ))}
         </Row>
       )}
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="center">
+        <Pagination
+          style={{ margin: '20px 0' }}
+          current={page}
+          total={(productsTotal / 3) * 10}
+          onChange={(page) => setPage(page)}
+        />
+      </Row>
     </>
   );
 };

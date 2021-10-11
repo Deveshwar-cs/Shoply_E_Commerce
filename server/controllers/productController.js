@@ -128,7 +128,7 @@ exports.customProductList = async (req, res) => {
     });
   }
 };
-
+// PAGINATION
 exports.productsCount = async (req, res) => {
   try {
     const total = await Product.find({}).estimatedDocumentCount();

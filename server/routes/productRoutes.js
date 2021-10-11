@@ -15,7 +15,7 @@ router.post(
   productController.createProduct
 );
 
-// get products total count alias
+// get products total count alias for pagination
 router.get('/totalproducts', productController.productsCount);
 
 router.get('/products/:count', productController.getAllProducts);

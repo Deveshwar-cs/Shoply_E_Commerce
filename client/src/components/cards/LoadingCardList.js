@@ -14,8 +14,12 @@ const LoadinCardList = ({ count }) => {
     }
     return skeletonArray;
   };
-
-  return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>{cards()}</Row>;
+  // Row height is equal product card height
+  return (
+    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ height: 409 }}>
+      {cards()}
+    </Row>
+  );
 };
 
 export default LoadinCardList;

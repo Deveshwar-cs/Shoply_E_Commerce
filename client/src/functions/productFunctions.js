@@ -32,9 +32,13 @@ export const updateProduct = async (slug, updatedProduct, authToken) =>
   );
 
 // get Product list with options (sort, order, limit)
-export const getCustomProductList = async (sort, order, limit) =>
+export const getCustomProductList = async (sort, order, page) =>
   await axios.post(`${process.env.REACT_APP_API}/customproductlist`, {
     sort,
     order,
-    limit,
+    page,
   });
+
+// Pagination
+export const getProductsTotal = async () =>
+  await axios.get(`${process.env.REACT_APP_API}/totalproducts`);
