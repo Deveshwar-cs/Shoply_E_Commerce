@@ -22,6 +22,7 @@ import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
 import ProductCreate from './pages/admin/product/ProductCreate';
 import ProductUpdate from './pages/admin/product/ProductUpdate';
 import AllProducts from './pages/admin/product/AllProducts';
+import Product from './pages/Product';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
 
@@ -42,6 +43,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register-complete" component={RegisterComplete} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
+        <Route exact path="/product/:slug" component={Product} />
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
