@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Row, Col, Card } from 'antd';
+import { Row, Col, Card, Carousel, Image } from 'antd';
 
 import {
   HeartOutlined,
@@ -21,7 +21,28 @@ const SingleProduct = ({ product }) => {
         md={{ span: 24 }}
         xs={{ span: 24 }}
       >
-        Product Images
+        <Carousel
+          autoplay
+          dots
+          style={{
+            backgroundColor: '#f5f5f5',
+            textAlign: 'center',
+          }}
+        >
+          {images &&
+            images.map((image) => (
+              <div key={image.public_id}>
+                <Image
+                  src={image.url}
+                  style={{
+                    objectFit: 'cover',
+                    height: 450,
+                  }}
+                />
+              </div>
+            ))}
+        </Carousel>
+        {console.log(images)}
       </Col>
       <Col
         xl={{ span: 8 }}
