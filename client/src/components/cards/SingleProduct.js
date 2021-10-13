@@ -8,6 +8,8 @@ import {
   StarOutlined,
 } from '@ant-design/icons';
 
+import Placeholder from '../../images/placeholder.png';
+
 const { Meta } = Card;
 
 const SingleProduct = ({ product }) => {
@@ -21,28 +23,45 @@ const SingleProduct = ({ product }) => {
         md={{ span: 24 }}
         xs={{ span: 24 }}
       >
-        <Carousel
-          autoplay
-          dots
-          style={{
-            backgroundColor: '#f5f5f5',
-            textAlign: 'center',
-          }}
-        >
-          {images &&
-            images.map((image) => (
-              <div key={image.public_id}>
-                <Image
-                  src={image.url}
-                  style={{
-                    objectFit: 'cover',
-                    height: 450,
-                  }}
-                />
-              </div>
-            ))}
-        </Carousel>
-        {console.log(images)}
+        {images && images.length ? (
+          <Carousel
+            autoplay
+            dots
+            style={{
+              backgroundColor: '#f5f5f5',
+              textAlign: 'center',
+            }}
+          >
+            {images &&
+              images.map((image) => (
+                <div key={image.public_id}>
+                  <Image
+                    src={image.url}
+                    style={{
+                      objectFit: 'cover',
+                      height: 450,
+                    }}
+                  />
+                </div>
+              ))}
+          </Carousel>
+        ) : (
+          <div
+            style={{
+              backgroundColor: '#f5f5f5',
+              textAlign: 'center',
+            }}
+          >
+            <Image
+              src={Placeholder}
+              preview={false}
+              style={{
+                objectFit: 'cover',
+                height: 450,
+              }}
+            />
+          </div>
+        )}
       </Col>
       <Col
         xl={{ span: 8 }}
