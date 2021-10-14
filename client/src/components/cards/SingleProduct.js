@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Row, Col, Card, Carousel, Image } from 'antd';
+import { Row, Col, Card, Carousel, Image, Typography } from 'antd';
 
 import {
   HeartOutlined,
@@ -8,15 +8,16 @@ import {
   StarOutlined,
 } from '@ant-design/icons';
 
+import ProductInfoList from './ProductInfoList';
 import Placeholder from '../../images/placeholder.png';
 
-const { Meta } = Card;
+const { Title } = Typography;
 
 const SingleProduct = ({ product }) => {
-  const { title, description, images, slug } = product;
+  const { title, images, price } = product;
 
   return (
-    <Row>
+    <Row gutter={[16]} style={{ marginTop: 16 }}>
       <Col
         xl={{ span: 16 }}
         lg={{ span: 16 }}
@@ -28,7 +29,6 @@ const SingleProduct = ({ product }) => {
             autoplay
             dots
             style={{
-              backgroundColor: '#f5f5f5',
               textAlign: 'center',
             }}
           >
@@ -48,7 +48,7 @@ const SingleProduct = ({ product }) => {
         ) : (
           <div
             style={{
-              backgroundColor: '#f5f5f5',
+              backgroundColor: '#f1eff0',
               textAlign: 'center',
             }}
           >
@@ -69,6 +69,11 @@ const SingleProduct = ({ product }) => {
         md={{ span: 24 }}
         xs={{ span: 24 }}
       >
+        <Title
+          style={{ padding: 10, backgroundColor: '#d3adf7', fontSize: 26 }}
+        >
+          {`${title} – $${price}`}
+        </Title>
         <Card
           actions={[
             <>
@@ -85,7 +90,7 @@ const SingleProduct = ({ product }) => {
             </>,
           ]}
         >
-          <Meta title={title} description={description} />
+          <ProductInfoList product={product} />
         </Card>
       </Col>
     </Row>

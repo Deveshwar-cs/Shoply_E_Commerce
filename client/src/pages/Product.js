@@ -44,9 +44,9 @@ const Product = ({ match }) => {
         <>
           <Row>
             <Col
-              xl={{ span: 24 }}
-              lg={{ span: 24 }}
-              md={{ span: 24 }}
+              xl={{ span: 20, offset: 2 }}
+              lg={{ span: 20, offset: 2 }}
+              md={{ span: 20, offset: 2 }}
               xs={{ span: 24 }}
             >
               {oneProduct && <SingleProduct product={oneProduct} />}
@@ -54,7 +54,14 @@ const Product = ({ match }) => {
           </Row>
 
           <Row>
-            <Col span={24}>Related products</Col>
+            <Col
+              xl={{ span: 20, offset: 2 }}
+              lg={{ span: 20, offset: 2 }}
+              md={{ span: 20, offset: 2 }}
+              xs={{ span: 24 }}
+            >
+              Related products
+            </Col>
           </Row>
         </>
       )}
