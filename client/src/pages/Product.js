@@ -59,8 +59,13 @@ const Product = ({ match }) => {
               lg={{ span: 20, offset: 2 }}
               md={{ span: 20, offset: 2 }}
               xs={{ span: 24 }}
+              style={{ textAlign: 'center', padding: '20px 0' }}
             >
-              Related products
+              <hr />
+              <Title level={3} style={{ margin: '20px 0' }}>
+                Related products
+              </Title>
+              <hr />
             </Col>
           </Row>
         </>
