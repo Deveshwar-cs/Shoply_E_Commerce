@@ -140,3 +140,49 @@ exports.productsCount = async (req, res) => {
     });
   }
 };
+
+exports.productRating = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId); // product that we want to rate
+    const user = await User.findOne({ email: req.user.email }); // current user
+    const { star } = req.body; // rating value from client
+    let updatedProductWithRating;
+
+    // check if current user already rate this product and save result
+    const existingRatnigObject = product.ratings.find(
+      (rating) => rating.postedBy.toString() === user._id.toString()
+    );
+
+    // if current user doesn't rate product yet
+    if (!existingRatnigObject) {
+      updatedProductWithRating = await Product.findByIdAndUpdate(
+        product._id,
+        { $push: { star, postedBy: user._id } },
+        {
+          new: true,
+        }
+      )
+        .populate('category')
+        .populate('subcategory');
+    }
+
+    // if product have rating object by current user
+    if (existingRatnigObject) {
+      updatedProductWithRating = await Product.updateOne(
+        { ratings: { $elemMatch: existingRatnigObject } }, // https://docs.mongodb.com/manual/reference/operator/query/elemMatch/
+        { $set: { 'ratings.star': star } }, // https://docs.mongodb.com/manual/reference/operator/update/set/
+        {
+          new: true,
+        }
+      )
+        .populate('category')
+        .populate('subcategory');
+    }
+
+    res.status(200).json(updatedProductWithRating);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};

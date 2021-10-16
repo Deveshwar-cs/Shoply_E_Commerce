@@ -40,4 +40,10 @@ router.put(
 // using POST becouse we need send some data with request
 router.post('/customproductlist', productController.customProductList);
 
+router.put(
+  '/product/star/:productId',
+  authCheck,
+  productController.productRating
+);
+
 module.exports = router;
