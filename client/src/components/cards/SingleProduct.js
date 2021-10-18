@@ -1,21 +1,18 @@
 import { Link } from 'react-router-dom';
 
-import { Row, Col, Card, Carousel, Image, Typography, Tabs } from 'antd';
+import { Row, Col, Card, Carousel, Image, Typography, Tabs, Rate } from 'antd';
 
-import {
-  HeartOutlined,
-  ShoppingCartOutlined,
-  StarOutlined,
-} from '@ant-design/icons';
+import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 import ProductInfoList from './ProductInfoList';
 import Placeholder from '../../images/placeholder.png';
+import RatingModal from '../modal/RatingModal';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product }) => {
-  const { title, images, price, description } = product;
+  const { title, images, price, description, ratings } = product;
 
   return (
     <>
@@ -76,6 +73,24 @@ const SingleProduct = ({ product }) => {
           >
             {`${title} – $${price}`}
           </Title>
+          <div
+            style={{
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'baseline',
+            }}
+          >
+            <Rate
+              style={{ fontSize: 30, marginBottom: 10 }}
+              value={4}
+              disabled
+            />
+            <span
+              style={{ fontSize: 18, paddingBottom: 8, paddingLeft: 4 }}
+            >{`(${ratings.length})`}</span>
+          </div>
           <Card
             actions={[
               <>
@@ -87,8 +102,7 @@ const SingleProduct = ({ product }) => {
                 Add to Wishlist
               </Link>,
               <>
-                <StarOutlined style={{ color: '#ff7a45' }} />
-                <br /> Leave Rating
+                <RatingModal />
               </>,
             ]}
           >
