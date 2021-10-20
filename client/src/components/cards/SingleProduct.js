@@ -88,7 +88,7 @@ const SingleProduct = ({ product }) => {
               disabled
             />
             <span
-              style={{ fontSize: 18, paddingBottom: 8, paddingLeft: 4 }}
+              style={{ fontSize: 18, paddingLeft: 4 }}
             >{`(${ratings.length})`}</span>
           </div>
           <Card
