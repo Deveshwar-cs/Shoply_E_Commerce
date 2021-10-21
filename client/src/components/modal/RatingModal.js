@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Modal, Rate } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 
 const RatingModal = () => {
   const history = useHistory();
+  const { slug } = useParams();
   const { oneProduct } = useSelector((state) => state.product);
   const { user } = useSelector((state) => state.auth);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -15,7 +16,10 @@ const RatingModal = () => {
     if (user && user.token) {
       setIsModalVisible(true);
     } else {
-      history.push('/login');
+      history.push({
+        pathname: '/login',
+        state: { from: `/product/${slug}` },
+      });
     }
   };
 

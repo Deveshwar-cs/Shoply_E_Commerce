@@ -25,9 +25,15 @@ export const currentUser = async (authToken) => {
 };
 
 export const roleBasedRedirect = (user, history) => {
-  if (user.role === 'admin') {
-    history.push('/admin/dashboard');
+  // check if intended – if we need to redirect to product page when user login
+  const intended = history.location.state;
+  if (intended) {
+    history.push(intended.from);
   } else {
-    history.push('/user/history');
+    if (user.role === 'admin') {
+      history.push('/admin/dashboard');
+    } else {
+      history.push('/user/history');
+    }
   }
 };

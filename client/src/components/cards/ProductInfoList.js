@@ -40,7 +40,6 @@ const ProductInfoList = ({ product }) => {
     { field: 'Quantity', value: quantity },
     { field: 'Sold', value: sold },
   ];
-  console.log('ProductInfoList ===> ', product);
 
   return (
     <>
