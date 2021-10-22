@@ -18,6 +18,9 @@ import {
   GET_ONE_PRODUCT_SUCCESS,
   GET_ONE_PRODUCT_ERROR,
   CLAER_ONE_PRODUCT,
+  RATE_PRODUCT_REQUEST,
+  RATE_PRODUCT_SUCCESS,
+  RATE_PRODUCT_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -35,6 +38,9 @@ const initialState = {
 
   getOneProductInProgress: false,
   getOneProductError: null,
+
+  rateProductInProgress: false,
+  rateProductError: null,
 
   allProducts: [],
 
@@ -165,6 +171,22 @@ export const productReducer = (state = initialState, action = {}) => {
         oneProduct: null,
       };
 
+    case RATE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        rateProductInProgress: true,
+      };
+    case RATE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        rateProductInProgress: false,
+      };
+    case RATE_PRODUCT_ERROR:
+      return {
+        ...state,
+        rateProductInProgress: false,
+        rateProductError: payload,
+      };
     default:
       return state;
   }

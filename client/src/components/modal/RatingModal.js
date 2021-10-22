@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Modal, Rate } from 'antd';
@@ -19,6 +19,16 @@ const RatingModal = () => {
   const { user } = useSelector((state) => state.auth);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
+
+  // current user rating
+  useEffect(() => {
+    if (oneProduct.ratings && user) {
+      const existingRatnigObject = oneProduct.ratings.find(
+        (rating) => rating.postedBy.toString() === user._id.toString()
+      );
+      existingRatnigObject && setRatingValue(existingRatnigObject.star);
+    }
+  }, []);
 
   const showModal = () => {
     if (user && user.token) {
@@ -63,7 +73,11 @@ const RatingModal = () => {
         style={{ textAlign: 'center' }}
         confirmLoading={rateProductInProgress}
       >
-        <Rate style={{ fontSize: 50 }} onChange={selectRateHandler} />
+        <Rate
+          style={{ fontSize: 50 }}
+          onChange={selectRateHandler}
+          value={ratingValue}
+        />
       </Modal>
     </>
   );

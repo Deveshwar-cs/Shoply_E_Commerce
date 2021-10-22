@@ -6,6 +6,7 @@ import {
   deleteProduct,
   getOneProduct,
   updateProduct,
+  rateProduct,
 } from '../../functions/productFunctions';
 import { getAllSubCategoriesByParent } from '../../functions/categoryFunctions';
 
@@ -33,6 +34,9 @@ import {
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_ERROR,
+  RATE_PRODUCT_REQUEST,
+  RATE_PRODUCT_SUCCESS,
+  RATE_PRODUCT_ERROR,
 } from '../actions/types';
 
 // Create product actions
@@ -223,6 +227,39 @@ export const updateProductAction =
       dispatch(updateProductError(error));
       notification.error({
         message: `Update product failed!`,
+        description: error.message,
+      });
+    }
+  };
+
+// Rate product actions
+
+const rateProductRequest = () => ({ type: RATE_PRODUCT_REQUEST });
+const rateProductSuccess = () => ({
+  type: RATE_PRODUCT_SUCCESS,
+});
+const rateProductError = (e) => ({
+  type: RATE_PRODUCT_ERROR,
+  payload: e,
+});
+
+export const rateProductAction =
+  (productId, rating, token) => async (dispatch) => {
+    try {
+      dispatch(rateProductRequest());
+
+      // Request to DB
+      await rateProduct(productId, rating, token);
+
+      dispatch(rateProductSuccess());
+
+      notification.success({
+        message: `Product get rate. Thanks!`,
+      });
+    } catch (error) {
+      dispatch(rateProductError(error));
+      notification.error({
+        message: `Rate product failed!`,
         description: error.message,
       });
     }

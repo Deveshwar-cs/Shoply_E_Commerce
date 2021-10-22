@@ -84,7 +84,7 @@ const SingleProduct = ({ product }) => {
           >
             <Rate
               style={{ fontSize: 30, marginBottom: 10 }}
-              value={4}
+              value={ratings}
               disabled
             />
             <span
