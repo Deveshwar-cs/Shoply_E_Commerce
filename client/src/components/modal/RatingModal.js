@@ -1,13 +1,21 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { Modal, Rate } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 
+import {
+  rateProductAction,
+  getOneProductAction,
+} from '../../store/actions/productActions';
+
 const RatingModal = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { slug } = useParams();
-  const { oneProduct } = useSelector((state) => state.product);
+  const { oneProduct, rateProductInProgress } = useSelector(
+    (state) => state.product
+  );
   const { user } = useSelector((state) => state.auth);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
@@ -24,10 +32,12 @@ const RatingModal = () => {
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
-    console.log('handleOk ratingValue', ratingValue);
-    console.log('handleOk product ID', oneProduct._id);
-    console.log('handleOk user ID', user._id);
+    dispatch(rateProductAction(oneProduct._id, ratingValue, user.token)).then(
+      () => {
+        setIsModalVisible(false);
+        dispatch(getOneProductAction(slug));
+      }
+    );
   };
 
   const handleCancel = () => {
@@ -35,7 +45,6 @@ const RatingModal = () => {
   };
 
   const selectRateHandler = (value) => {
-    console.log('rate value', value);
     setRatingValue(value);
   };
 
@@ -52,6 +61,7 @@ const RatingModal = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         style={{ textAlign: 'center' }}
+        confirmLoading={rateProductInProgress}
       >
         <Rate style={{ fontSize: 50 }} onChange={selectRateHandler} />
       </Modal>

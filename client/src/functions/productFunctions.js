@@ -42,3 +42,16 @@ export const getCustomProductList = async (sort, order, page) =>
 // Pagination
 export const getProductsTotal = async () =>
   await axios.get(`${process.env.REACT_APP_API}/totalproducts`);
+
+// Rate product
+
+export const rateProduct = async (productId, star, authToken) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/product/star/${productId}`,
+    { star }, // always object
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );

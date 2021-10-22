@@ -1,6 +1,7 @@
 const slugify = require('slugify');
 
 const Product = require('../models/productModel');
+const User = require('../models/userModel');
 
 exports.createProduct = async (req, res) => {
   try {
@@ -146,7 +147,6 @@ exports.productRating = async (req, res) => {
     const product = await Product.findById(req.params.productId); // product that we want to rate
     const user = await User.findOne({ email: req.user.email }); // current user
     const { star } = req.body; // rating value from client
-    let updatedProductWithRating;
 
     // check if current user already rate this product and save result
     const existingRatnigObject = product.ratings.find(
@@ -155,31 +155,28 @@ exports.productRating = async (req, res) => {
 
     // if current user doesn't rate product yet
     if (!existingRatnigObject) {
-      updatedProductWithRating = await Product.findByIdAndUpdate(
+      const ratingAdded = await Product.findByIdAndUpdate(
         product._id,
-        { $push: { star, postedBy: user._id } },
+        { $push: { ratings: { star, postedBy: user._id } } },
         {
           new: true,
         }
-      )
-        .populate('category')
-        .populate('subcategory');
+      );
+
+      res.status(200).json(ratingAdded);
     }
 
     // if product have rating object by current user
     if (existingRatnigObject) {
-      updatedProductWithRating = await Product.updateOne(
+      const ratingUpdated = await Product.updateOne(
         { ratings: { $elemMatch: existingRatnigObject } }, // https://docs.mongodb.com/manual/reference/operator/query/elemMatch/
-        { $set: { 'ratings.star': star } }, // https://docs.mongodb.com/manual/reference/operator/update/set/
+        { $set: { 'ratings.$.star': star } }, // https://docs.mongodb.com/manual/reference/operator/update/set/
         {
           new: true,
         }
-      )
-        .populate('category')
-        .populate('subcategory');
+      );
+      res.status(200).json(ratingUpdated);
     }
-
-    res.status(200).json(updatedProductWithRating);
   } catch (error) {
     res.status(400).json({
       errormessage: error.message,
