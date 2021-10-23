@@ -9,9 +9,9 @@ const RatingAverage = ({ ratings }) => {
         return sum + current;
       }, 0);
 
-    const averageRating = totalStars / ratings.length;
+    const averageStars = totalStars / ratings.length;
 
-    return Math.round(parseFloat((averageRating * 5) / 5) * 100) / 100;
+    return Math.round(parseFloat((averageStars * 5) / 5) * 100) / 100;
   };
 
   return (
@@ -28,6 +28,7 @@ const RatingAverage = ({ ratings }) => {
         style={{ fontSize: 30, marginBottom: 10 }}
         value={average(ratings)}
         disabled
+        allowHalf
       />
       <span
         style={{ fontSize: 18, paddingLeft: 4 }}
