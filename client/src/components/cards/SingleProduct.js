@@ -7,6 +7,7 @@ import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import ProductInfoList from './ProductInfoList';
 import Placeholder from '../../images/placeholder.png';
 import RatingModal from '../modal/RatingModal';
+import RatingAverage from './RatingAverage';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -73,24 +74,7 @@ const SingleProduct = ({ product }) => {
           >
             {`${title} – $${price}`}
           </Title>
-          <div
-            style={{
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'baseline',
-            }}
-          >
-            <Rate
-              style={{ fontSize: 30, marginBottom: 10 }}
-              value={ratings}
-              disabled
-            />
-            <span
-              style={{ fontSize: 18, paddingLeft: 4 }}
-            >{`(${ratings.length})`}</span>
-          </div>
+          <RatingAverage ratings={ratings} />
           <Card
             actions={[
               <>
