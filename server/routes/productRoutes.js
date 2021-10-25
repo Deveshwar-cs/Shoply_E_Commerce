@@ -46,4 +46,7 @@ router.put(
   productController.productRating
 );
 
+// related products
+router.get('/products/related/:productId', productController.relatedProducts);
+
 module.exports = router;

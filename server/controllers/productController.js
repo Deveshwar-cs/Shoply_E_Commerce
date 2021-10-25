@@ -183,3 +183,25 @@ exports.productRating = async (req, res) => {
     });
   }
 };
+
+exports.relatedProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+
+    const related = await Product.find({
+      _id: { $ne: product._id }, // find all products with id's not equal product._id
+      category: product.category, // that match product category
+    })
+      .limit(3)
+      .populate('category')
+      .populate('subcategory')
+      .populate('postedBy')
+      .exec();
+
+    res.status(200).json(related);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};

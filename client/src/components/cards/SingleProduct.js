@@ -17,7 +17,7 @@ const SingleProduct = ({ product }) => {
 
   return (
     <>
-      <Row gutter={[16]} style={{ marginTop: 16 }}>
+      <Row style={{ marginTop: 16 }}>
         <Col
           xl={{ span: 16 }}
           lg={{ span: 16 }}
@@ -97,10 +97,18 @@ const SingleProduct = ({ product }) => {
       <Row>
         <Col>
           <Tabs type="card">
-            <TabPane tab="Description" key="1">
+            <TabPane
+              tab="Description"
+              key="1"
+              style={{ maxWidth: '100%', padding: 8 }}
+            >
               {description}
             </TabPane>
-            <TabPane tab="More" key="2">
+            <TabPane
+              tab="More"
+              key="2"
+              style={{ maxWidth: '100%', padding: 8 }}
+            >
               More static content about product, ordering, shipping etc.
             </TabPane>
           </Tabs>
