@@ -2,6 +2,7 @@ const slugify = require('slugify');
 
 const Category = require('../models/categoryModel');
 const SubCategory = require('../models/subCategoryModel');
+const Product = require('../models/productModel');
 
 exports.createCategory = async (req, res) => {
   try {
@@ -29,7 +30,9 @@ exports.getCategory = async (req, res, next) => {
         )
       );
     }
-    res.status(200).json(category);
+    const products = await Product.find({ category }).populate('category');
+
+    res.status(200).json({ category, products });
   } catch (error) {
     res.status(400).send('Get category failed!');
   }
