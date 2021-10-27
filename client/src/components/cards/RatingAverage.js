@@ -17,7 +17,6 @@ const RatingAverage = ({ ratings }) => {
   return (
     <div
       style={{
-        textAlign: 'center',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',

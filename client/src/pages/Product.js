@@ -117,7 +117,7 @@ const Product = ({ match }) => {
                         style={{ textAlign: 'center', padding: '20px 0' }}
                       >
                         <Text strong type="secondary">
-                          There no related products yet!
+                          There are no related products yet!
                         </Text>
                       </Col>
                     </Row>
