@@ -40,7 +40,7 @@ const CategoryList = () => {
               shape="round"
               size="large"
               key={category._id}
-              style={{ marginRight: 16 }}
+              style={{ marginRight: 16, marginBottom: 16 }}
             >
               <Link to={`/category/${category.slug}`}>{category.name}</Link>
             </Button>

@@ -1,6 +1,6 @@
 import { Skeleton, Col, Row } from 'antd';
 
-const LoadinCardList = ({ count }) => {
+const LoadingCardList = ({ count }) => {
   // count props describe how many Skeleton cards we want to display
   const cards = () => {
     let skeletonArray = [];
@@ -22,4 +22,4 @@ const LoadinCardList = ({ count }) => {
   );
 };
 
-export default LoadinCardList;
+export default LoadingCardList;

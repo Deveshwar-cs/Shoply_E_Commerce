@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Row, Col, Typography, Spin } from 'antd';
 import ProductCard from '../components/cards/ProductCard';
@@ -44,6 +43,7 @@ const CategoryHome = ({ match }) => {
                   textAlign: 'center',
                   backgroundColor: '#efdbff',
                   fontSize: 30,
+                  marginBottom: 40,
                 }}
               >
                 Products in category "{oneCategory && oneCategory.category.name}
@@ -59,7 +59,22 @@ const CategoryHome = ({ match }) => {
               md={{ span: 20, offset: 2 }}
               xs={{ span: 20, offset: 2 }}
             >
-              fghfgh
+              <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                {oneCategory &&
+                  oneCategory.products.map((product) => (
+                    <Col
+                      xs={24}
+                      sm={24}
+                      md={12}
+                      lg={8}
+                      xl={8}
+                      key={product._id}
+                      style={{ marginBottom: 40 }}
+                    >
+                      <ProductCard {...product} />
+                    </Col>
+                  ))}
+              </Row>
             </Col>
           </Row>
         </>
