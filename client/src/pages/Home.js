@@ -4,6 +4,7 @@ import Jumbotron from '../components/cards/Jumbotron';
 import NewArrivals from '../components/home/NewArrivals';
 import BestSellers from '../components/home/BestSellers';
 import CategoryList from '../components/home/CategoryList';
+import SubcategoryList from '../components/home/SubcategoryList';
 
 const { Title } = Typography;
 
@@ -94,6 +95,34 @@ const Home = () => {
           xs={{ span: 20, offset: 2 }}
         >
           <CategoryList />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={24}>
+          <Title
+            level={2}
+            style={{
+              color: 'black',
+              padding: '20px 0',
+              textAlign: 'center',
+              backgroundColor: '#efdbff',
+              fontSize: 30,
+              margin: '0 0 40px',
+            }}
+          >
+            Subcategories
+          </Title>
+        </Col>
+      </Row>
+      <Row>
+        <Col
+          xl={{ span: 16, offset: 4 }}
+          lg={{ span: 20, offset: 2 }}
+          md={{ span: 20, offset: 2 }}
+          xs={{ span: 20, offset: 2 }}
+        >
+          <SubcategoryList />
         </Col>
       </Row>
     </>

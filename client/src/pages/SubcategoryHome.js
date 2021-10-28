@@ -4,25 +4,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Typography, Spin } from 'antd';
 import ProductCard from '../components/cards/ProductCard';
 
-import { getOneCategoryAction } from '../store/actions/categoryActions';
+import { getOneSubCategoryAction } from '../store/actions/subCategoryActions';
 
 const { Title } = Typography;
 
-const CategoryHome = ({ match }) => {
+const SubcategoryHome = ({ match }) => {
   const dispatch = useDispatch();
   const { slug } = match.params;
 
-  const { oneCategory, getOneCategoryInProgress } = useSelector(
-    (state) => state.category
+  const { oneSubCategory, getOneSubCategoryInProgress } = useSelector(
+    (state) => state.sub
   );
 
   useEffect(() => {
-    dispatch(getOneCategoryAction(slug));
+    dispatch(getOneSubCategoryAction(slug));
   }, []);
 
   return (
     <>
-      {getOneCategoryInProgress ? (
+      {getOneSubCategoryInProgress ? (
         <Row>
           <Col span={24}>
             <div className="spiner">
@@ -45,8 +45,9 @@ const CategoryHome = ({ match }) => {
                   marginBottom: 40,
                 }}
               >
-                Products in category "{oneCategory && oneCategory.category.name}
-                ": {oneCategory && oneCategory.products.length}
+                Products in subcategory "
+                {oneSubCategory && oneSubCategory.subcategory.name}
+                ": {oneSubCategory && oneSubCategory.products.length}
               </Title>
             </Col>
           </Row>
@@ -59,8 +60,8 @@ const CategoryHome = ({ match }) => {
               xs={{ span: 20, offset: 2 }}
             >
               <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                {oneCategory &&
-                  oneCategory.products.map((product) => (
+                {oneSubCategory &&
+                  oneSubCategory.products.map((product) => (
                     <Col
                       xs={24}
                       sm={24}
@@ -82,4 +83,4 @@ const CategoryHome = ({ match }) => {
   );
 };
 
-export default CategoryHome;
+export default SubcategoryHome;
