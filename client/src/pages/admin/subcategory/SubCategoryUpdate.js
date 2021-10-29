@@ -36,7 +36,7 @@ const CategoryUpdate = ({ history, match }) => {
   useEffect(() => {
     if (oneSubCategory) {
       form.setFieldsValue({
-        name: oneSubCategory.name,
+        name: oneSubCategory.subcategory.name,
       });
     }
   }, [form, oneSubCategory]);
@@ -44,7 +44,7 @@ const CategoryUpdate = ({ history, match }) => {
   useEffect(() => {
     if (oneSubCategory) {
       form.setFieldsValue({
-        name: oneSubCategory.name,
+        name: oneSubCategory.subcategory.name,
       });
     }
   }, [form, oneSubCategory]);
@@ -53,7 +53,8 @@ const CategoryUpdate = ({ history, match }) => {
 
   const onFinish = ({ name }) => {
     if (
-      name.toLowerCase().trim() === oneSubCategory.name.toLowerCase() &&
+      name.toLowerCase().trim() ===
+        oneSubCategory.subcategory.name.toLowerCase() &&
       oneSubCategory.category === parentCategory
     )
       return toast.error(
@@ -67,7 +68,9 @@ const CategoryUpdate = ({ history, match }) => {
       )
     )
       .then((res) => {
-        toast.success(`Subcategory ${oneSubCategory.name} is updated!`);
+        toast.success(
+          `Subcategory ${oneSubCategory.subcategory.name} is updated!`
+        );
         history.push('/admin/subcategory');
       })
       .catch((error) => toast.error(`Subcategory ${name} update is failed!`));

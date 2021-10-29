@@ -32,17 +32,17 @@ const CategoryUpdate = ({ history, match }) => {
   useEffect(() => {
     if (oneCategory) {
       form.setFieldsValue({
-        name: oneCategory.name,
+        name: oneCategory.category.name,
       });
     }
   }, [form, oneCategory]);
 
   const onFinish = ({ name }) => {
-    if (name.toLowerCase().trim() === oneCategory.name.toLowerCase())
+    if (name.toLowerCase().trim() === oneCategory.category.name.toLowerCase())
       return toast.error(`Please enter a new catogory name!`);
     dispatch(updateCategoryAction(match.params.slug, { name }, user.token))
       .then((res) => {
-        toast.success(`Category ${oneCategory.name} is updated!`);
+        toast.success(`Category ${oneCategory.category.name} is updated!`);
         history.push('/admin/category');
       })
       .catch((error) => toast.error(`Category ${name} update is failed!`));

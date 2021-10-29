@@ -17,7 +17,7 @@ const CategorySelect = ({ placeholderText, oneSubCategory, allCategories }) => {
   // SubCategoryUpdate page always have oneSubCategory prop, SubCategoryCreate page doesn't
   useEffect(() => {
     if (oneSubCategory) {
-      dispatch(setParentCategory(oneSubCategory.category));
+      dispatch(setParentCategory(oneSubCategory.subcategory.category));
     }
   }, [oneSubCategory]);
 
