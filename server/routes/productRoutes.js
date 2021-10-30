@@ -49,4 +49,6 @@ router.put(
 // related products
 router.get('/products/related/:productId', productController.relatedProducts);
 
+// search
+router.post('/search/filters', productController.searchFilters);
 module.exports = router;

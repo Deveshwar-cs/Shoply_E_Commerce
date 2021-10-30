@@ -205,3 +205,28 @@ exports.relatedProducts = async (req, res) => {
     });
   }
 };
+
+// SEARCH / FILTER
+
+const handleQuery = async (req, res, query) => {
+  try {
+    const products = await Product.find({ $text: { $search: query } })
+      .populate('category', '_id name')
+      .populate('subcategory', '_id name')
+      .populate('postedBy', '_id name');
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+exports.searchFilters = async (req, res) => {
+  const { query } = req.body;
+
+  if (query) {
+    await handleQuery(req, res, query);
+  }
+};
