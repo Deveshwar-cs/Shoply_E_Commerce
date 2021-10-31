@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons';
 
 import { logout } from '../../store/actions/authActions';
+import SearchInput from '../forms/SearchInput';
 
 const { SubMenu, Item } = Menu;
 
@@ -35,13 +36,11 @@ const Header = () => {
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Item>
+      <Item key="search" className="ml-auto">
+        <SearchInput />
+      </Item>
       {user && (
-        <SubMenu
-          key="SubMenu"
-          icon={<SettingOutlined />}
-          title={user.email}
-          className="ml-auto"
-        >
+        <SubMenu key="SubMenu" icon={<SettingOutlined />} title={user.email}>
           {user && user.role === 'subscriber' && (
             <Item key="setting:1">
               <Link to="/user/history">Dashboard</Link>
