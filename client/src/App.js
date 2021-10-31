@@ -25,6 +25,7 @@ import AllProducts from './pages/admin/product/AllProducts';
 import Product from './pages/Product';
 import CategoryHome from './pages/CategoryHome';
 import SubcategoryHome from './pages/SubcategoryHome';
+import Shop from './pages/Shop';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
 
@@ -48,6 +49,7 @@ const App = () => {
         <Route exact path="/product/:slug" component={Product} />
         <Route exact path="/category/:slug" component={CategoryHome} />
         <Route exact path="/subcategory/:slug" component={SubcategoryHome} />
+        <Route exact path="/shop" component={Shop} />
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
