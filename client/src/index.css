@@ -21,30 +21,3 @@ svg {
   padding: 100px 50px;
   text-align: center;
 }
-
-/* Styles for search input and button in header menu */
-.ant-input-search-with-button {
-  padding-top: 6px;
-}
-.ant-input-group-addon > button {
-  padding: 2px;
-}
-/* Media */
-
-@media (max-width: 320px) {
-  .header-search-box {
-    width: 125px;
-  }
-}
-
-@media (min-width: 375px) {
-  .header-search-box {
-    width: 180px;
-  }
-}
-
-@media (min-width: 765px) {
-  .header-search-box {
-    width: 280px;
-  }
-}

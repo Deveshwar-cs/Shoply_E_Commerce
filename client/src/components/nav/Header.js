@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
-import { Menu } from 'antd';
+import { Menu, Row, Col } from 'antd';
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -33,45 +33,67 @@ const Header = () => {
   };
 
   return (
-    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-      <Item key="home" icon={<AppstoreOutlined />}>
-        <Link to="/">Home</Link>
-      </Item>
-      <Item key="shop" icon={<ShoppingOutlined />}>
-        <Link to="/shop">Shop</Link>
-      </Item>
-      <Item key="search" className="ml-auto">
-        <SearchInput />
-      </Item>
-      {user && (
-        <SubMenu key="SubMenu" icon={<SettingOutlined />} title={user.email}>
-          {user && user.role === 'subscriber' && (
-            <Item key="setting:1">
-              <Link to="/user/history">Dashboard</Link>
-            </Item>
-          )}
-          {user && user.role === 'admin' && (
-            <Item key="setting:1">
-              <Link to="/admin/dashboard">Dashboard</Link>
-            </Item>
-          )}
-          <Item key="setting:2" icon={<LogoutOutlined />} onClick={onLogout}>
-            Logout
+    <Row>
+      <Col
+        xl={{ span: 12 }}
+        lg={{ span: 12 }}
+        md={{ span: 12 }}
+        xs={{ span: 24 }}
+      >
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+          <Item key="home" icon={<AppstoreOutlined />}>
+            <Link to="/">Home</Link>
           </Item>
-        </SubMenu>
-      )}
-      {!user && (
-        <Item key="login" icon={<UserOutlined />} className="ml-auto">
-          <Link to="/login">Login</Link>
-        </Item>
-      )}
+          <Item key="shop" icon={<ShoppingOutlined />}>
+            <Link to="/shop">Shop</Link>
+          </Item>
+          {user && (
+            <SubMenu
+              key="SubMenu"
+              icon={<SettingOutlined />}
+              title={user.email}
+            >
+              {user && user.role === 'subscriber' && (
+                <Item key="setting:1">
+                  <Link to="/user/history">Dashboard</Link>
+                </Item>
+              )}
+              {user && user.role === 'admin' && (
+                <Item key="setting:1">
+                  <Link to="/admin/dashboard">Dashboard</Link>
+                </Item>
+              )}
+              <Item
+                key="setting:2"
+                icon={<LogoutOutlined />}
+                onClick={onLogout}
+              >
+                Logout
+              </Item>
+            </SubMenu>
+          )}
+          {!user && (
+            <Item key="login" icon={<UserOutlined />} className="ml-auto">
+              <Link to="/login">Login</Link>
+            </Item>
+          )}
 
-      {!user && (
-        <Item key="register" icon={<UserAddOutlined />}>
-          <Link to="/register">Register</Link>
-        </Item>
-      )}
-    </Menu>
+          {!user && (
+            <Item key="register" icon={<UserAddOutlined />}>
+              <Link to="/register">Register</Link>
+            </Item>
+          )}
+        </Menu>
+      </Col>
+      <Col
+        xl={{ span: 8, offset: 4 }}
+        lg={{ span: 12 }}
+        md={{ span: 12 }}
+        xs={{ span: 24 }}
+      >
+        <SearchInput />
+      </Col>
+    </Row>
   );
 };
 
