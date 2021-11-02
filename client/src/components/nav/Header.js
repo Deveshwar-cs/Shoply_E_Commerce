@@ -33,14 +33,19 @@ const Header = () => {
   };
 
   return (
-    <Row>
+    <Row style={{ borderBottom: '1px solid #f0f0f0' }}>
       <Col
         xl={{ span: 12 }}
         lg={{ span: 12 }}
         md={{ span: 12 }}
         xs={{ span: 24 }}
       >
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+        <Menu
+          onClick={handleClick}
+          selectedKeys={[current]}
+          mode="horizontal"
+          style={{ borderBottom: 'none' }}
+        >
           <Item key="home" icon={<AppstoreOutlined />}>
             <Link to="/">Home</Link>
           </Item>

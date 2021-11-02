@@ -1,6 +1,6 @@
 import { SET_SEARCH_QUERY, CLEAR_SEARCH_QUERY } from '../actions/types';
 
-const initialState = {};
+const initialState = { text: '' };
 
 export const searchReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
@@ -15,7 +15,6 @@ export const searchReducer = (state = initialState, action = {}) => {
         ...state,
         text: '',
       };
-
     default:
       return state;
   }

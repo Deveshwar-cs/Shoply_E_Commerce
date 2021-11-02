@@ -6,8 +6,10 @@ import { Typography, Row, Col, Layout, Spin } from 'antd';
 import LoadinCardList from '../components/cards/LoadingCardList';
 import ProductCard from '../components/cards/ProductCard';
 
-import { getAllProductsAction } from '../store/actions/productActions';
-import { getOneSubCategory } from '../functions/subCategoryFunctions';
+import {
+  getProductByFilter,
+  getAllProductsByCount,
+} from '../functions/productFunctions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -17,10 +19,47 @@ const Shop = () => {
   const { allProducts, getProductsInProgress } = useSelector(
     (state) => state.product
   );
+  const { text } = useSelector((state) => state.search);
 
+  // use component local state because we don't need share this data with other component
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Get products by search
   useEffect(() => {
-    dispatch(getAllProductsAction(12));
-  }, []);
+    const delayed = setTimeout(() => {
+      if (text.length > 0) {
+        setIsLoading(true);
+        getProductByFilter({ query: text })
+          .then((res) => {
+            setProducts(res.data);
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            setIsLoading(false);
+            console.log(error);
+          });
+      }
+    }, 300);
+
+    return () => clearTimeout(delayed);
+  }, [text]);
+
+  // Get products by default with Redux action
+  useEffect(() => {
+    if (text.length === 0) {
+      setIsLoading(true);
+      getAllProductsByCount(12)
+        .then((res) => {
+          setProducts(res.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  }, [text]);
 
   return (
     <>
@@ -37,7 +76,7 @@ const Shop = () => {
               xs={{ span: 20, offset: 2 }}
             >
               <Title level={3} style={{ marginTop: 16 }}>
-                All Products
+                Products
               </Title>
             </Col>
           </Row>
@@ -49,15 +88,26 @@ const Shop = () => {
               xs={{ span: 20, offset: 2 }}
             >
               <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                {getProductsInProgress && (
+                {(isLoading || getProductsInProgress) && products.length === 0 && (
                   <Col span={24}>
                     <div className="spiner">
                       <Spin size="large" />
                     </div>
                   </Col>
                 )}
-                {allProducts &&
-                  allProducts.map((product) => (
+
+                {!isLoading && products.length === 0 && (
+                  <Col span={24}>
+                    <div className="spiner">
+                      <Title level={4} style={{ marginTop: 16 }}>
+                        No matches
+                      </Title>
+                    </div>
+                  </Col>
+                )}
+
+                {products &&
+                  products.map((product) => (
                     <Col
                       xs={24}
                       sm={24}

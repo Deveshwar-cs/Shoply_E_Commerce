@@ -11,6 +11,7 @@ import {
   GET_ALL_PRODUCTS_REQUEST,
   GET_ALL_PRODUCTS_SUCCESS,
   GET_ALL_PRODUCTS_ERROR,
+  CLEAR_ALL_PRODUCTS,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_ERROR,
@@ -129,6 +130,11 @@ export const productReducer = (state = initialState, action = {}) => {
         ...state,
         getProductsInProgress: false,
         getProductsError: payload,
+      };
+    case CLEAR_ALL_PRODUCTS:
+      return {
+        ...state,
+        allProducts: [],
       };
 
     case DELETE_PRODUCT_REQUEST:

@@ -11,7 +11,7 @@ import {
 } from '../../functions/productFunctions';
 
 const BestSellers = () => {
-  // Here we use component local state instead of Redux global state because on Home page we can have several different product lists based on custom parameters
+  // Here we use component local state instead of Redux global state because on Home page we can have several different product lists based on custom parameters and use it only here
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);

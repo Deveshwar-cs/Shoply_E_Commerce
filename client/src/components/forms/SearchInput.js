@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ import {
   setSearchQuery,
   clearSearchQuery,
 } from '../../store/actions/searchActions';
+import { getProductByFilter } from '../../functions/productFunctions';
 
 const { Search } = Input;
 
@@ -16,6 +18,9 @@ const SearchInput = () => {
   const { text } = useSelector((state) => state.search);
   const history = useHistory();
 
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     dispatch(setSearchQuery(e.target.value));
     // console.log(e.target.value);
@@ -23,7 +28,7 @@ const SearchInput = () => {
 
   const onSearch = (value) => {
     history.push(`/shop?${value}`);
-    dispatch(clearSearchQuery());
+    //dispatch(clearSearchQuery());
   };
   return (
     <div style={{ margin: '5px 10px' }}>

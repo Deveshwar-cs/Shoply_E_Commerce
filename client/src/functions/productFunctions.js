@@ -58,3 +58,6 @@ export const rateProduct = async (productId, star, authToken) =>
       },
     }
   );
+
+export const getProductByFilter = async (filters) =>
+  await axios.post(`${process.env.REACT_APP_API}/search/filters`, filters);
