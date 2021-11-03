@@ -8,13 +8,18 @@ import RatingAverage from './RatingAverage';
 
 const { Meta } = Card;
 
-const ProductCard = ({ title, images, description, slug, ratings }) => {
+const ProductCard = ({ title, images, description, slug, ratings, price }) => {
   return (
     <>
       <RatingAverage ratings={ratings} />
       <Card
         bordered
         size="small"
+        extra={
+          <span
+            style={{ fontSize: 20, fontWeight: 'bold' }}
+          >{`Price: $${price}`}</span>
+        }
         cover={
           <img
             alt={title}

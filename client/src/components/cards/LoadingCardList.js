@@ -14,9 +14,9 @@ const LoadingCardList = ({ count }) => {
     }
     return skeletonArray;
   };
-  // Row height is equal to maximum product card height + average rating height = 466px
+  // Row height is equal to maximum product card height + average rating height = 514px
   return (
-    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ height: 466 }}>
+    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ height: 514 }}>
       {cards()}
     </Row>
   );
