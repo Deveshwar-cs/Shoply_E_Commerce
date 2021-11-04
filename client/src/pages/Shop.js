@@ -26,10 +26,10 @@ const Shop = () => {
 
   // Get products by search
   useEffect(() => {
-    // make delay for requests optimization
-    const delayed = setTimeout(() => {
-      if (text.length > 0) {
-        setIsLoading(true);
+    if (text.length > 0) {
+      setIsLoading(true);
+      // make delay for requests optimization
+      const delayed = setTimeout(() => {
         getProductByFilter({ query: text })
           .then((res) => {
             setProducts(res.data);
@@ -39,10 +39,10 @@ const Shop = () => {
             setIsLoading(false);
             console.log(error);
           });
-      }
-    }, 300);
+      }, 300);
 
-    return () => clearTimeout(delayed);
+      return () => clearTimeout(delayed);
+    }
   }, [text]);
 
   // Get products by default
@@ -76,7 +76,7 @@ const Shop = () => {
     dispatch(clearSearchQuery());
     setPrice(price);
   };
-  // onAfterChange handler. Fire when onmouseup is fired => make request to server with price range Ant Design Docs => https://ant.design/components/slider/#API
+  // Slider onAfterChange handler. Fire when onmouseup is fired => make request to server with price range. Ant Design Docs => https://ant.design/components/slider/#API
   const handleOnAfterChange = (price) => {
     setIsLoading(true);
     getProductByFilter({ price })
@@ -118,7 +118,7 @@ const Shop = () => {
                   onChange={handlePriceSlider}
                   onAfterChange={handleOnAfterChange}
                   max="4999"
-                  style={{ paddingRight: 15 }}
+                  //style={{ paddingRight: 15 }}
                 />
                 <Text>Chosen range: {`$${price[0]} – $${price[1]}`}</Text>
               </Menu.Item>
