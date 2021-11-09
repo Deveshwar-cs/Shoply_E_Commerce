@@ -132,7 +132,7 @@ exports.customProductList = async (req, res) => {
 // PAGINATION
 exports.productsCount = async (req, res) => {
   try {
-    const total = await Product.find({}).estimatedDocumentCount();
+    const total = await Product.find({}).sort().estimatedDocumentCount();
 
     res.status(200).json(total);
   } catch (error) {
@@ -259,14 +259,38 @@ const handleCategory = async (req, res, category) => {
 exports.searchFilters = async (req, res) => {
   const { query, price, category } = req.body;
 
-  if (query) {
-    await handleQuery(req, res, query);
-  }
+  console.log('PRODUCT CONTROLLER {searchFilters} req.body ===>', req.body);
+  // build filter query
+  let filterQuery = {};
 
   if (price) {
-    await handlePrice(req, res, price);
+    filterQuery.price = { $gte: price[0], $lte: price[1] };
   }
-  if (category) {
-    await handleCategory(req, res, category);
+
+  if (category && category.length) {
+    filterQuery.category = category;
+  }
+
+  console.log(
+    'PRODUCT CONTROLLER { searchFilters – filterQuery} ===>',
+    filterQuery
+  );
+
+  if (query) {
+    await handleQuery(req, res, query);
+  } else {
+    try {
+      const products = await Product.find(filterQuery)
+        .populate('category', '_id name')
+        .populate('subcategory', '_id name')
+        .populate('postedBy', '_id name')
+        .sort([['createdAt', 'desc']]);
+
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(400).json({
+        errormessage: error.message,
+      });
+    }
   }
 };

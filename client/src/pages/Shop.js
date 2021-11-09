@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Typography, Row, Col, Spin, Menu, Slider } from 'antd';
-import { DollarOutlined } from '@ant-design/icons';
+import { Typography, Row, Col, Spin, Menu, Slider, Checkbox } from 'antd';
+import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
 
 import ProductCard from '../components/cards/ProductCard';
 
@@ -11,6 +11,7 @@ import {
   getAllProductsByCount,
 } from '../functions/productFunctions';
 import { clearSearchQuery } from '../store/actions/searchActions';
+import { getAllCategoriesAction } from '../store/actions/categoryActions';
 
 const { SubMenu } = Menu;
 const { Title, Text } = Typography;
@@ -18,15 +19,28 @@ const { Title, Text } = Typography;
 const Shop = () => {
   const dispatch = useDispatch();
   const { text } = useSelector((state) => state.search);
+  const { allCategories, getCategoriesInProgress } = useSelector(
+    (state) => state.category
+  );
 
-  // use component local state because we don't need share this data with other component
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState([0, 4999]);
+  const [categoryCheckbox, setCategoryCheckbox] = useState([]);
 
-  // Get products by search
+  const [filterQuery, setFilterQuery] = useState({}); // send this object to backend
+
+  useEffect(() => {
+    dispatch(getAllCategoriesAction());
+  }, []);
+
+  // Get products by search input
   useEffect(() => {
     if (text.length > 0) {
+      setPrice([0, 4999]); // reset price range to default values (shows on clinet)
+      setCategoryCheckbox([]); // reset checkboxes (shows on clinet)
+      setFilterQuery({}); // reset filter object to default
+
       setIsLoading(true);
       // make delay for requests optimization
       const delayed = setTimeout(() => {
@@ -47,7 +61,12 @@ const Shop = () => {
 
   // Get products by default
   useEffect(() => {
-    if (text.length === 0) {
+    if (
+      // if no text in search and filterQuery object is empty (first load of component)
+      text.length === 0 &&
+      Object.keys(filterQuery).length === 0 &&
+      filterQuery.constructor === Object
+    ) {
       setIsLoading(true);
       getAllProductsByCount(12)
         .then((res) => {
@@ -61,33 +80,61 @@ const Shop = () => {
     }
   }, [text]);
 
+  // FILTER
+  useEffect(() => {
+    // by default prevent request when there are no filters (when Shop component mount) => make request after check if filterQuery object is not empty
+    if (
+      Object.keys(filterQuery).length > 0 &&
+      filterQuery.constructor === Object
+    ) {
+      dispatch(clearSearchQuery()); // clear text in search input
+      setIsLoading(true);
+      getProductByFilter(filterQuery)
+        .then((res) => {
+          setProducts(res.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  }, [filterQuery]);
+
   // Clean local state when unmount Shop component – Fix warning in console
   useEffect(() => {
     return () => {
       setProducts([]);
       setPrice([0, 0]);
+      setFilterQuery({});
     };
   }, []);
 
   // FILTER – PRICE RANGE
   // show marks on Ant Slider component dynamically
   const handlePriceSlider = (price) => {
-    // clean search text if needed
-    dispatch(clearSearchQuery());
     setPrice(price);
   };
   // Slider onAfterChange handler. Fire when onmouseup is fired => make request to server with price range. Ant Design Docs => https://ant.design/components/slider/#API
   const handleOnAfterChange = (price) => {
-    setIsLoading(true);
-    getProductByFilter({ price })
-      .then((res) => {
-        setProducts(res.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log(error);
-      });
+    setFilterQuery((prevState) => ({ ...prevState, price }));
+  };
+
+  // FILTER – CATEGORY CHECKBOXES
+  // Handling checkboxes with categories
+  const checkboxOptions = allCategories.map((category) => ({
+    label: category.name,
+    value: category._id,
+  }));
+
+  const onChangeCheckbox = (checkedValuese) => {
+    setCategoryCheckbox(checkedValuese); // add checked values in state
+
+    // add checked categories to filter object
+    setFilterQuery((prevState) => ({
+      ...prevState,
+      category: checkedValuese,
+    }));
   };
 
   return (
@@ -97,7 +144,7 @@ const Shop = () => {
           <Title level={3} style={{ margin: '16px 20px' }}>
             Filters
           </Title>
-          <Menu mode="inline" defaultOpenKeys={['1']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2']}>
             <SubMenu
               title={
                 <span style={{ fontSize: 18 }}>
@@ -108,7 +155,7 @@ const Shop = () => {
             >
               <Menu.Item
                 style={{ paddingLeft: 15, width: '100%', height: 80 }}
-                key="2"
+                key="price"
                 className="ant-slider-wrapper"
               >
                 <Slider
@@ -118,9 +165,35 @@ const Shop = () => {
                   onChange={handlePriceSlider}
                   onAfterChange={handleOnAfterChange}
                   max="4999"
-                  //style={{ paddingRight: 15 }}
                 />
                 <Text>Chosen range: {`$${price[0]} – $${price[1]}`}</Text>
+              </Menu.Item>
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span style={{ fontSize: 18 }}>
+                  <DownSquareOutlined style={{ fontSize: 18 }} /> Category
+                </span>
+              }
+              key="2"
+            >
+              <Menu.Item
+                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
+                key="category"
+                className="ant-slider-wrapper"
+              >
+                <Checkbox.Group
+                  options={checkboxOptions}
+                  onChange={onChangeCheckbox}
+                  disabled={getCategoriesInProgress}
+                  value={categoryCheckbox}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '10px 0',
+                  }}
+                ></Checkbox.Group>
               </Menu.Item>
             </SubMenu>
           </Menu>
