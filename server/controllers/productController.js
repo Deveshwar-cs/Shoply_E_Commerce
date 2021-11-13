@@ -155,8 +155,8 @@ exports.productRating = async (req, res) => {
 
     // if current user doesn't rate product yet
     if (!existingRatnigObject) {
-      const ratingAdded = await Product.findByIdAndUpdate(
-        product._id,
+      const ratingAdded = await Product.updateOne(
+        { _id: product._id },
         { $push: { ratings: { star, postedBy: user._id } } },
         {
           new: true,
@@ -223,41 +223,8 @@ const handleQuery = async (req, res, query) => {
   }
 };
 
-const handlePrice = async (req, res, price) => {
-  try {
-    const products = await Product.find({
-      price: { $gte: price[0], $lte: price[1] },
-    })
-      .populate('category', '_id name')
-      .populate('subcategory', '_id name')
-      .populate('postedBy', '_id name');
-
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(400).json({
-      errormessage: error.message,
-    });
-  }
-};
-const handleCategory = async (req, res, category) => {
-  try {
-    const products = await Product.find({
-      category,
-    })
-      .populate('category', '_id name')
-      .populate('subcategory', '_id name')
-      .populate('postedBy', '_id name');
-
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(400).json({
-      errormessage: error.message,
-    });
-  }
-};
-
 exports.searchFilters = async (req, res) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, stars } = req.body;
 
   console.log('PRODUCT CONTROLLER {searchFilters} req.body ===>', req.body);
   // build filter query
@@ -269,6 +236,12 @@ exports.searchFilters = async (req, res) => {
 
   if (category && category.length) {
     filterQuery.category = category;
+  }
+
+  if (stars) {
+    console.log('PRODUCT CONTROLLER { searchFilters – stars} ===>', stars);
+    // Add to query object
+    filterQuery.ratingsAverage = stars;
   }
 
   console.log(
