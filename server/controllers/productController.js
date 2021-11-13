@@ -238,8 +238,7 @@ exports.searchFilters = async (req, res) => {
     filterQuery.category = category;
   }
 
-  if (stars) {
-    console.log('PRODUCT CONTROLLER { searchFilters – stars} ===>', stars);
+  if (stars && stars.length) {
     // Add to query object
     filterQuery.ratingsAverage = stars;
   }

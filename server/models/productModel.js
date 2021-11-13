@@ -123,7 +123,7 @@ productSchema.pre('updateOne', async function () {
   // 'this.document' – product document, it will be available in 'post' updateOne hook
 });
 
-// updateOne post hook run after the document has been updated
+// updateOne post hook runs after the document has been updated
 productSchema.post('updateOne', async function () {
   // here document.constructor is Product model itself and it contain calcAverageRatings static method
   await this.document.constructor.calcAverageRatings(this.document._id);

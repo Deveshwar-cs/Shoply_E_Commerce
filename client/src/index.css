@@ -31,3 +31,7 @@ svg {
 .ant-checkbox-group * {
   font-size: 16px;
 }
+
+.ant-checkbox-wrapper + .ant-checkbox-wrapper {
+  margin-left: 0;
+}

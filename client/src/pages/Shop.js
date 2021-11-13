@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Typography, Row, Col, Spin, Menu, Slider, Checkbox } from 'antd';
-import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import { Typography, Row, Col, Spin, Menu, Slider, Checkbox, Rate } from 'antd';
+import {
+  DollarOutlined,
+  DownSquareOutlined,
+  StarOutlined,
+  StarFilled,
+} from '@ant-design/icons';
 
 import ProductCard from '../components/cards/ProductCard';
 
@@ -27,6 +32,7 @@ const Shop = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState([0, 4999]);
   const [categoryCheckbox, setCategoryCheckbox] = useState([]);
+  const [ratingCheckbox, setRatingCheckbox] = useState([]);
 
   const [filterQuery, setFilterQuery] = useState({}); // send this object to backend
 
@@ -80,7 +86,7 @@ const Shop = () => {
     }
   }, [text]);
 
-  // FILTER
+  // FILTER BY ALL CRITERIAS
   useEffect(() => {
     // by default prevent request when there are no filters (when Shop component mount) => make request after check if filterQuery object is not empty
     if (
@@ -107,6 +113,7 @@ const Shop = () => {
       setProducts([]);
       setPrice([0, 0]);
       setFilterQuery({});
+      setRatingCheckbox([]);
     };
   }, []);
 
@@ -137,6 +144,25 @@ const Shop = () => {
     }));
   };
 
+  // FILTER – RATING
+  const displayStars = (quantity) => {
+    let iconsArrey = [];
+    for (let i = 1; i <= quantity; i++) {
+      iconsArrey.push(<StarFilled style={{ color: '#fbdb14' }} key={i} />);
+    }
+    return iconsArrey;
+  };
+
+  const onChangeRatingCheckbox = (checkedValuese) => {
+    setRatingCheckbox(checkedValuese); // add checked values in state
+
+    // add checked categories to filter object
+    setFilterQuery((prevState) => ({
+      ...prevState,
+      stars: checkedValuese,
+    }));
+  };
+
   return (
     <>
       <Row>
@@ -144,7 +170,7 @@ const Shop = () => {
           <Title level={3} style={{ margin: '16px 20px' }}>
             Filters
           </Title>
-          <Menu mode="inline" defaultOpenKeys={['1', '2']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3']}>
             <SubMenu
               title={
                 <span style={{ fontSize: 18 }}>
@@ -194,6 +220,37 @@ const Shop = () => {
                     padding: '10px 0',
                   }}
                 ></Checkbox.Group>
+              </Menu.Item>
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span style={{ fontSize: 18 }}>
+                  <StarOutlined style={{ fontSize: 18 }} /> Rating
+                </span>
+              }
+              key="3"
+            >
+              <Menu.Item
+                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
+                key="rating"
+                className="ant-slider-wrapper"
+              >
+                <Checkbox.Group
+                  onChange={onChangeRatingCheckbox}
+                  value={ratingCheckbox}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '10px 0',
+                  }}
+                >
+                  <Checkbox value={5}>{displayStars(5)}</Checkbox>
+                  <Checkbox value={4}>{displayStars(4)}</Checkbox>
+                  <Checkbox value={3}>{displayStars(3)}</Checkbox>
+                  <Checkbox value={2}>{displayStars(2)}</Checkbox>
+                  <Checkbox value={1}>{displayStars(1)}</Checkbox>
+                </Checkbox.Group>
               </Menu.Item>
             </SubMenu>
           </Menu>
