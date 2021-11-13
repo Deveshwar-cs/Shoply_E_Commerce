@@ -224,7 +224,7 @@ const handleQuery = async (req, res, query) => {
 };
 
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars } = req.body;
+  const { query, price, category, stars, sabcategories } = req.body;
 
   console.log('PRODUCT CONTROLLER {searchFilters} req.body ===>', req.body);
   // build filter query
@@ -241,6 +241,10 @@ exports.searchFilters = async (req, res) => {
   if (stars && stars.length) {
     // Add to query object
     filterQuery.ratingsAverage = stars;
+  }
+  if (sabcategories && sabcategories.length) {
+    // Add to query object
+    filterQuery.subcategory = sabcategories;
   }
 
   console.log(
