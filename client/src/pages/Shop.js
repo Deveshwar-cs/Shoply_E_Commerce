@@ -188,7 +188,7 @@ const Shop = () => {
       setDynamicSubOptions(allSubs);
     }
     if (categoryCheckbox.length > 0) {
-      // when we choose category we clear subs from query object and categoryCheckbox
+      // when we choose category we clear subs from query object and subcategoryCheckbox
       setFilterQuery((prevState) => ({
         ...prevState,
         subcategories: [],
@@ -212,6 +212,10 @@ const Shop = () => {
       subcategories: checkedValuese,
     }));
   };
+
+  // FILTER – BRAND CHECKBOXES
+  // FILTER – COLOR CHECKBOXES
+  // FILTER – SHIPPING CHECKBOXES
 
   return (
     <>

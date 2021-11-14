@@ -225,7 +225,16 @@ const handleQuery = async (req, res, query) => {
 };
 
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars, subcategories } = req.body;
+  const {
+    query,
+    price,
+    category,
+    stars,
+    subcategories,
+    shipping,
+    color,
+    brand,
+  } = req.body;
 
   console.log('PRODUCT CONTROLLER {searchFilters} req.body ===>', req.body);
   // build filter query
@@ -244,6 +253,15 @@ exports.searchFilters = async (req, res) => {
   }
   if (subcategories && subcategories.length) {
     filterQuery.subcategory = { $in: subcategories };
+  }
+  if (shipping) {
+    filterQuery.shipping = shipping;
+  }
+  if (color && color.length) {
+    filterQuery.color = color;
+  }
+  if (brand && brand.length) {
+    filterQuery.brand = brand;
   }
   console.log(
     'PRODUCT CONTROLLER { searchFilters – filterQuery} ===>',
