@@ -1,4 +1,5 @@
 const slugify = require('slugify');
+const ObjectId = require('bson').ObjectId;
 
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
@@ -224,7 +225,7 @@ const handleQuery = async (req, res, query) => {
 };
 
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars, sabcategories } = req.body;
+  const { query, price, category, stars, subcategories } = req.body;
 
   console.log('PRODUCT CONTROLLER {searchFilters} req.body ===>', req.body);
   // build filter query
@@ -239,14 +240,11 @@ exports.searchFilters = async (req, res) => {
   }
 
   if (stars && stars.length) {
-    // Add to query object
     filterQuery.ratingsAverage = stars;
   }
-  if (sabcategories && sabcategories.length) {
-    // Add to query object
-    filterQuery.subcategory = sabcategories;
+  if (subcategories && subcategories.length) {
+    filterQuery.subcategory = { $in: subcategories };
   }
-
   console.log(
     'PRODUCT CONTROLLER { searchFilters – filterQuery} ===>',
     filterQuery

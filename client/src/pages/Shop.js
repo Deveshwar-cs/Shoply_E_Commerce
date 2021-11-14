@@ -7,6 +7,7 @@ import {
   DownSquareOutlined,
   StarOutlined,
   StarFilled,
+  TagsOutlined,
 } from '@ant-design/icons';
 
 import ProductCard from '../components/cards/ProductCard';
@@ -17,6 +18,7 @@ import {
 } from '../functions/productFunctions';
 import { clearSearchQuery } from '../store/actions/searchActions';
 import { getAllCategoriesAction } from '../store/actions/categoryActions';
+import { getAllSubCategoriesAction } from '../store/actions/subCategoryActions';
 
 const { SubMenu } = Menu;
 const { Title, Text } = Typography;
@@ -27,17 +29,22 @@ const Shop = () => {
   const { allCategories, getCategoriesInProgress } = useSelector(
     (state) => state.category
   );
-
+  const { allSubCategories, getSubCategoriesInProgress } = useSelector(
+    (state) => state.sub
+  );
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState([0, 4999]);
   const [categoryCheckbox, setCategoryCheckbox] = useState([]);
   const [ratingCheckbox, setRatingCheckbox] = useState([]);
+  const [subcategoryCheckbox, setSubcategoryCheckbox] = useState([]);
+  const [dynamicSubOptions, setDynamicSubOptions] = useState([]);
 
   const [filterQuery, setFilterQuery] = useState({}); // send this object to backend
 
   useEffect(() => {
     dispatch(getAllCategoriesAction());
+    dispatch(getAllSubCategoriesAction());
   }, []);
 
   // Get products by search input
@@ -46,6 +53,8 @@ const Shop = () => {
       setPrice([0, 4999]); // reset price range to default values (shows on clinet)
       setCategoryCheckbox([]); // reset checkboxes (shows on clinet)
       setFilterQuery({}); // reset filter object to default
+      setRatingCheckbox([]);
+      setSubcategoryCheckbox([]);
 
       setIsLoading(true);
       // make delay for requests optimization
@@ -88,6 +97,7 @@ const Shop = () => {
 
   // FILTER BY ALL CRITERIAS
   useEffect(() => {
+    console.log('filterQuery', filterQuery);
     // by default prevent request when there are no filters (when Shop component mount) => make request after check if filterQuery object is not empty
     if (
       Object.keys(filterQuery).length > 0 &&
@@ -113,7 +123,10 @@ const Shop = () => {
       setProducts([]);
       setPrice([0, 0]);
       setFilterQuery({});
+      setCategoryCheckbox([]);
       setRatingCheckbox([]);
+      setSubcategoryCheckbox([]);
+      setDynamicSubOptions([]);
     };
   }, []);
 
@@ -129,12 +142,12 @@ const Shop = () => {
 
   // FILTER – CATEGORY CHECKBOXES
   // Handling checkboxes with categories
-  const checkboxOptions = allCategories.map((category) => ({
+  const checkboxCategoryOptions = allCategories.map((category) => ({
     label: category.name,
     value: category._id,
   }));
 
-  const onChangeCheckbox = (checkedValuese) => {
+  const onChangeCategoryCheckbox = (checkedValuese) => {
     setCategoryCheckbox(checkedValuese); // add checked values in state
 
     // add checked categories to filter object
@@ -163,6 +176,43 @@ const Shop = () => {
     }));
   };
 
+  // FILTER – SUBCATEGORY CHECKBOXES
+  // dispalay subcategories checkboxes dynamicaly depends parent category
+  useEffect(() => {
+    // if categoryCheckbox array is empty (default case) show all subcategories
+    if (categoryCheckbox.length === 0) {
+      const allSubs = allSubCategories.map((sub) => ({
+        label: sub.name,
+        value: sub._id,
+      }));
+      setDynamicSubOptions(allSubs);
+    }
+    if (categoryCheckbox.length > 0) {
+      // when we choose category we clear subs from query object and categoryCheckbox
+      setFilterQuery((prevState) => ({
+        ...prevState,
+        subcategories: [],
+      }));
+      setSubcategoryCheckbox([]);
+
+      // display subs by checked parent category
+      const showSubs = allSubCategories
+        .filter((sub) => categoryCheckbox.includes(sub.category))
+        .map((sub) => ({ label: sub.name, value: sub._id }));
+      setDynamicSubOptions(showSubs);
+    }
+  }, [categoryCheckbox]);
+
+  const onChangeSubcategoryCheckbox = (checkedValuese) => {
+    setSubcategoryCheckbox(checkedValuese); // add checked values in state
+
+    // add checked categories to filter object
+    setFilterQuery((prevState) => ({
+      ...prevState,
+      subcategories: checkedValuese,
+    }));
+  };
+
   return (
     <>
       <Row>
@@ -170,7 +220,7 @@ const Shop = () => {
           <Title level={3} style={{ margin: '16px 20px' }}>
             Filters
           </Title>
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4']}>
             <SubMenu
               title={
                 <span style={{ fontSize: 18 }}>
@@ -210,8 +260,8 @@ const Shop = () => {
                 className="ant-slider-wrapper"
               >
                 <Checkbox.Group
-                  options={checkboxOptions}
-                  onChange={onChangeCheckbox}
+                  options={checkboxCategoryOptions}
+                  onChange={onChangeCategoryCheckbox}
                   disabled={getCategoriesInProgress}
                   value={categoryCheckbox}
                   style={{
@@ -251,6 +301,33 @@ const Shop = () => {
                   <Checkbox value={2}>{displayStars(2)}</Checkbox>
                   <Checkbox value={1}>{displayStars(1)}</Checkbox>
                 </Checkbox.Group>
+              </Menu.Item>
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span style={{ fontSize: 18 }}>
+                  <TagsOutlined style={{ fontSize: 18 }} /> Subcategories
+                </span>
+              }
+              key="4"
+            >
+              <Menu.Item
+                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
+                key="subcategory"
+                className="ant-slider-wrapper"
+              >
+                <Checkbox.Group
+                  options={dynamicSubOptions}
+                  onChange={onChangeSubcategoryCheckbox}
+                  value={subcategoryCheckbox}
+                  disabled={getSubCategoriesInProgress}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '10px 0',
+                  }}
+                ></Checkbox.Group>
               </Menu.Item>
             </SubMenu>
           </Menu>
