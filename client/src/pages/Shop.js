@@ -40,6 +40,7 @@ const Shop = () => {
   const [subcategoryCheckbox, setSubcategoryCheckbox] = useState([]);
   const [dynamicSubOptions, setDynamicSubOptions] = useState([]);
   const [brandCheckbox, setBrandCheckbox] = useState([]);
+  const [colorCheckbox, setColorCheckbox] = useState([]);
 
   const [filterQuery, setFilterQuery] = useState({}); // send this object to backend
 
@@ -56,6 +57,8 @@ const Shop = () => {
       setFilterQuery({}); // reset filter object to default
       setRatingCheckbox([]);
       setSubcategoryCheckbox([]);
+      setBrandCheckbox([]);
+      setColorCheckbox([]);
 
       setIsLoading(true);
       // make delay for requests optimization
@@ -129,6 +132,7 @@ const Shop = () => {
       setSubcategoryCheckbox([]);
       setDynamicSubOptions([]);
       setBrandCheckbox([]);
+      setColorCheckbox([]);
     };
   }, []);
 
@@ -171,7 +175,7 @@ const Shop = () => {
   const onChangeRatingCheckbox = (checkedValuese) => {
     setRatingCheckbox(checkedValuese); // add checked values in state
 
-    // add checked categories to filter object
+    // add checked rates to filter object
     setFilterQuery((prevState) => ({
       ...prevState,
       stars: checkedValuese,
@@ -208,7 +212,7 @@ const Shop = () => {
   const onChangeSubcategoryCheckbox = (checkedValuese) => {
     setSubcategoryCheckbox(checkedValuese); // add checked values in state
 
-    // add checked categories to filter object
+    // add checked subcategories to filter object
     setFilterQuery((prevState) => ({
       ...prevState,
       subcategories: checkedValuese,
@@ -235,13 +239,30 @@ const Shop = () => {
   const onChangeBrandCheckbox = (checkedValuese) => {
     setBrandCheckbox(checkedValuese); // add checked values in state
 
-    // add checked categories to filter object
+    // add checked brands to filter object
     setFilterQuery((prevState) => ({
       ...prevState,
       brand: checkedValuese,
     }));
   };
   // FILTER – COLOR CHECKBOXES
+  // hardcoded mock up data
+  const colorOptions = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'].map(
+    (color) => ({
+      label: color,
+      value: color,
+    })
+  );
+
+  const onChangeColorCheckbox = (checkedValuese) => {
+    setColorCheckbox(checkedValuese); // add checked values in state
+
+    // add checked colors to filter object
+    setFilterQuery((prevState) => ({
+      ...prevState,
+      color: checkedValuese,
+    }));
+  };
   // FILTER – SHIPPING CHECKBOXES
 
   return (
@@ -251,7 +272,10 @@ const Shop = () => {
           <Title level={3} style={{ margin: '16px 20px' }}>
             Filters
           </Title>
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4', '5']}>
+          <Menu
+            mode="inline"
+            defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']}
+          >
             <SubMenu
               title={
                 <span style={{ fontSize: 18 }}>
@@ -379,6 +403,32 @@ const Shop = () => {
                   options={brandOptions}
                   onChange={onChangeBrandCheckbox}
                   value={brandCheckbox}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '10px 0',
+                  }}
+                ></Checkbox.Group>
+              </Menu.Item>
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span style={{ fontSize: 18 }}>
+                  <TagsOutlined style={{ fontSize: 18 }} /> Colors
+                </span>
+              }
+              key="6"
+            >
+              <Menu.Item
+                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
+                key="colors"
+                className="ant-slider-wrapper"
+              >
+                <Checkbox.Group
+                  options={colorOptions}
+                  onChange={onChangeColorCheckbox}
+                  value={colorCheckbox}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
