@@ -254,7 +254,7 @@ exports.searchFilters = async (req, res) => {
   if (subcategories && subcategories.length) {
     filterQuery.subcategory = { $in: subcategories };
   }
-  if (shipping) {
+  if (shipping && shipping.length) {
     filterQuery.shipping = shipping;
   }
   if (color && color.length) {

@@ -8,6 +8,8 @@ import {
   StarOutlined,
   StarFilled,
   TagsOutlined,
+  BgColorsOutlined,
+  CarOutlined,
 } from '@ant-design/icons';
 
 import ProductCard from '../components/cards/ProductCard';
@@ -41,6 +43,7 @@ const Shop = () => {
   const [dynamicSubOptions, setDynamicSubOptions] = useState([]);
   const [brandCheckbox, setBrandCheckbox] = useState([]);
   const [colorCheckbox, setColorCheckbox] = useState([]);
+  const [shippingCheckbox, setShippingCheckbox] = useState([]);
 
   const [filterQuery, setFilterQuery] = useState({}); // send this object to backend
 
@@ -59,6 +62,7 @@ const Shop = () => {
       setSubcategoryCheckbox([]);
       setBrandCheckbox([]);
       setColorCheckbox([]);
+      setShippingCheckbox([]);
 
       setIsLoading(true);
       // make delay for requests optimization
@@ -133,6 +137,7 @@ const Shop = () => {
       setDynamicSubOptions([]);
       setBrandCheckbox([]);
       setColorCheckbox([]);
+      setShippingCheckbox([]);
     };
   }, []);
 
@@ -245,6 +250,7 @@ const Shop = () => {
       brand: checkedValuese,
     }));
   };
+
   // FILTER – COLOR CHECKBOXES
   // hardcoded mock up data
   const colorOptions = ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'].map(
@@ -263,8 +269,23 @@ const Shop = () => {
       color: checkedValuese,
     }));
   };
-  // FILTER – SHIPPING CHECKBOXES
 
+  // FILTER – SHIPPING CHECKBOXES
+  // hardcoded mock up data
+  const shippingOptions = ['Yes', 'No'].map((status) => ({
+    label: status,
+    value: status,
+  }));
+
+  const onChangeShippingCheckbox = (checkedValuese) => {
+    setShippingCheckbox(checkedValuese); // add checked values in state
+
+    // add checked colors to filter object
+    setFilterQuery((prevState) => ({
+      ...prevState,
+      shipping: checkedValuese,
+    }));
+  };
   return (
     <>
       <Row>
@@ -415,7 +436,7 @@ const Shop = () => {
             <SubMenu
               title={
                 <span style={{ fontSize: 18 }}>
-                  <TagsOutlined style={{ fontSize: 18 }} /> Colors
+                  <BgColorsOutlined style={{ fontSize: 18 }} /> Colors
                 </span>
               }
               key="6"
@@ -429,6 +450,32 @@ const Shop = () => {
                   options={colorOptions}
                   onChange={onChangeColorCheckbox}
                   value={colorCheckbox}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '10px 0',
+                  }}
+                ></Checkbox.Group>
+              </Menu.Item>
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span style={{ fontSize: 18 }}>
+                  <CarOutlined style={{ fontSize: 18 }} /> Shipping
+                </span>
+              }
+              key="7"
+            >
+              <Menu.Item
+                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
+                key="shipping"
+                className="ant-slider-wrapper"
+              >
+                <Checkbox.Group
+                  options={shippingOptions}
+                  onChange={onChangeShippingCheckbox}
+                  value={shippingCheckbox}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
