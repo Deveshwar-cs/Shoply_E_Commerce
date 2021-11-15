@@ -39,6 +39,7 @@ const Shop = () => {
   const [ratingCheckbox, setRatingCheckbox] = useState([]);
   const [subcategoryCheckbox, setSubcategoryCheckbox] = useState([]);
   const [dynamicSubOptions, setDynamicSubOptions] = useState([]);
+  const [brandCheckbox, setBrandCheckbox] = useState([]);
 
   const [filterQuery, setFilterQuery] = useState({}); // send this object to backend
 
@@ -127,6 +128,7 @@ const Shop = () => {
       setRatingCheckbox([]);
       setSubcategoryCheckbox([]);
       setDynamicSubOptions([]);
+      setBrandCheckbox([]);
     };
   }, []);
 
@@ -214,6 +216,31 @@ const Shop = () => {
   };
 
   // FILTER – BRAND CHECKBOXES
+
+  // hardcoded mock up data
+  const brandOptions = [
+    'Apple',
+    'Samsung',
+    'Microsoft',
+    'Lenovo',
+    'Dell',
+    'Xiaomi',
+    'Google',
+    'ASUS',
+  ].map((brand) => ({
+    label: brand,
+    value: brand,
+  }));
+
+  const onChangeBrandCheckbox = (checkedValuese) => {
+    setBrandCheckbox(checkedValuese); // add checked values in state
+
+    // add checked categories to filter object
+    setFilterQuery((prevState) => ({
+      ...prevState,
+      brand: checkedValuese,
+    }));
+  };
   // FILTER – COLOR CHECKBOXES
   // FILTER – SHIPPING CHECKBOXES
 
@@ -224,7 +251,7 @@ const Shop = () => {
           <Title level={3} style={{ margin: '16px 20px' }}>
             Filters
           </Title>
-          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4']}>
+          <Menu mode="inline" defaultOpenKeys={['1', '2', '3', '4', '5']}>
             <SubMenu
               title={
                 <span style={{ fontSize: 18 }}>
@@ -326,6 +353,32 @@ const Shop = () => {
                   onChange={onChangeSubcategoryCheckbox}
                   value={subcategoryCheckbox}
                   disabled={getSubCategoriesInProgress}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '10px 0',
+                  }}
+                ></Checkbox.Group>
+              </Menu.Item>
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span style={{ fontSize: 18 }}>
+                  <TagsOutlined style={{ fontSize: 18 }} /> Brands
+                </span>
+              }
+              key="5"
+            >
+              <Menu.Item
+                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
+                key="brands"
+                className="ant-slider-wrapper"
+              >
+                <Checkbox.Group
+                  options={brandOptions}
+                  onChange={onChangeBrandCheckbox}
+                  value={brandCheckbox}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
