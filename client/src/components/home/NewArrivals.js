@@ -45,7 +45,7 @@ const NewArrivals = () => {
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           {products.map((product) => (
             <Col xs={24} sm={24} md={12} lg={8} xl={8} key={product._id}>
-              <ProductCard {...product} />
+              <ProductCard product={product} />
             </Col>
           ))}
         </Row>

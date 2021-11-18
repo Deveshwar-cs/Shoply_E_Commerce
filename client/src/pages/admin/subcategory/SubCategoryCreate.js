@@ -146,7 +146,7 @@ const SubCategoryCreate = () => {
                 <LocalSearch
                   keyword={keyword}
                   setKeyword={setKeyword}
-                  placeholderText="Enter new subcategory name"
+                  placeholderText="Type subcategory name"
                 />
               </Col>
             </Row>

@@ -102,7 +102,7 @@ const Product = ({ match }) => {
                           xl={8}
                           key={product._id}
                         >
-                          <ProductCard {...product} />
+                          <ProductCard product={product} />
                         </Col>
                       ))}
                     </Row>

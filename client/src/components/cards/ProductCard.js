@@ -1,14 +1,22 @@
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 import defaultImage from '../../images/placeholder.png';
 import RatingAverage from './RatingAverage';
+import { addToCart } from '../../store/actions/cartActions';
 
 const { Meta } = Card;
 
-const ProductCard = ({ title, images, description, slug, ratings, price }) => {
+const ProductCard = ({ product }) => {
+  const { ratings, price, title, images, slug, _id, description } = product;
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
   return (
     <>
       <RatingAverage ratings={ratings} />
@@ -32,10 +40,10 @@ const ProductCard = ({ title, images, description, slug, ratings, price }) => {
             <EyeOutlined style={{ color: '#69c0ff' }} /> <br />
             View Product
           </Link>,
-          <>
+          <a onClick={() => handleAddToCart(product)}>
             <ShoppingCartOutlined style={{ color: '#73d13d' }} />
             <br /> Add to Cart
-          </>,
+          </a>,
         ]}
       >
         <Meta
