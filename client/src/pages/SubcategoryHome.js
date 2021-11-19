@@ -71,7 +71,7 @@ const SubcategoryHome = ({ match }) => {
                       key={product._id}
                       style={{ marginBottom: 40 }}
                     >
-                      <ProductCard {...product} />
+                      <ProductCard product={product} />
                     </Col>
                   ))}
               </Row>
