@@ -18,23 +18,45 @@ const BestSellers = () => {
   const [productsTotal, setProductsTotal] = useState(0);
 
   useEffect(() => {
+    let componentMounted = true;
     setIsLoading(true);
     getCustomProductList('sold', 'desc', page)
       .then((res) => {
+        if (!componentMounted) return;
         setProducts(res.data);
+        setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
+        console.log('getCustomProductList error ===>', error);
         setIsLoading(false);
       });
+    // cleanup function is called when useEffect is called again or on unmount
+    // By leveraging lexical scoping, we can share a variable between the callback function and the cleanup function.
+    // We use the cleanup function to modify the componentMounted variable and trigger an early return in the callback function to prevent the state update.
+    // Promises cannot be cancelled but you can use lexical scoping to change the behavior of the callback from the useEffect cleanup function by triggering an early return or short-circuiting the state update.
+    return () => {
+      componentMounted = false;
+    };
   }, [page]);
 
   useEffect(() => {
-    getProductsTotal().then((res) => {
-      setProductsTotal(res.data);
-    });
+    let componentMounted = true;
+    setIsLoading(true);
+    getProductsTotal()
+      .then((res) => {
+        if (!componentMounted) return;
+
+        setProductsTotal(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log('getProductsTotal error ===>', error);
+        setIsLoading(false);
+      });
+    // cleanup function is called when useEffect is called again or on unmount
+    return () => {
+      componentMounted = false;
+    };
   }, []);
 
   return (

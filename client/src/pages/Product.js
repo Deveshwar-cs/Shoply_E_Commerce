@@ -31,13 +31,24 @@ const Product = ({ match }) => {
   }, [slug]);
 
   useEffect(() => {
+    let componentMounted = true;
     if (oneProduct) {
       setRelatedIsLoading(true);
-      getRelatedProducts(oneProduct._id).then((res) => {
-        setRelatedProducts(res.data);
-        setRelatedIsLoading(false);
-      });
+      getRelatedProducts(oneProduct._id)
+        .then((res) => {
+          if (!componentMounted) return;
+          setRelatedProducts(res.data);
+          setRelatedIsLoading(false);
+        })
+        .catch((error) => {
+          console.log('Get Related products error ===>', error);
+          setRelatedIsLoading(false);
+        });
     }
+    // cleanup function is called when useEffect is called again or on unmount
+    return () => {
+      componentMounted = false;
+    };
   }, [oneProduct]);
 
   useEffect(
