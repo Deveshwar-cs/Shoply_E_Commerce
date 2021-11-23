@@ -1,6 +1,13 @@
 import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from '../actions/types';
 
-const initialState = { items: [], totalQuantity: 0, totalPrice: 0 };
+// Get shopping-cart from localStorage
+const cartFromLocalStorage = JSON.parse(localStorage.getItem('shopping-cart'));
+
+const initialState = cartFromLocalStorage || {
+  items: [],
+  totalQuantity: 0,
+  totalPrice: 0,
+};
 
 export const cartReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
@@ -12,7 +19,7 @@ export const cartReducer = (state = initialState, action = {}) => {
       );
 
       if (existItemIndex >= 0) {
-        return {
+        const updatedExistingCart = {
           items: [
             ...state.items.map((item) =>
               item._id === payload._id
@@ -23,14 +30,20 @@ export const cartReducer = (state = initialState, action = {}) => {
           totalQuantity: state.totalQuantity + 1,
           totalPrice: state.totalPrice + payload.price,
         };
+        localStorage.setItem(
+          'shopping-cart',
+          JSON.stringify(updatedExistingCart)
+        );
+        return updatedExistingCart;
       } else {
         let tempProductItem = { ...action.payload, quantity: 1 };
-        return {
-          //...state,
+        const newCart = {
           items: [...state.items, { ...tempProductItem }],
           totalQuantity: state.totalQuantity + 1,
           totalPrice: state.totalPrice + payload.price,
         };
+        localStorage.setItem('shopping-cart', JSON.stringify(newCart));
+        return newCart;
       }
     case REMOVE_FROM_CART:
       return {

@@ -105,7 +105,6 @@ const Shop = () => {
 
   // FILTER BY ALL CRITERIAS
   useEffect(() => {
-    console.log('filterQuery', filterQuery);
     // by default prevent request when there are no filters (when Shop component mount) => make request after check if filterQuery object is not empty
     if (
       Object.keys(filterQuery).length > 0 &&

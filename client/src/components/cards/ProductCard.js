@@ -1,6 +1,7 @@
-import { Card } from 'antd';
+import { useEffect, useState } from 'react';
+import { Card, Badge, message } from 'antd';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
@@ -13,8 +14,19 @@ const { Meta } = Card;
 const ProductCard = ({ product }) => {
   const { ratings, price, title, images, slug, _id, description } = product;
   const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.cart);
+
+  // product quantity in cart
+  const [itemQuantityInCart, setItemQuantityInCart] = useState(0);
+
+  useEffect(() => {
+    const cartItem = items.find((item) => item._id === _id);
+    if (cartItem) setItemQuantityInCart(cartItem.quantity);
+  }, [items]);
 
   const handleAddToCart = (product) => {
+    if (itemQuantityInCart >= 3)
+      return message.warning(`Limit: 3 product at once!`);
     dispatch(addToCart(product));
   };
   return (
@@ -40,10 +52,12 @@ const ProductCard = ({ product }) => {
             <EyeOutlined style={{ color: '#69c0ff' }} /> <br />
             View Product
           </Link>,
-          <a onClick={() => handleAddToCart(product)}>
-            <ShoppingCartOutlined style={{ color: '#73d13d' }} />
-            <br /> Add to Cart
-          </a>,
+          <Badge count={itemQuantityInCart}>
+            <a onClick={() => handleAddToCart(product)}>
+              <ShoppingCartOutlined style={{ color: '#73d13d' }} />
+              <br /> Add to Cart
+            </a>
+          </Badge>,
         ]}
       >
         <Meta
