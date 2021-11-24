@@ -1,6 +1,18 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Row, Col, Card, Carousel, Image, Typography, Tabs, Rate } from 'antd';
+import {
+  Row,
+  Col,
+  Card,
+  Carousel,
+  Image,
+  Typography,
+  Tabs,
+  message,
+  Badge,
+} from 'antd';
 
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
@@ -9,11 +21,30 @@ import Placeholder from '../../images/placeholder.png';
 import RatingModal from '../modal/RatingModal';
 import RatingAverage from './RatingAverage';
 
+import { addToCart } from '../../store/actions/cartActions';
+
 const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product }) => {
-  const { title, images, price, description, ratings } = product;
+  const { title, images, price, description, ratings, _id } = product;
+
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.cart);
+
+  // product quantity in cart
+  const [itemQuantityInCart, setItemQuantityInCart] = useState(0);
+
+  useEffect(() => {
+    const cartItem = items.find((item) => item._id === _id);
+    if (cartItem) setItemQuantityInCart(cartItem.quantity);
+  }, [items]);
+
+  const handleAddToCart = (product) => {
+    if (itemQuantityInCart >= 3)
+      return message.warning(`Limit: 3 product at once!`);
+    dispatch(addToCart(product));
+  };
 
   return (
     <>
@@ -77,10 +108,12 @@ const SingleProduct = ({ product }) => {
           <RatingAverage ratings={ratings} />
           <Card
             actions={[
-              <>
-                <ShoppingCartOutlined style={{ color: '#73d13d' }} />
-                <br /> Add to Cart
-              </>,
+              <Badge count={itemQuantityInCart}>
+                <a onClick={() => handleAddToCart(product)}>
+                  <ShoppingCartOutlined style={{ color: '#73d13d' }} />
+                  <br /> Add to Cart
+                </a>
+              </Badge>,
               <Link to={`/`}>
                 <HeartOutlined style={{ color: '#69c0ff' }} /> <br />
                 Add to Wishlist
