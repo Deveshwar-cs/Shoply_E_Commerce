@@ -25,7 +25,7 @@ export const currentUser = async (authToken) => {
 };
 
 export const roleBasedRedirect = (user, history) => {
-  // check if intended – if we need to redirect to product page when user login
+  // check if intended – if we need to redirect to Product or Cart page when user login
   const intended = history.location.state;
   if (intended) {
     history.push(intended.from);

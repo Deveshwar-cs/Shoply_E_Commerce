@@ -18,6 +18,10 @@ const Cart = () => {
       price: item.price,
       quantity: item.quantity,
     })) || [];
+
+  const saveOrderToDB = () => {
+    console.log('SAVE ERDER REQUEST');
+  };
   return (
     <>
       <Row>
@@ -99,12 +103,19 @@ const Cart = () => {
               </Row>
               <Row style={{ marginTop: 40 }}>
                 {user ? (
-                  <Button type="primary" size="large">
+                  <Button
+                    type="primary"
+                    size="large"
+                    disabled={!items.length}
+                    onClick={saveOrderToDB}
+                  >
                     Proceed to Checkout
                   </Button>
                 ) : (
                   <Button type="primary" size="large">
-                    <Link to="/login">Login to Checkout</Link>
+                    <Link to={{ pathname: '/login', state: { from: 'cart' } }}>
+                      Login to Checkout
+                    </Link>
                   </Button>
                 )}
               </Row>
