@@ -87,7 +87,7 @@ const Header = () => {
             </SubMenu>
           )}
           {!user && (
-            <Item key="login" icon={<UserOutlined />} className="ml-auto">
+            <Item key="login" icon={<UserOutlined />}>
               <Link to="/login">Login</Link>
             </Item>
           )}
