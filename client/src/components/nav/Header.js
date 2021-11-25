@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
-import { Menu, Row, Col } from 'antd';
+import { Menu, Row, Col, Badge } from 'antd';
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -10,6 +10,7 @@ import {
   UserAddOutlined,
   LogoutOutlined,
   ShoppingOutlined,
+  ShoppingCartOutlined,
 } from '@ant-design/icons';
 
 import { logout } from '../../store/actions/authActions';
@@ -22,6 +23,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.auth);
+  const { totalQuantity } = useSelector((state) => state.cart);
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -51,6 +53,13 @@ const Header = () => {
           </Item>
           <Item key="shop" icon={<ShoppingOutlined />}>
             <Link to="/shop">Shop</Link>
+          </Item>
+          <Item key="cart" icon={<ShoppingCartOutlined />}>
+            <Link to="/cart">
+              <Badge count={totalQuantity} offset={[12, 0]}>
+                Cart
+              </Badge>
+            </Link>
           </Item>
           {user && (
             <SubMenu
