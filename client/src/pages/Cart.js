@@ -12,13 +12,12 @@ const Cart = () => {
   );
 
   const listItemsData =
-    items.length &&
     items.map((item) => ({
       title: item.title,
       imgUrl: item.images[0].url,
       price: item.price,
       quantity: item.quantity,
-    }));
+    })) || [];
   return (
     <>
       <Row>
