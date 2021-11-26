@@ -1,8 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Typography, Row, Col, List, Button, Image } from 'antd';
+import {
+  Typography,
+  Row,
+  Col,
+  List,
+  Button,
+  Image,
+  Table,
+  InputNumber,
+  Modal,
+} from 'antd';
+
+import {
+  CheckCircleTwoTone,
+  CloseCircleTwoTone,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  DeleteTwoTone,
+} from '@ant-design/icons';
 
 const { Title, Text } = Typography;
+const { confirm } = Modal;
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -22,6 +41,112 @@ const Cart = () => {
   const saveOrderToDB = () => {
     console.log('SAVE ERDER REQUEST');
   };
+
+  // Table //////////////
+
+  const handleDeleteConfirm = (id, title) => {
+    confirm({
+      title: `Do you want to delete '${title}' from cart?`,
+      icon: <ExclamationCircleOutlined />,
+      //content: 'Some descriptions',
+      onOk() {
+        console.log(`PRODUCT ${title} DELETED FROM CART. ID: ${id}`);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  const onChangeProductCount = (quantity, id) => {
+    console.log(`PRODUCT QUANTITY: ${quantity} === PRODUCT ID: ${id}`);
+  };
+
+  const columns = [
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (image) => (
+        <Image src={image} style={{ width: 80, objectFit: 'cover' }} />
+      ),
+      fixed: 'left',
+    },
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+      align: 'center',
+    },
+    {
+      title: 'Brand',
+      dataIndex: 'brand',
+      key: 'brand',
+      align: 'center',
+    },
+    {
+      title: 'Quantity',
+      key: 'quantity',
+      dataIndex: 'quantity',
+      align: 'center',
+      render: (quantity, record) => (
+        <>
+          <InputNumber
+            size="small"
+            min={1}
+            max={3}
+            defaultValue={quantity}
+            onChange={(value) => onChangeProductCount(value, record.id)}
+            style={{ width: 46 }}
+          />
+        </>
+      ),
+    },
+    {
+      title: 'Shipping',
+      key: 'shipping',
+      dataIndex: 'shipping',
+      align: 'center',
+      render: (shipping) =>
+        shipping === 'Yes' ? (
+          <CheckCircleTwoTone style={{ fontSize: 30 }} twoToneColor="#52c41a" />
+        ) : (
+          <CloseCircleTwoTone style={{ fontSize: 30 }} twoToneColor="#ff4d4f" />
+        ),
+    },
+    {
+      title: 'Remove',
+      key: 'remove',
+      dataIndex: 'remove',
+      align: 'center',
+      render: (id, record) => (
+        <DeleteTwoTone
+          twoToneColor="#ff4d4f"
+          style={{ fontSize: 26 }}
+          onClick={() => handleDeleteConfirm(id, record.title)}
+        />
+      ),
+    },
+  ];
+
+  const tableData = items.map((item) => ({
+    key: item._id,
+    id: item._id,
+    title: item.title,
+    image: item.images[0].url,
+    price: `$${item.price}`,
+    brand: item.brand,
+    quantity: item.quantity,
+    shipping: item.shipping,
+    remove: item._id,
+  }));
+
+  /// Table END ////////////
   return (
     <>
       <Row>
@@ -42,12 +167,12 @@ const Cart = () => {
       </Row>
       <Row>
         <Col
-          xl={{ span: 16, offset: 4 }}
-          lg={{ span: 20, offset: 2 }}
-          md={{ span: 20, offset: 2 }}
-          xs={{ span: 20, offset: 2 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 22, offset: 1 }}
+          md={{ span: 22, offset: 1 }}
+          xs={{ span: 22, offset: 1 }}
         >
-          <Row>
+          <Row gutter={[16, 16]}>
             <Col
               xl={{ span: 16 }}
               lg={{ span: 16 }}
@@ -63,6 +188,15 @@ const Cart = () => {
                     No products in cart.{' '}
                     <Link to="/shop">Continue shopping.</Link>
                   </Text>
+                )}
+                {items.length > 0 && (
+                  <Table
+                    columns={columns}
+                    dataSource={tableData}
+                    pagination={false}
+                    bordered={true}
+                    scroll={{ x: true }}
+                  />
                 )}
               </Row>
             </Col>
