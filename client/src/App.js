@@ -29,6 +29,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
+import SideCartDrawer from './components/drawer/SideCartDrawer';
 
 const App = () => {
   const { authInfoInProgress } = useSelector((state) => state.auth);
@@ -40,6 +41,7 @@ const App = () => {
   ) : (
     <>
       <Header />
+      <SideCartDrawer />
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
