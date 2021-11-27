@@ -46,13 +46,26 @@ export const cartReducer = (state = initialState, action = {}) => {
         return newCart;
       }
     case actionTypes.REMOVE_FROM_CART:
-      return {
-        ...state,
+      // build items array without removed item
+      const cartItemsWithoutRemoved = state.items.filter(
+        (item) => item._id !== payload.id
+      );
+
+      // build new cart with updated items, totalQuantity and totalPrice
+      const cartWithoutRemoved = {
+        items: [...cartItemsWithoutRemoved],
+        totalQuantity: cartItemsWithoutRemoved.reduce(
+          (sum, item) => sum + item.cartQuantity,
+          0
+        ),
+        totalPrice: cartItemsWithoutRemoved.reduce(
+          (sum, item) => sum + item.price * item.cartQuantity,
+          0
+        ),
       };
-    case actionTypes.CLEAR_CART:
-      return {
-        ...state,
-      };
+      localStorage.setItem('shopping-cart', JSON.stringify(cartWithoutRemoved));
+      return cartWithoutRemoved;
+
     case actionTypes.SET_ITEM_QUANTITY:
       // update quantity in cart item and make new array of items
       const updatedCartItems = state.items.map((item) => {
@@ -66,7 +79,7 @@ export const cartReducer = (state = initialState, action = {}) => {
       });
 
       // build new cart with updated items, totalQuantity and totalPrice
-      const newCart = {
+      const updatedCart = {
         items: [...updatedCartItems],
         totalQuantity: updatedCartItems.reduce(
           (sum, item) => sum + item.cartQuantity,
@@ -77,8 +90,15 @@ export const cartReducer = (state = initialState, action = {}) => {
           0
         ),
       };
-      localStorage.setItem('shopping-cart', JSON.stringify(newCart));
-      return newCart;
+      localStorage.setItem('shopping-cart', JSON.stringify(updatedCart));
+      return updatedCart;
+    case actionTypes.CLEAR_CART:
+      localStorage.removeItem('shopping-cart');
+      return {
+        items: [],
+        totalQuantity: 0,
+        totalPrice: 0,
+      };
     default:
       return state;
   }

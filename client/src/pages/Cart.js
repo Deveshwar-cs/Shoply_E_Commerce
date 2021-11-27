@@ -19,7 +19,11 @@ import {
   DeleteTwoTone,
 } from '@ant-design/icons';
 
-import { setItemQuantity } from '../store/actions/cartActions';
+import {
+  setItemQuantity,
+  removeFromCart,
+  clearCart,
+} from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
@@ -43,6 +47,19 @@ const Cart = () => {
     console.log('SAVE ERDER REQUEST');
   };
 
+  const removeAllFromCart = () => {
+    confirm({
+      title: `Do you want to remove all products from cart?`,
+      icon: <ExclamationCircleOutlined />,
+      //content: 'Some descriptions',
+      onOk() {
+        dispatch(clearCart());
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
   // Table //////////////
 
   const handleDeleteConfirm = (id, title) => {
@@ -52,6 +69,7 @@ const Cart = () => {
       //content: 'Some descriptions',
       onOk() {
         console.log(`PRODUCT ${title} DELETED FROM CART. ID: ${id}`);
+        dispatch(removeFromCart(id));
       },
       onCancel() {
         console.log('Cancel');
@@ -241,7 +259,7 @@ const Cart = () => {
                   Total price: ${totalPrice}
                 </Text>
               </Row>
-              <Row style={{ marginTop: 40 }}>
+              <Row style={{ paddingTop: 40, paddingBottom: 40 }}>
                 {user ? (
                   <Button
                     type="primary"
@@ -256,6 +274,19 @@ const Cart = () => {
                     <Link to={{ pathname: '/login', state: { from: 'cart' } }}>
                       Login to Checkout
                     </Link>
+                  </Button>
+                )}
+              </Row>
+              <Row>
+                {items.length > 0 && (
+                  <Button
+                    type="primary"
+                    size="large"
+                    disabled={!items.length}
+                    danger
+                    onClick={removeAllFromCart}
+                  >
+                    Remove all products from cart
                   </Button>
                 )}
               </Row>

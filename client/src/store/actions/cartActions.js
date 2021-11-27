@@ -6,7 +6,7 @@ export const addToCart = (product) => ({
 });
 export const removeFromCart = (id) => ({
   type: actionTypes.REMOVE_FROM_CART,
-  payload: id,
+  payload: { id },
 });
 export const clearCart = () => ({ type: actionTypes.CLEAR_CART });
 export const setItemQuantity = ({ quantity, id }) => ({
