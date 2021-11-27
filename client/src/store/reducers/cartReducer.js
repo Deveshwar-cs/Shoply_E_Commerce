@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from '../actions/types';
+import * as actionTypes from '../actions/types';
 
 // Get shopping-cart from localStorage
 const cartFromLocalStorage = JSON.parse(localStorage.getItem('shopping-cart'));
@@ -12,7 +12,7 @@ const initialState = cartFromLocalStorage || {
 export const cartReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
   switch (type) {
-    case ADD_TO_CART:
+    case actionTypes.ADD_TO_CART:
       // Check if product item is alredy added to cart
       const existItemIndex = state.items.findIndex(
         (product) => product._id === payload._id
@@ -23,7 +23,7 @@ export const cartReducer = (state = initialState, action = {}) => {
           items: [
             ...state.items.map((item) =>
               item._id === payload._id
-                ? { ...item, quantity: item.quantity + 1 }
+                ? { ...item, cartQuantity: item.cartQuantity + 1 }
                 : item
             ),
           ],
@@ -36,7 +36,7 @@ export const cartReducer = (state = initialState, action = {}) => {
         );
         return updatedExistingCart;
       } else {
-        let tempProductItem = { ...action.payload, quantity: 1 };
+        let tempProductItem = { ...action.payload, cartQuantity: 1 };
         const newCart = {
           items: [...state.items, { ...tempProductItem }],
           totalQuantity: state.totalQuantity + 1,
@@ -45,14 +45,40 @@ export const cartReducer = (state = initialState, action = {}) => {
         localStorage.setItem('shopping-cart', JSON.stringify(newCart));
         return newCart;
       }
-    case REMOVE_FROM_CART:
+    case actionTypes.REMOVE_FROM_CART:
       return {
         ...state,
       };
-    case CLEAR_CART:
+    case actionTypes.CLEAR_CART:
       return {
         ...state,
       };
+    case actionTypes.SET_ITEM_QUANTITY:
+      // update quantity in cart item and make new array of items
+      const updatedCartItems = state.items.map((item) => {
+        if (item._id === payload.id) {
+          return {
+            ...item,
+            cartQuantity: payload.quantity,
+          };
+        }
+        return item;
+      });
+
+      // build new cart with updated items, totalQuantity and totalPrice
+      const newCart = {
+        items: [...updatedCartItems],
+        totalQuantity: updatedCartItems.reduce(
+          (sum, item) => sum + item.cartQuantity,
+          0
+        ),
+        totalPrice: updatedCartItems.reduce(
+          (sum, item) => sum + item.price * item.cartQuantity,
+          0
+        ),
+      };
+      localStorage.setItem('shopping-cart', JSON.stringify(newCart));
+      return newCart;
     default:
       return state;
   }

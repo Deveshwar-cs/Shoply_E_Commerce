@@ -15,10 +15,11 @@ import {
 import {
   CheckCircleTwoTone,
   CloseCircleTwoTone,
-  DeleteOutlined,
   ExclamationCircleOutlined,
   DeleteTwoTone,
 } from '@ant-design/icons';
+
+import { setItemQuantity } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
@@ -35,7 +36,7 @@ const Cart = () => {
       title: item.title,
       imgUrl: item.images[0].url,
       price: item.price,
-      quantity: item.quantity,
+      cartQuantity: item.cartQuantity,
     })) || [];
 
   const saveOrderToDB = () => {
@@ -59,7 +60,7 @@ const Cart = () => {
   };
 
   const onChangeProductCount = (quantity, id) => {
-    console.log(`PRODUCT QUANTITY: ${quantity} === PRODUCT ID: ${id}`);
+    dispatch(setItemQuantity({ quantity, id }));
   };
 
   const columns = [
@@ -76,6 +77,9 @@ const Cart = () => {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
+      render: (title, record) => (
+        <Link to={`/product/${record.slug}`}>{title}</Link>
+      ),
     },
     {
       title: 'Price',
@@ -92,15 +96,15 @@ const Cart = () => {
     {
       title: 'Quantity',
       key: 'quantity',
-      dataIndex: 'quantity',
+      dataIndex: 'cartQuantity',
       align: 'center',
-      render: (quantity, record) => (
+      render: (cartQuantity, record) => (
         <>
           <InputNumber
             size="small"
             min={1}
-            max={3}
-            defaultValue={quantity}
+            max={record.quantity}
+            defaultValue={cartQuantity}
             onChange={(value) => onChangeProductCount(value, record.id)}
             style={{ width: 46 }}
           />
@@ -142,8 +146,10 @@ const Cart = () => {
     price: `$${item.price}`,
     brand: item.brand,
     quantity: item.quantity,
+    cartQuantity: item.cartQuantity,
     shipping: item.shipping,
     remove: item._id,
+    slug: item.slug,
   }));
 
   /// Table END ////////////
@@ -220,7 +226,7 @@ const Cart = () => {
                         {item.title}
                       </Text>
                       <Text style={{ display: 'block' }}>
-                        Quantity: {item.quantity}
+                        Quantity: {item.cartQuantity}
                       </Text>
                       <Text style={{ display: 'block' }}>
                         Price: ${item.price}

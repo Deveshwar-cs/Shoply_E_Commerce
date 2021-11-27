@@ -56,7 +56,7 @@ const Header = () => {
           </Item>
           <Item key="cart" icon={<ShoppingCartOutlined />}>
             <Link to="/cart">
-              <Badge count={totalQuantity} offset={[12, 0]}>
+              <Badge count={totalQuantity} offset={[14, 0]} overflowCount={9}>
                 Cart
               </Badge>
             </Link>

@@ -21,12 +21,12 @@ const ProductCard = ({ product }) => {
 
   useEffect(() => {
     const cartItem = items.find((item) => item._id === _id);
-    if (cartItem) setItemQuantityInCart(cartItem.quantity);
+    if (cartItem) setItemQuantityInCart(cartItem.cartQuantity);
   }, [items]);
 
   const handleAddToCart = (product) => {
-    if (itemQuantityInCart >= 3)
-      return message.warning(`Limit: 3 product at once!`);
+    if (itemQuantityInCart >= product.quantity)
+      return message.warning(`There are no more items in stock!`);
     dispatch(addToCart(product));
   };
   return (
