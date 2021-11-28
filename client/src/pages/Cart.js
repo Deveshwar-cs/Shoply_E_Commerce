@@ -28,7 +28,7 @@ import {
 const { Title, Text } = Typography;
 const { confirm } = Modal;
 
-const Cart = () => {
+const Cart = ({ history }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { items, totalQuantity, totalPrice } = useSelector(
@@ -45,6 +45,17 @@ const Cart = () => {
 
   const saveOrderToDB = () => {
     console.log('SAVE ERDER REQUEST');
+    confirm({
+      title: `Do you want to go to Checkout page?`,
+      icon: <ExclamationCircleOutlined />,
+      //content: 'Some descriptions',
+      onOk() {
+        history.push('/checkout');
+      },
+      onCancel() {
+        console.log('Cancel checkout');
+      },
+    });
   };
 
   const removeAllFromCart = () => {

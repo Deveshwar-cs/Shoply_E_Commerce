@@ -27,6 +27,7 @@ import CategoryHome from './pages/CategoryHome';
 import SubcategoryHome from './pages/SubcategoryHome';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
 import SideCartDrawer from './components/drawer/SideCartDrawer';
@@ -57,6 +58,7 @@ const App = () => {
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
+        <UserRoute exact path="/checkout" component={Checkout} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
         <AdminRoute
