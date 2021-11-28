@@ -22,6 +22,7 @@ import RatingModal from '../modal/RatingModal';
 import RatingAverage from './RatingAverage';
 
 import { addToCart } from '../../store/actions/cartActions';
+import { setCartDrawerVisability } from '../../store/actions/drawerActions';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -44,6 +45,7 @@ const SingleProduct = ({ product }) => {
     if (itemQuantityInCart >= product.quantity)
       return message.warning(`There are no more items in stock!`);
     dispatch(addToCart(product));
+    dispatch(setCartDrawerVisability(true));
   };
 
   return (

@@ -34,3 +34,15 @@ svg {
 .ant-checkbox-wrapper + .ant-checkbox-wrapper {
   margin-left: 0;
 }
+
+.cart-table-img {
+  max-width: 100%;
+  height: 80px;
+}
+
+@media (max-width: 1394px) {
+  .cart-table-img {
+    width: 60px;
+    height: auto;
+  }
+}

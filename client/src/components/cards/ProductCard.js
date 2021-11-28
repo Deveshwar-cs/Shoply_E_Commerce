@@ -8,6 +8,7 @@ import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import defaultImage from '../../images/placeholder.png';
 import RatingAverage from './RatingAverage';
 import { addToCart } from '../../store/actions/cartActions';
+import { setCartDrawerVisability } from '../../store/actions/drawerActions';
 
 const { Meta } = Card;
 
@@ -28,6 +29,7 @@ const ProductCard = ({ product }) => {
     if (itemQuantityInCart >= product.quantity)
       return message.warning(`There are no more items in stock!`);
     dispatch(addToCart(product));
+    dispatch(setCartDrawerVisability(true));
   };
   return (
     <>

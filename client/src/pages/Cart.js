@@ -86,15 +86,17 @@ const Cart = () => {
       title: 'Image',
       dataIndex: 'image',
       key: 'image',
-      render: (image) => (
-        <Image src={image} style={{ width: 80, objectFit: 'cover' }} />
-      ),
+      align: 'center',
+      render: (image) => <Image src={image} className="cart-table-img" />,
       fixed: 'left',
+      responsive: ['xl'],
+      width: 190,
     },
     {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
+      fixed: 'left',
       render: (title, record) => (
         <Link to={`/product/${record.slug}`}>{title}</Link>
       ),
@@ -285,6 +287,7 @@ const Cart = () => {
                     disabled={!items.length}
                     danger
                     onClick={removeAllFromCart}
+                    style={{ marginBottom: 40 }}
                   >
                     Remove all products from cart
                   </Button>
