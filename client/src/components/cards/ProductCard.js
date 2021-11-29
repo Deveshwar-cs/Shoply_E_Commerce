@@ -15,7 +15,7 @@ const { Meta } = Card;
 const ProductCard = ({ product }) => {
   const { ratings, price, title, images, slug, _id, description } = product;
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart.cart);
 
   // product quantity in cart
   const [itemQuantityInCart, setItemQuantityInCart] = useState(0);

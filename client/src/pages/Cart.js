@@ -23,6 +23,7 @@ import {
   setItemQuantity,
   removeFromCart,
   clearCart,
+  createCartAction,
 } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
@@ -31,9 +32,11 @@ const { confirm } = Modal;
 const Cart = ({ history }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { items, totalQuantity, totalPrice } = useSelector(
-    (state) => state.cart
-  );
+  const {
+    cart: { items, totalQuantity, totalPrice },
+    createCartInProgress,
+    createCartError,
+  } = useSelector((state) => state.cart);
 
   const listItemsData =
     items.map((item) => ({
@@ -50,7 +53,9 @@ const Cart = ({ history }) => {
       icon: <ExclamationCircleOutlined />,
       //content: 'Some descriptions',
       onOk() {
-        history.push('/checkout');
+        dispatch(createCartAction()).then(() => {
+          if (!createCartError) history.push('/checkout');
+        });
       },
       onCancel() {
         console.log('Cancel checkout');

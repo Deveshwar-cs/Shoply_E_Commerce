@@ -3,25 +3,35 @@ import * as actionTypes from '../actions/types';
 // Get shopping-cart from localStorage
 const cartFromLocalStorage = JSON.parse(localStorage.getItem('shopping-cart'));
 
-const initialState = cartFromLocalStorage || {
-  items: [],
-  totalQuantity: 0,
-  totalPrice: 0,
-};
+const initialState = cartFromLocalStorage
+  ? {
+      cart: cartFromLocalStorage,
+      createCartInProgress: false,
+      createCartError: null,
+    }
+  : {
+      cart: {
+        items: [],
+        totalQuantity: 0,
+        totalPrice: 0,
+      },
+      createCartInProgress: false,
+      createCartError: null,
+    };
 
 export const cartReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
   switch (type) {
     case actionTypes.ADD_TO_CART:
       // Check if product item is alredy added to cart
-      const existItemIndex = state.items.findIndex(
+      const existItemIndex = state.cart.items.findIndex(
         (product) => product._id === payload._id
       );
 
       if (existItemIndex >= 0) {
         const updatedExistingCart = {
           items: [
-            ...state.items.map((item) =>
+            ...state.cart.items.map((item) =>
               item._id === payload._id
                 ? { ...item, cartQuantity: item.cartQuantity + 1 }
                 : item
@@ -34,20 +44,20 @@ export const cartReducer = (state = initialState, action = {}) => {
           'shopping-cart',
           JSON.stringify(updatedExistingCart)
         );
-        return updatedExistingCart;
+        return { ...state, cart: updatedExistingCart };
       } else {
         let tempProductItem = { ...action.payload, cartQuantity: 1 };
         const newCart = {
-          items: [...state.items, { ...tempProductItem }],
-          totalQuantity: state.totalQuantity + 1,
-          totalPrice: state.totalPrice + payload.price,
+          items: [...state.cart.items, { ...tempProductItem }],
+          totalQuantity: state.cart.totalQuantity + 1,
+          totalPrice: state.cart.totalPrice + payload.price,
         };
         localStorage.setItem('shopping-cart', JSON.stringify(newCart));
-        return newCart;
+        return { ...state, cart: newCart };
       }
     case actionTypes.REMOVE_FROM_CART:
       // build items array without removed item
-      const cartItemsWithoutRemoved = state.items.filter(
+      const cartItemsWithoutRemoved = state.cart.items.filter(
         (item) => item._id !== payload.id
       );
 
@@ -64,11 +74,11 @@ export const cartReducer = (state = initialState, action = {}) => {
         ),
       };
       localStorage.setItem('shopping-cart', JSON.stringify(cartWithoutRemoved));
-      return cartWithoutRemoved;
+      return { ...state, cart: cartWithoutRemoved };
 
     case actionTypes.SET_ITEM_QUANTITY:
       // update quantity in cart item and make new array of items
-      const updatedCartItems = state.items.map((item) => {
+      const updatedCartItems = state.cart.items.map((item) => {
         if (item._id === payload.id) {
           return {
             ...item,
@@ -91,13 +101,35 @@ export const cartReducer = (state = initialState, action = {}) => {
         ),
       };
       localStorage.setItem('shopping-cart', JSON.stringify(updatedCart));
-      return updatedCart;
+      return { ...state, cart: updatedCart };
     case actionTypes.CLEAR_CART:
       localStorage.removeItem('shopping-cart');
       return {
-        items: [],
-        totalQuantity: 0,
-        totalPrice: 0,
+        ...state,
+        cart: {
+          items: [],
+          totalQuantity: 0,
+          totalPrice: 0,
+        },
+      };
+
+    case actionTypes.CREATE_CART_REQUEST:
+      return {
+        ...state,
+        createCartInProgress: true,
+      };
+
+    case actionTypes.CREATE_CART_SUCCESS:
+      return {
+        ...state,
+        createCartInProgress: false,
+        createCartError: null,
+      };
+    case actionTypes.CREATE_CART_ERROR:
+      return {
+        ...state,
+        createCartInProgress: false,
+        createCartError: payload,
       };
     default:
       return state;

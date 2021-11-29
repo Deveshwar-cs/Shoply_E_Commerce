@@ -31,7 +31,7 @@ const SingleProduct = ({ product }) => {
   const { title, images, price, description, ratings, _id } = product;
 
   const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart.cart);
 
   // product quantity in cart
   const [itemQuantityInCart, setItemQuantityInCart] = useState(0);

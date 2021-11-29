@@ -12,7 +12,9 @@ const { Text } = Typography;
 const SideCartDrawer = () => {
   const dispatch = useDispatch();
 
-  const { items, totalQuantity } = useSelector((state) => state.cart);
+  const {
+    cart: { items, totalQuantity },
+  } = useSelector((state) => state.cart);
   const { cartIsVisibile } = useSelector((state) => state.drawer);
 
   return (

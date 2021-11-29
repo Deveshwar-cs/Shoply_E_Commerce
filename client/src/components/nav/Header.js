@@ -23,7 +23,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.auth);
-  const { totalQuantity } = useSelector((state) => state.cart);
+  const {
+    cart: { totalQuantity },
+  } = useSelector((state) => state.cart);
 
   const handleClick = (e) => {
     setCurrent(e.key);
