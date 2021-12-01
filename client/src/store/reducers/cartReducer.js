@@ -37,8 +37,8 @@ export const cartReducer = (state = initialState, action = {}) => {
                 : item
             ),
           ],
-          totalQuantity: state.totalQuantity + 1,
-          totalPrice: state.totalPrice + payload.price,
+          totalQuantity: state.cart.totalQuantity + 1,
+          totalPrice: state.cart.totalPrice + payload.price,
         };
         localStorage.setItem(
           'shopping-cart',

@@ -40,7 +40,7 @@ export const createCartAction = (cart, token) => async (dispatch) => {
     });
   } catch (error) {
     dispatch(createCartError(error));
-    notification.success({
+    notification.error({
       message: `Product cart save error!`,
     });
     console.log('createCartAction error', error);
