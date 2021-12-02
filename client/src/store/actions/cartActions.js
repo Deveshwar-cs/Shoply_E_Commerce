@@ -32,12 +32,13 @@ export const createCartAction = (cart, token) => async (dispatch) => {
   try {
     dispatch(createCartRequest());
     // Request to DB
-    await createUserCart(cart, token);
-
-    dispatch(createCartSuccess());
-    notification.success({
-      message: `Product cart added to user history!`,
-    });
+    const response = await createUserCart(cart, token);
+    if (response.data.ok) {
+      dispatch(createCartSuccess());
+      notification.success({
+        message: `Product cart added to user history!`,
+      });
+    }
   } catch (error) {
     dispatch(createCartError(error));
     notification.error({

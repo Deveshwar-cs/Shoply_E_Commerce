@@ -53,7 +53,7 @@ const Cart = ({ history }) => {
       icon: <ExclamationCircleOutlined />,
       //content: 'Some descriptions',
       onOk() {
-        dispatch(createCartAction()).then(() => {
+        return dispatch(createCartAction(items, user.token)).then(() => {
           if (!createCartError) history.push('/checkout');
         });
       },
@@ -284,6 +284,7 @@ const Cart = ({ history }) => {
                     size="large"
                     disabled={!items.length}
                     onClick={saveOrderToDB}
+                    loading={createCartInProgress}
                   >
                     Proceed to Checkout
                   </Button>
