@@ -57,3 +57,21 @@ exports.createCart = async (req, res) => {
     });
   }
 };
+
+exports.getUserCart = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email });
+
+    const cart = await Cart.findOne({ orderedBy: user._id }).populate(
+      'products.product'
+    );
+
+    const { products, totalPrice, totalPriceAfterDiscount } = cart;
+
+    res.json({ products, totalPrice, totalPriceAfterDiscount });
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
