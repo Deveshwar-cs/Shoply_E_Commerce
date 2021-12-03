@@ -36,7 +36,7 @@ export const createCartAction = (cart, token) => async (dispatch) => {
     if (response.data.ok) {
       dispatch(createCartSuccess());
       notification.success({
-        message: `Product cart added to user history!`,
+        message: `Product cart saved to user history!`,
       });
     }
   } catch (error) {

@@ -29,12 +29,6 @@ const Checkout = () => {
     dispatch(getCartAction(user.token));
   }, []);
 
-  const listItemsData =
-    cartFromDB.products.map((item) => ({
-      title: item.product.title,
-      price: item.price,
-      quantity: item.quantity,
-    })) || [];
   return (
     cartFromDB && (
       <>
@@ -119,7 +113,11 @@ const Checkout = () => {
                     <Row>
                       <List
                         itemLayout="horizontal"
-                        dataSource={listItemsData}
+                        dataSource={cartFromDB.products.map((item) => ({
+                          title: item.product.title,
+                          price: item.price,
+                          quantity: item.quantity,
+                        }))}
                         renderItem={(item) => (
                           <List.Item>
                             <Text>
