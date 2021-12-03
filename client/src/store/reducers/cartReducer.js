@@ -6,8 +6,14 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem('shopping-cart'));
 const initialState = cartFromLocalStorage
   ? {
       cart: cartFromLocalStorage,
+
       createCartInProgress: false,
       createCartError: null,
+
+      getCartFromDBInProgress: false,
+      getCartFromDBError: null,
+
+      cartFromDB: null,
     }
   : {
       cart: {
@@ -17,6 +23,11 @@ const initialState = cartFromLocalStorage
       },
       createCartInProgress: false,
       createCartError: null,
+
+      getCartFromDBInProgress: false,
+      getCartFromDBError: null,
+
+      cartFromDB: null,
     };
 
 export const cartReducer = (state = initialState, action = {}) => {
@@ -130,6 +141,23 @@ export const cartReducer = (state = initialState, action = {}) => {
         ...state,
         createCartInProgress: false,
         createCartError: payload,
+      };
+    case actionTypes.GET_CART_REQUEST:
+      return {
+        ...state,
+        getCartFromDBInProgress: true,
+      };
+    case actionTypes.GET_CART_SUCCESS:
+      return {
+        ...state,
+        getCartFromDBInProgress: false,
+        cartFromDB: payload,
+      };
+    case actionTypes.GET_CART_ERROR:
+      return {
+        ...state,
+        getCartFromDBInProgress: false,
+        getCartFromDBError: payload,
       };
     default:
       return state;

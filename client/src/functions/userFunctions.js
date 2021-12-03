@@ -11,3 +11,11 @@ export const createUserCart = async (cart, authToken) => {
     }
   );
 };
+
+export const getUserCart = async (authToken) => {
+  return await axios.get(`${process.env.REACT_APP_API}/user/cart`, {
+    headers: {
+      authToken,
+    },
+  });
+};

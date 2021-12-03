@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import * as actionTypes from '../actions/types';
 
-import { createUserCart } from '../../functions/userFunctions';
+import { createUserCart, getUserCart } from '../../functions/userFunctions';
 
 export const addToCart = (product) => ({
   type: actionTypes.ADD_TO_CART,
@@ -45,5 +45,29 @@ export const createCartAction = (cart, token) => async (dispatch) => {
       message: `Product cart save error!`,
     });
     console.log('createCartAction error', error);
+  }
+};
+
+const getCartRequest = () => ({ type: actionTypes.GET_CART_REQUEST });
+const getCartSuccess = (cart) => ({
+  type: actionTypes.GET_CART_SUCCESS,
+  payload: cart,
+});
+const getCartError = (e) => ({
+  type: actionTypes.GET_CART_ERROR,
+  payload: e,
+});
+
+export const getCartAction = (token) => async (dispatch) => {
+  try {
+    dispatch(getCartRequest());
+
+    // Request to DB
+    const cart = await getUserCart(token);
+    console.log('getCartAction cart', cart.data);
+
+    dispatch(getCartSuccess(cart.data));
+  } catch (error) {
+    dispatch(getCartError(error));
   }
 };

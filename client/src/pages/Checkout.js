@@ -1,11 +1,33 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Typography, Row, Col, Space, Button, Input, Divider } from 'antd';
+import {
+  Typography,
+  Row,
+  Col,
+  Space,
+  Button,
+  Input,
+  Divider,
+  Spin,
+} from 'antd';
+
+import { getCartAction } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
 const Checkout = () => {
+  const dispatch = useDispatch();
+  const { cartFromDB, getCartFromDBInProgress } = useSelector(
+    (state) => state.cart
+  );
+  const { user } = useSelector((state) => state.auth);
   //
+
+  useEffect(() => {
+    dispatch(getCartAction(user.token));
+  }, []);
 
   return (
     <>
@@ -70,24 +92,33 @@ const Checkout = () => {
                 <Title level={3}>Order Summary</Title>
               </Row>
               <hr />
-              <Row>Products</Row>
-              <hr />
-              <Row>List o products</Row>
-              <hr />
-              <Row>Cart total: $x</Row>
-              <hr />
+              {getCartFromDBInProgress && (
+                <div className="spiner">
+                  <Spin size="large" />
+                </div>
+              )}
+              {!getCartFromDBInProgress && cartFromDB.products.length && (
+                <>
+                  <Row>Products: {cartFromDB.products.length}</Row>
+                  <hr />
+                  <Row>List o products</Row>
+                  <hr />
+                  <Row>Cart total: ${cartFromDB.totalPrice}</Row>
+                  <hr />
 
-              <Row style={{ marginBottom: 30 }}>
-                <Space
-                  direction="horizontal"
-                  size={20}
-                  style={{ width: '100%' }}
-                  align="center"
-                >
-                  <Button type="primary">Place Order</Button>
-                  <Button type="primary">Empty Cart</Button>
-                </Space>
-              </Row>
+                  <Row style={{ marginBottom: 30 }}>
+                    <Space
+                      direction="horizontal"
+                      size={20}
+                      style={{ width: '100%' }}
+                      align="center"
+                    >
+                      <Button type="primary">Place Order</Button>
+                      <Button type="primary">Empty Cart</Button>
+                    </Space>
+                  </Row>
+                </>
+              )}
             </Col>
           </Row>
         </Col>
