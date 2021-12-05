@@ -47,7 +47,6 @@ const Cart = ({ history }) => {
     })) || [];
 
   const saveOrderToDB = () => {
-    console.log('SAVE ERDER REQUEST');
     confirm({
       title: `Do you want to go to Checkout page?`,
       icon: <ExclamationCircleOutlined />,
@@ -84,7 +83,6 @@ const Cart = ({ history }) => {
       icon: <ExclamationCircleOutlined />,
       //content: 'Some descriptions',
       onOk() {
-        console.log(`PRODUCT ${title} DELETED FROM CART. ID: ${id}`);
         dispatch(removeFromCart(id));
       },
       onCancel() {

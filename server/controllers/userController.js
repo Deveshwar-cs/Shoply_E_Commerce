@@ -65,10 +65,29 @@ exports.getUserCart = async (req, res) => {
     const cart = await Cart.findOne({ orderedBy: user._id }).populate(
       'products.product'
     );
-
+    console.log('cart ===>', cart);
+    // if user don't have cart send null as response
+    if (cart === null) {
+      return res.json(null);
+    }
     const { products, totalPrice, totalPriceAfterDiscount } = cart;
 
     res.json({ products, totalPrice, totalPriceAfterDiscount });
+  } catch (error) {
+    console.log('getUserCart ERROR ===>', error);
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+exports.emptyUserCart = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email });
+
+    const cart = await Cart.findOneAndRemove({ orderedBy: user._id });
+
+    res.json(cart);
   } catch (error) {
     res.status(400).json({
       errormessage: error.message,

@@ -14,6 +14,9 @@ const initialState = cartFromLocalStorage
       getCartFromDBError: null,
 
       cartFromDB: null,
+
+      emptyCartInProgress: false,
+      emptyCartError: null,
     }
   : {
       cart: {
@@ -28,6 +31,9 @@ const initialState = cartFromLocalStorage
       getCartFromDBError: null,
 
       cartFromDB: null,
+
+      emptyCartInProgress: false,
+      emptyCartError: null,
     };
 
 export const cartReducer = (state = initialState, action = {}) => {
@@ -158,6 +164,23 @@ export const cartReducer = (state = initialState, action = {}) => {
         ...state,
         getCartFromDBInProgress: false,
         getCartFromDBError: payload,
+      };
+    case actionTypes.EMPTY_CART_REQUEST:
+      return {
+        ...state,
+        emptyCartInProgress: true,
+      };
+    case actionTypes.EMPTY_CART_SUCCESS:
+      return {
+        ...state,
+        emptyCartInProgress: false,
+        cartFromDB: null,
+      };
+    case actionTypes.EMPTY_CART_ERROR:
+      return {
+        ...state,
+        emptyCartInProgress: false,
+        emptyCartError: payload,
       };
     default:
       return state;

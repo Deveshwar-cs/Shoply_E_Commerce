@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.post('/user/cart', authCheck, userController.createCart); // save cart by user in DB
 router.get('/user/cart', authCheck, userController.getUserCart);
+router.delete('/user/cart', authCheck, userController.emptyUserCart);
 
 // router.get('/user', (req, res) => {
 //   res.json({

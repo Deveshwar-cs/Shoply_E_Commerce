@@ -11,16 +11,24 @@ import {
   Divider,
   Spin,
   List,
+  Modal,
 } from 'antd';
 
-import { getCartAction } from '../store/actions/cartActions';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+import {
+  getCartAction,
+  emptyCartInDBAction,
+  clearCart,
+} from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
+const { confirm } = Modal;
 
-const Checkout = () => {
+const Checkout = ({ history }) => {
   const dispatch = useDispatch();
-  const { cartFromDB, getCartFromDBInProgress } = useSelector(
+  const { cartFromDB, getCartFromDBInProgress, cart } = useSelector(
     (state) => state.cart
   );
   const { user } = useSelector((state) => state.auth);
@@ -28,6 +36,33 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(getCartAction(user.token));
   }, []);
+
+  // if the user somehow got to the '/checkout' page with empty cart (for example manualy type url in the search bar) – redirect user to the '/shop' page
+  useEffect(() => {
+    const delayed = setTimeout(() => {
+      if (!cart.items.length || !cartFromDB) {
+        history.push('/shop');
+      }
+    }, 500);
+
+    return () => clearTimeout(delayed);
+  }, [cartFromDB, cart]);
+
+  const emptyUserCartHandler = () => {
+    confirm({
+      title: `Do you want to remove this order?`,
+      icon: <ExclamationCircleOutlined />,
+      //content: 'Some descriptions',
+      onOk() {
+        dispatch(emptyCartInDBAction(user.token)); // empty (remove) user's product cart from DB
+        dispatch(clearCart()); // clear user's product cart in redux store
+        history.push('/shop');
+      },
+      onCancel() {
+        console.log('Cancel remove product cart from redux and DB!');
+      },
+    });
+  };
 
   return (
     cartFromDB && (
@@ -113,11 +148,13 @@ const Checkout = () => {
                     <Row>
                       <List
                         itemLayout="horizontal"
-                        dataSource={cartFromDB.products.map((item) => ({
-                          title: item.product.title,
-                          price: item.price,
-                          quantity: item.quantity,
-                        }))}
+                        dataSource={
+                          cartFromDB.products.map((item) => ({
+                            title: item.product.title,
+                            price: item.price,
+                            quantity: item.quantity,
+                          })) || []
+                        }
                         renderItem={(item) => (
                           <List.Item>
                             <Text>
@@ -144,7 +181,13 @@ const Checkout = () => {
                         align="center"
                       >
                         <Button type="primary">Place Order</Button>
-                        <Button type="primary">Empty Cart</Button>
+                        <Button
+                          disabled={!cartFromDB.products.length}
+                          type="primary"
+                          onClick={emptyUserCartHandler}
+                        >
+                          Empty Cart
+                        </Button>
                       </Space>
                     </Row>
                   </>

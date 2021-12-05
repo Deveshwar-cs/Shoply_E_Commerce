@@ -1,7 +1,11 @@
 import { notification } from 'antd';
 import * as actionTypes from '../actions/types';
 
-import { createUserCart, getUserCart } from '../../functions/userFunctions';
+import {
+  createUserCart,
+  getUserCart,
+  emptyUserCart,
+} from '../../functions/userFunctions';
 
 export const addToCart = (product) => ({
   type: actionTypes.ADD_TO_CART,
@@ -48,6 +52,7 @@ export const createCartAction = (cart, token) => async (dispatch) => {
   }
 };
 
+// Get cart actions
 const getCartRequest = () => ({ type: actionTypes.GET_CART_REQUEST });
 const getCartSuccess = (cart) => ({
   type: actionTypes.GET_CART_SUCCESS,
@@ -64,10 +69,34 @@ export const getCartAction = (token) => async (dispatch) => {
 
     // Request to DB
     const cart = await getUserCart(token);
-    console.log('getCartAction cart', cart.data);
-
     dispatch(getCartSuccess(cart.data));
   } catch (error) {
     dispatch(getCartError(error));
+  }
+};
+
+// Empty user cart on DB actions
+const emptyCartRequest = () => ({ type: actionTypes.EMPTY_CART_REQUEST });
+const emptyCartSuccess = () => ({
+  type: actionTypes.EMPTY_CART_SUCCESS,
+});
+const emptyCartError = (e) => ({
+  type: actionTypes.EMPTY_CART_ERROR,
+  payload: e,
+});
+
+export const emptyCartInDBAction = (token) => async (dispatch) => {
+  try {
+    dispatch(emptyCartRequest());
+
+    // Request to DB
+    await emptyUserCart(token);
+
+    dispatch(emptyCartSuccess());
+    notification.success({
+      message: `Cart is empty now. You can continue shopping!`,
+    });
+  } catch (error) {
+    dispatch(emptyCartError(error));
   }
 };
