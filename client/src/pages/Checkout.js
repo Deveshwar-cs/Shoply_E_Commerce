@@ -12,6 +12,8 @@ import {
   Spin,
   List,
   Modal,
+  notification,
+  message,
 } from 'antd';
 
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -21,6 +23,7 @@ import {
   emptyCartInDBAction,
   clearCart,
   saveUserAddressAction,
+  getShippingAddressAction,
 } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
@@ -29,9 +32,8 @@ const { confirm } = Modal;
 
 const Checkout = ({ history }) => {
   const dispatch = useDispatch();
-  const { cartFromDB, getCartFromDBInProgress, cart } = useSelector(
-    (state) => state.cart
-  );
+  const { cartFromDB, getCartFromDBInProgress, cart, shippingAddress } =
+    useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
   // TextArea value
@@ -40,6 +42,14 @@ const Checkout = ({ history }) => {
   useEffect(() => {
     dispatch(getCartAction(user.token));
   }, []);
+
+  useEffect(() => {
+    dispatch(getShippingAddressAction(user.token));
+  }, []);
+
+  useEffect(() => {
+    setTextAreaValue(shippingAddress);
+  }, [shippingAddress]);
 
   // if the user somehow got to the '/checkout' page with empty cart (for example manualy type url in the search bar) – redirect user to the '/shop' page
   useEffect(() => {
@@ -74,7 +84,21 @@ const Checkout = ({ history }) => {
   };
 
   const saveUserAddress = () => {
-    dispatch(saveUserAddressAction(textAreaValue, user.token));
+    // simple validation
+    if (textAreaValue.length < 10) {
+      return notification.warning({
+        message: `Please enter your correct shipping address. It's required!`,
+      });
+    }
+    if (textAreaValue === shippingAddress) {
+      return message.info(
+        `You try to save the same shipping address! Change it if you need.`
+      );
+    }
+    // after saving shipping address to DB we want to get it from DB
+    dispatch(saveUserAddressAction(textAreaValue, user.token)).then(() =>
+      dispatch(getShippingAddressAction(user.token))
+    );
   };
 
   return (
@@ -200,7 +224,7 @@ const Checkout = ({ history }) => {
                         <Button
                           type="primary"
                           disabled={
-                            textAreaValue.length < 10 ||
+                            shippingAddress.length < 10 ||
                             !cartFromDB.products.length
                           }
                         >

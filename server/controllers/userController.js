@@ -98,8 +98,6 @@ exports.emptyUserCart = async (req, res) => {
 // Save user address for shipping
 
 exports.saveUserAddress = async (req, res) => {
-  console.log('saveUserAddress ===> req.body', req.body);
-  console.log('saveUserAddress ===> req.headers', req.headers);
   try {
     await User.findOneAndUpdate(
       { email: req.user.email },
@@ -112,5 +110,25 @@ exports.saveUserAddress = async (req, res) => {
       errormessage: error.message,
     });
   }
-  //
+};
+
+// Get user address on Checkout page
+exports.getUserAddress = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email });
+
+    console.log('getUserAddress address ===>', user.address);
+
+    // if user don't have address
+    if (user.address === undefined) {
+      return res.json({ userAddressNotSet: true });
+    }
+
+    res.json({ address: user.address });
+  } catch (error) {
+    console.log('getUserAddress ERROR ===>', error);
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
 };

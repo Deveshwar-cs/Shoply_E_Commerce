@@ -20,6 +20,11 @@ const initialState = cartFromLocalStorage
 
       saveUserAddresInProgress: false,
       saveUserAddresError: null,
+
+      getUserAddresInProgress: false,
+      getUserAddresError: null,
+
+      shippingAddress: '',
     }
   : {
       cart: {
@@ -40,6 +45,11 @@ const initialState = cartFromLocalStorage
 
       saveUserAddresInProgress: false,
       saveUserAddresError: null,
+
+      getUserAddresInProgress: false,
+      getUserAddresError: null,
+
+      shippingAddress: '',
     };
 
 export const cartReducer = (state = initialState, action = {}) => {
@@ -203,6 +213,23 @@ export const cartReducer = (state = initialState, action = {}) => {
         ...state,
         saveUserAddresInProgress: false,
         saveUserAddresError: payload,
+      };
+    case actionTypes.GET_USER_ADDRESS_REQUEST:
+      return {
+        ...state,
+        getUserAddresInProgress: true,
+      };
+    case actionTypes.GET_USER_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        getUserAddresInProgress: false,
+        shippingAddress: payload,
+      };
+    case actionTypes.GET_USER_ADDRESS_ERROR:
+      return {
+        ...state,
+        getUserAddresInProgress: false,
+        getUserAddresError: payload,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import {
   getUserCart,
   emptyUserCart,
   saveUserAddress,
+  getUserAddress,
 } from '../../functions/userFunctions';
 
 export const addToCart = (product) => ({
@@ -132,5 +133,37 @@ export const saveUserAddressAction = (address, token) => async (dispatch) => {
       message: `Shipping address save error!`,
     });
     console.log('saveUserAddressAction error', error);
+  }
+};
+
+// Get shipping address actions
+
+// Get cart actions
+const getShippingAddressRequest = () => ({
+  type: actionTypes.GET_USER_ADDRESS_REQUEST,
+});
+const getShippingAddressSuccess = (address) => ({
+  type: actionTypes.GET_USER_ADDRESS_SUCCESS,
+  payload: address,
+});
+const getShippingAddressError = (e) => ({
+  type: actionTypes.GET_USER_ADDRESS_ERROR,
+  payload: e,
+});
+
+export const getShippingAddressAction = (token) => async (dispatch) => {
+  try {
+    dispatch(getShippingAddressRequest());
+
+    // Request to DB
+    const response = await getUserAddress(token);
+
+    // if the shipping address for the user is not set yet, we dispatch empty string
+    if (response.data.userAddressNotSet)
+      return dispatch(getShippingAddressSuccess(''));
+
+    dispatch(getShippingAddressSuccess(response.data.address));
+  } catch (error) {
+    dispatch(getShippingAddressError(error));
   }
 };
