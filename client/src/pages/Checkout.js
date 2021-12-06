@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import {
   Typography,
   Row,
@@ -20,6 +20,7 @@ import {
   getCartAction,
   emptyCartInDBAction,
   clearCart,
+  saveUserAddressAction,
 } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
@@ -32,6 +33,9 @@ const Checkout = ({ history }) => {
     (state) => state.cart
   );
   const { user } = useSelector((state) => state.auth);
+
+  // TextArea value
+  const [textAreaValue, setTextAreaValue] = useState('');
 
   useEffect(() => {
     dispatch(getCartAction(user.token));
@@ -62,6 +66,15 @@ const Checkout = ({ history }) => {
         console.log('Cancel remove product cart from redux and DB!');
       },
     });
+  };
+
+  // TextArea
+  const onTextAreaChange = (e) => {
+    setTextAreaValue(e.target.value);
+  };
+
+  const saveUserAddress = () => {
+    dispatch(saveUserAddressAction(textAreaValue, user.token));
   };
 
   return (
@@ -109,8 +122,12 @@ const Checkout = ({ history }) => {
                     <TextArea
                       rows={4}
                       placeholder="Please enter your shipping address"
+                      onChange={onTextAreaChange}
+                      value={textAreaValue}
                     />
-                    <Button type="primary">Save address</Button>
+                    <Button type="primary" onClick={saveUserAddress}>
+                      Save address
+                    </Button>
                   </Space>
                 </Row>
                 <Divider />
@@ -180,7 +197,15 @@ const Checkout = ({ history }) => {
                         style={{ width: '100%' }}
                         align="center"
                       >
-                        <Button type="primary">Place Order</Button>
+                        <Button
+                          type="primary"
+                          disabled={
+                            textAreaValue.length < 10 ||
+                            !cartFromDB.products.length
+                          }
+                        >
+                          Place Order
+                        </Button>
                         <Button
                           disabled={!cartFromDB.products.length}
                           type="primary"

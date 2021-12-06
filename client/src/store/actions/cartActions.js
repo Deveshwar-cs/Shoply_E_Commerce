@@ -5,6 +5,7 @@ import {
   createUserCart,
   getUserCart,
   emptyUserCart,
+  saveUserAddress,
 } from '../../functions/userFunctions';
 
 export const addToCart = (product) => ({
@@ -98,5 +99,38 @@ export const emptyCartInDBAction = (token) => async (dispatch) => {
     });
   } catch (error) {
     dispatch(emptyCartError(error));
+  }
+};
+
+// Save user address on Checkout page
+
+const saveUserAddressRequest = () => ({
+  type: actionTypes.SAVE_USER_ADDRESS_REQUEST,
+});
+const saveUserAddressSuccess = () => ({
+  type: actionTypes.SAVE_USER_ADDRESS_SUCCESS,
+});
+const saveUserAddressError = (e) => ({
+  type: actionTypes.SAVE_USER_ADDRESS_ERROR,
+  payload: e,
+});
+
+export const saveUserAddressAction = (address, token) => async (dispatch) => {
+  try {
+    dispatch(saveUserAddressRequest());
+    // Request to DB
+    const response = await saveUserAddress(address, token);
+    if (response.data.addressSaved) {
+      dispatch(saveUserAddressSuccess());
+      notification.success({
+        message: `Shipping address saved!`,
+      });
+    }
+  } catch (error) {
+    dispatch(saveUserAddressError(error));
+    notification.error({
+      message: `Shipping address save error!`,
+    });
+    console.log('saveUserAddressAction error', error);
   }
 };

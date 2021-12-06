@@ -65,7 +65,7 @@ exports.getUserCart = async (req, res) => {
     const cart = await Cart.findOne({ orderedBy: user._id }).populate(
       'products.product'
     );
-    console.log('cart ===>', cart);
+
     // if user don't have cart send null as response
     if (cart === null) {
       return res.json(null);
@@ -93,4 +93,24 @@ exports.emptyUserCart = async (req, res) => {
       errormessage: error.message,
     });
   }
+};
+
+// Save user address for shipping
+
+exports.saveUserAddress = async (req, res) => {
+  console.log('saveUserAddress ===> req.body', req.body);
+  console.log('saveUserAddress ===> req.headers', req.headers);
+  try {
+    await User.findOneAndUpdate(
+      { email: req.user.email },
+      { address: req.body.address }
+    );
+
+    res.json({ addressSaved: true });
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+  //
 };
