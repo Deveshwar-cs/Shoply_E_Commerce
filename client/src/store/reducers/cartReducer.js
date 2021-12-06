@@ -3,54 +3,32 @@ import * as actionTypes from '../actions/types';
 // Get shopping-cart from localStorage
 const cartFromLocalStorage = JSON.parse(localStorage.getItem('shopping-cart'));
 
-const initialState = cartFromLocalStorage
-  ? {
-      cart: cartFromLocalStorage,
+const initialState = {
+  cart: cartFromLocalStorage || {
+    items: [],
+    totalQuantity: 0,
+    totalPrice: 0,
+  },
 
-      createCartInProgress: false,
-      createCartError: null,
+  createCartInProgress: false,
+  createCartError: null,
 
-      getCartFromDBInProgress: false,
-      getCartFromDBError: null,
+  getCartFromDBInProgress: false,
+  getCartFromDBError: null,
 
-      cartFromDB: null,
+  cartFromDB: null,
 
-      emptyCartInProgress: false,
-      emptyCartError: null,
+  emptyCartInProgress: false,
+  emptyCartError: null,
 
-      saveUserAddresInProgress: false,
-      saveUserAddresError: null,
+  saveUserAddresInProgress: false,
+  saveUserAddresError: null,
 
-      getUserAddresInProgress: false,
-      getUserAddresError: null,
+  getUserAddresInProgress: false,
+  getUserAddresError: null,
 
-      shippingAddress: '',
-    }
-  : {
-      cart: {
-        items: [],
-        totalQuantity: 0,
-        totalPrice: 0,
-      },
-      createCartInProgress: false,
-      createCartError: null,
-
-      getCartFromDBInProgress: false,
-      getCartFromDBError: null,
-
-      cartFromDB: null,
-
-      emptyCartInProgress: false,
-      emptyCartError: null,
-
-      saveUserAddresInProgress: false,
-      saveUserAddresError: null,
-
-      getUserAddresInProgress: false,
-      getUserAddresError: null,
-
-      shippingAddress: '',
-    };
+  shippingAddress: '',
+};
 
 export const cartReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
