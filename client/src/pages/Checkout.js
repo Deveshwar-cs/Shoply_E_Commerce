@@ -38,6 +38,8 @@ const Checkout = ({ history }) => {
 
   // TextArea value
   const [textAreaValue, setTextAreaValue] = useState('');
+  // Coupon
+  const [coupon, setCoupon] = useState('');
 
   useEffect(() => {
     dispatch(getCartAction(user.token));
@@ -82,6 +84,10 @@ const Checkout = ({ history }) => {
   const onTextAreaChange = (e) => {
     setTextAreaValue(e.target.value);
   };
+  // Coupon Input
+  const onChangeCoupon = (e) => {
+    setCoupon(e.target.value);
+  };
 
   const saveUserAddress = () => {
     // simple validation
@@ -99,6 +105,12 @@ const Checkout = ({ history }) => {
     dispatch(saveUserAddressAction(textAreaValue, user.token)).then(() =>
       dispatch(getShippingAddressAction(user.token))
     );
+  };
+
+  // Apply coupon
+  const applyCouponHandler = () => {
+    //
+    console.log('SEND COUPON TO SERVER:', coupon);
   };
 
   return (
@@ -159,8 +171,14 @@ const Checkout = ({ history }) => {
                   <Title level={3}>Got Coupon?</Title>
                 </Row>
                 <Space direction="vertical" size={30} style={{ width: '100%' }}>
-                  <Input placeholder="Paste coupon here if you have one" />
-                  <Button type="primary">Apply coupon</Button>
+                  <Input
+                    placeholder="Paste coupon here if you have one"
+                    value={coupon}
+                    onChange={onChangeCoupon}
+                  />
+                  <Button type="primary" onClick={applyCouponHandler}>
+                    Apply coupon
+                  </Button>
                 </Space>
               </Col>
               <Col
