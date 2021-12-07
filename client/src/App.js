@@ -22,6 +22,7 @@ import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
 import ProductCreate from './pages/admin/product/ProductCreate';
 import ProductUpdate from './pages/admin/product/ProductUpdate';
 import AllProducts from './pages/admin/product/AllProducts';
+import Coupon from './pages/admin/Coupon';
 import Product from './pages/Product';
 import CategoryHome from './pages/CategoryHome';
 import SubcategoryHome from './pages/SubcategoryHome';
@@ -61,6 +62,7 @@ const App = () => {
         <UserRoute exact path="/checkout" component={Checkout} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute exact path="/admin/coupon" component={Coupon} />
         <AdminRoute
           exact
           path="/admin/category/:slug"
