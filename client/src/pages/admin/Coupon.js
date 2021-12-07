@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import {
   Layout,
@@ -19,6 +20,7 @@ import AdminNav from '../../components/nav/AdminNav';
 import CouponForm from '../../components/forms/CouponForm';
 
 import { LocalSearch, searched } from '../../components/forms/LocalSearch';
+import { createCouponAction } from '../../store/actions/couponActions';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
@@ -28,8 +30,8 @@ const CategoryCreate = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
+  const { createCouponInProgress } = useSelector((state) => state.coupon);
 
-  const [idOfClickedItem, setIdOfClickedItem] = useState('');
   const [keyword, setKeyword] = useState(''); // Step 1. Category search filter – Category search input local state
 
   const handleDelete = (category) => {
@@ -38,8 +40,12 @@ const CategoryCreate = () => {
   };
 
   const onFinish = ({ name, discount, expiry }) => {
-    console.log('COUPON VALUES', name, discount, expiry);
+    // the expiry here is the momentjs object and we can choose date format if we need – for example expiry.format(moment.defaultFormatUtc). moment.defaultFormatUtc === 'YYYY-MM-DDTHH:mm:ss:SS[Z]'
+    // https://momentjscom.readthedocs.io/en/latest/moment/04-displaying/01-format/
 
+    dispatch(
+      createCouponAction({ name, discount: +discount, expiry }, user.token)
+    );
     form.resetFields();
   };
 
@@ -81,7 +87,7 @@ const CategoryCreate = () => {
                   form={form}
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
-                  //inProgress={false}
+                  inProgress={createCouponInProgress}
                 />
               </Col>
               <Col

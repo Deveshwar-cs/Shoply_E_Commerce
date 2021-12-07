@@ -5,11 +5,9 @@ const Coupon = require('../models/couponModel');
 const User = require('../models/userModel');
 
 exports.createCoupon = async (req, res) => {
-  const { name, expiry, discount } = req.body;
+  const { name, expiry, discount } = req.body.coupon;
 
   try {
-    req.body.slug = slugify(req.body.title);
-
     const newCoupon = await Coupon.create({ name, expiry, discount });
 
     res.status(201).json(newCoupon);
