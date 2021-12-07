@@ -1,43 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 
 import {
   Layout,
   Typography,
   Divider,
-  List,
   Row,
   Col,
   Form,
-  Button,
   Spin,
+  Modal,
+  Table,
 } from 'antd';
 
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, DeleteTwoTone } from '@ant-design/icons';
 
 import AdminNav from '../../components/nav/AdminNav';
 import CouponForm from '../../components/forms/CouponForm';
 
-import { LocalSearch, searched } from '../../components/forms/LocalSearch';
-import { createCouponAction } from '../../store/actions/couponActions';
+import {
+  createCouponAction,
+  getAllCouponsAction,
+  deleteCouponAction,
+} from '../../store/actions/couponActions';
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
+const { confirm } = Modal;
 
 const CategoryCreate = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { createCouponInProgress } = useSelector((state) => state.coupon);
+  const { createCouponInProgress, getAllCouponsInProgress, allCoupons } =
+    useSelector((state) => state.coupon);
 
-  const [keyword, setKeyword] = useState(''); // Step 1. Category search filter – Category search input local state
-
-  const handleDelete = (category) => {
-    if (window.confirm(`Delete ${category.name} coupon?`)) {
-    }
-  };
+  useEffect(() => {
+    dispatch(getAllCouponsAction(user.token));
+  }, []);
 
   const onFinish = ({ name, discount, expiry }) => {
     // the expiry here is the momentjs object and we can choose date format if we need – for example expiry.format(moment.defaultFormatUtc). moment.defaultFormatUtc === 'YYYY-MM-DDTHH:mm:ss:SS[Z]'
@@ -45,13 +46,79 @@ const CategoryCreate = () => {
 
     dispatch(
       createCouponAction({ name, discount: +discount, expiry }, user.token)
-    );
+    ).then(() => dispatch(getAllCouponsAction(user.token)));
     form.resetFields();
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  // Table //////////////
+
+  const handleDeleteConfirm = (couponId, couponName) => {
+    confirm({
+      title: `Do you want to delete ${couponName} coupon?`,
+      icon: <ExclamationCircleOutlined />,
+      //content: 'Some descriptions',
+      onOk() {
+        // return promise (dispatch is the promise here) to display loading state on the confirm button
+        return dispatch(deleteCouponAction(couponId, user.token)).then(() =>
+          dispatch(getAllCouponsAction(user.token))
+        );
+      },
+      onCancel() {
+        console.log('Cancel delete coupon!');
+      },
+    });
+  };
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      fixed: 'left',
+      render: (name) => <Text>{name}</Text>,
+    },
+    {
+      title: 'Expiry (Year/Month/Day)',
+      dataIndex: 'expiry',
+      key: 'expiry',
+      align: 'center',
+      render: (expiry) => <Text>{expiry.substring(0, 10)}</Text>,
+    },
+    {
+      title: 'Discount, %',
+      dataIndex: 'discount',
+      key: 'discount',
+      align: 'center',
+    },
+    {
+      title: 'Remove',
+      key: 'remove',
+      dataIndex: 'remove',
+      align: 'center',
+      render: (id, record) => (
+        <DeleteTwoTone
+          twoToneColor="#ff4d4f"
+          style={{ fontSize: 26 }}
+          onClick={() => handleDeleteConfirm(id, record.name)}
+        />
+      ),
+    },
+  ];
+
+  const tableData = allCoupons.map((item) => ({
+    key: item._id,
+    id: item._id,
+    name: item.name,
+    expiry: item.expiry,
+    discount: item.discount,
+    remove: item._id,
+  }));
+
+  /// Table END ////////////
 
   return (
     <>
@@ -90,28 +157,32 @@ const CategoryCreate = () => {
                   inProgress={createCouponInProgress}
                 />
               </Col>
-              <Col
-                xl={{ span: 10, offset: 7 }}
-                lg={{ span: 20, offset: 2 }}
-                md={{ span: 20, offset: 2 }}
-                xs={{ span: 20, offset: 2 }}
-              >
-                <Divider style={{ fontWeight: 'bold' }}>Coupon Search</Divider>
-                <LocalSearch
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                  placeholderText="Enter coupon name"
-                />
-              </Col>
             </Row>
-            <Row>
+            <Row style={{ marginBottom: 30 }}>
               <Col
                 xl={{ span: 10, offset: 7 }}
                 lg={{ span: 20, offset: 2 }}
                 md={{ span: 20, offset: 2 }}
                 xs={{ span: 20, offset: 2 }}
               >
-                LIST OF ALL COUPONS
+                {getAllCouponsInProgress ? (
+                  <div className="spiner">
+                    <Spin />
+                  </div>
+                ) : (
+                  <>
+                    <Divider style={{ fontWeight: 'bold' }}>
+                      All Coupons
+                    </Divider>
+                    <Table
+                      columns={columns}
+                      dataSource={tableData}
+                      pagination={false}
+                      bordered={true}
+                      scroll={{ x: true }}
+                    />
+                  </>
+                )}
               </Col>
             </Row>
           </Content>

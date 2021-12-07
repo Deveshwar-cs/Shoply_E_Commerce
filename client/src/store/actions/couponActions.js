@@ -74,7 +74,7 @@ const deleteCouponError = (e) => ({
   payload: e,
 });
 
-export const deleteProductAction = (couponId, token) => async (dispatch) => {
+export const deleteCouponAction = (couponId, token) => async (dispatch) => {
   try {
     dispatch(deleteCouponRequest());
 

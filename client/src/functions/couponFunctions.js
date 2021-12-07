@@ -22,7 +22,7 @@ export const getAllCoupons = async (authToken) => {
 
 export const deleteCoupon = async (couponId, authToken) => {
   return await axios.delete(
-    `${process.env.REACT_APP_API}'/coupons/${couponId}`,
+    `${process.env.REACT_APP_API}/coupons/${couponId}`,
     {
       headers: {
         authToken,
