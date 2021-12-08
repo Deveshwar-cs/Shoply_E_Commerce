@@ -1,6 +1,7 @@
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
+const Coupon = require('../models/couponModel');
 
 exports.createCart = async (req, res) => {
   const { cart } = req.body;
@@ -125,6 +126,46 @@ exports.getUserAddress = async (req, res) => {
     }
 
     res.json({ address: user.address });
+  } catch (error) {
+    console.log('getUserAddress ERROR ===>', error);
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+// Apply a coupon to the user cart
+exports.applyCouponToUserCart = async (req, res) => {
+  const applyedCoupon = req.body;
+  console.log('applyCouponToUserCart applyedCoupon ===>', applyedCoupon);
+  try {
+    const coupon = await Coupon.findOne({ name: applyedCoupon });
+    console.log('applyCouponToUserCart coupon ===>', coupon);
+    // if no coupon or it expired
+    if (!coupon) {
+      return res.json({ invalidCoupon: true });
+    }
+
+    const user = await User.findOne({ email: req.user.email });
+    const cart = await Cart.findOne({ orderedBy: user._id });
+
+    console.log('applyCouponToUserCart user ===>', user);
+    console.log('applyCouponToUserCart cart ===>', cart);
+
+    if (new Date(coupon.expiry) < Date.now()) {
+      return res.json({ couponExpired: true });
+    }
+    // discounted_price = original_price - (original_price * discount / 100)
+    const discountedPrice =
+      cart.totalPrice - (cart.totalPrice * coupon.discount) / 100;
+
+    await Cart.findByIdAndUpdate(
+      { _id: cart._id },
+      { totalPriceAfterDiscount: discountedPrice.toFixed(2) },
+      { new: true }
+    );
+
+    res.json({ discountAppliedSuccess: true });
   } catch (error) {
     console.log('getUserAddress ERROR ===>', error);
     res.status(400).json({
