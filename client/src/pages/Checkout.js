@@ -16,7 +16,13 @@ import {
   message,
 } from 'antd';
 
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {
+  ExclamationCircleOutlined,
+  PercentageOutlined,
+  DollarCircleOutlined,
+  ShoppingCartOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
 
 import {
   getCartAction,
@@ -24,6 +30,7 @@ import {
   clearCart,
   saveUserAddressAction,
   getShippingAddressAction,
+  applyCouponAction,
 } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
@@ -32,8 +39,13 @@ const { confirm } = Modal;
 
 const Checkout = ({ history }) => {
   const dispatch = useDispatch();
-  const { cartFromDB, getCartFromDBInProgress, cart, shippingAddress } =
-    useSelector((state) => state.cart);
+  const {
+    cartFromDB,
+    getCartFromDBInProgress,
+    cart,
+    shippingAddress,
+    applyCouponInProgress,
+  } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
   // TextArea value
@@ -109,8 +121,7 @@ const Checkout = ({ history }) => {
 
   // Apply coupon
   const applyCouponHandler = () => {
-    //
-    console.log('SEND COUPON TO SERVER:', coupon);
+    dispatch(applyCouponAction(coupon, user.token));
   };
 
   return (
@@ -161,7 +172,12 @@ const Checkout = ({ history }) => {
                       onChange={onTextAreaChange}
                       value={textAreaValue}
                     />
-                    <Button type="primary" onClick={saveUserAddress}>
+                    <Button
+                      type="primary"
+                      onClick={saveUserAddress}
+                      icon={<HomeOutlined />}
+                      size="large"
+                    >
                       Save address
                     </Button>
                   </Space>
@@ -172,11 +188,23 @@ const Checkout = ({ history }) => {
                 </Row>
                 <Space direction="vertical" size={30} style={{ width: '100%' }}>
                   <Input
-                    placeholder="Paste coupon here if you have one"
+                    placeholder={
+                      cartFromDB.totalPriceAfterDiscount
+                        ? 'Coupon already used'
+                        : 'Paste coupon here if you have one'
+                    }
                     value={coupon}
                     onChange={onChangeCoupon}
+                    disabled={cartFromDB.totalPriceAfterDiscount}
                   />
-                  <Button type="primary" onClick={applyCouponHandler}>
+                  <Button
+                    type="primary"
+                    onClick={applyCouponHandler}
+                    loading={applyCouponInProgress}
+                    icon={<PercentageOutlined />}
+                    disabled={cartFromDB.totalPriceAfterDiscount}
+                    size="large"
+                  >
                     Apply coupon
                   </Button>
                 </Space>
@@ -230,6 +258,18 @@ const Checkout = ({ history }) => {
                         Cart total price: ${cartFromDB.totalPrice}
                       </Text>
                     </Row>
+                    {cartFromDB.totalPriceAfterDiscount && (
+                      <>
+                        <hr />
+                        <Row>
+                          <Text strong style={{ fontSize: 20 }} type="success">
+                            Total price after discount: $
+                            {cartFromDB.totalPriceAfterDiscount}
+                          </Text>
+                        </Row>
+                      </>
+                    )}
+
                     <hr />
 
                     <Row style={{ margin: '30px 0' }}>
@@ -245,6 +285,9 @@ const Checkout = ({ history }) => {
                             shippingAddress.length < 10 ||
                             !cartFromDB.products.length
                           }
+                          size="large"
+                          icon={<DollarCircleOutlined />}
+                          onClick={() => history.push('/payment')}
                         >
                           Place Order
                         </Button>
@@ -252,6 +295,8 @@ const Checkout = ({ history }) => {
                           disabled={!cartFromDB.products.length}
                           type="primary"
                           onClick={emptyUserCartHandler}
+                          size="large"
+                          icon={<ShoppingCartOutlined />}
                         >
                           Empty Cart
                         </Button>

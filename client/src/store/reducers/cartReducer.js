@@ -28,6 +28,9 @@ const initialState = {
   getUserAddresError: null,
 
   shippingAddress: '',
+
+  applyCouponInProgress: false,
+  applyCouponError: null,
 };
 
 export const cartReducer = (state = initialState, action = {}) => {
@@ -208,6 +211,27 @@ export const cartReducer = (state = initialState, action = {}) => {
         ...state,
         getUserAddresInProgress: false,
         getUserAddresError: payload,
+      };
+    case actionTypes.APPLY_COUPON_TO_CART_REQUEST:
+      return {
+        ...state,
+        applyCouponInProgress: true,
+      };
+    case actionTypes.APPLY_COUPON_TO_CART_SUCCESS:
+      return {
+        ...state,
+        applyCouponInProgress: false,
+      };
+    case actionTypes.APPLY_COUPON_TO_CART_FAILURE:
+      return {
+        ...state,
+        applyCouponInProgress: false,
+      };
+    case actionTypes.APPLY_COUPON_TO_CART_ERROR:
+      return {
+        ...state,
+        applyCouponInProgress: false,
+        applyCouponError: payload,
       };
     default:
       return state;

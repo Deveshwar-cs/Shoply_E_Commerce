@@ -136,7 +136,7 @@ exports.getUserAddress = async (req, res) => {
 
 // Apply a coupon to the user cart
 exports.applyCouponToUserCart = async (req, res) => {
-  const applyedCoupon = req.body;
+  const applyedCoupon = req.body.coupon;
   console.log('applyCouponToUserCart applyedCoupon ===>', applyedCoupon);
   try {
     const coupon = await Coupon.findOne({ name: applyedCoupon });
@@ -167,7 +167,7 @@ exports.applyCouponToUserCart = async (req, res) => {
 
     res.json({ discountAppliedSuccess: true });
   } catch (error) {
-    console.log('getUserAddress ERROR ===>', error);
+    console.log('applyCouponToUserCart ERROR ===>', error);
     res.status(400).json({
       errormessage: error.message,
     });

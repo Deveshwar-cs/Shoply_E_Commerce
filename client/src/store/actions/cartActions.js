@@ -7,6 +7,7 @@ import {
   emptyUserCart,
   saveUserAddress,
   getUserAddress,
+  applyCouponToUserCart,
 } from '../../functions/userFunctions';
 
 export const addToCart = (product) => ({
@@ -165,5 +166,56 @@ export const getShippingAddressAction = (token) => async (dispatch) => {
     dispatch(getShippingAddressSuccess(response.data.address));
   } catch (error) {
     dispatch(getShippingAddressError(error));
+  }
+};
+
+// Apply coupon to user cart actions
+
+const applyCouponRequest = () => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_REQUEST,
+});
+const applyCouponSuccess = () => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_SUCCESS,
+});
+const applyCouponFailure = () => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_FAILURE,
+});
+const applyCouponError = (e) => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_ERROR,
+  payload: e,
+});
+
+export const applyCouponAction = (couponName, token) => async (dispatch) => {
+  try {
+    dispatch(applyCouponRequest());
+
+    // Request to DB
+    const response = await applyCouponToUserCart(couponName, token);
+
+    if (response.data.invalidCoupon) {
+      dispatch(applyCouponFailure());
+      notification.error({
+        message: `Invalid coupon!`,
+      });
+    }
+    if (response.data.couponExpired) {
+      dispatch(applyCouponFailure());
+      notification.error({
+        message: `Coupon expired!`,
+      });
+    }
+    if (response.data.discountAppliedSuccess) {
+      dispatch(applyCouponSuccess());
+      dispatch(getCartAction(token));
+      notification.success({
+        message: `Coupon successfully applied!`,
+      });
+    }
+  } catch (error) {
+    dispatch(applyCouponError(error));
+    notification.error({
+      message: `Apply coupon error!`,
+      description: error.message,
+    });
   }
 };
