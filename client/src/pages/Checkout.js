@@ -121,6 +121,10 @@ const Checkout = ({ history }) => {
 
   // Apply coupon
   const applyCouponHandler = () => {
+    if (!coupon.length)
+      return notification.warning({
+        message: `Please enter your coupon if you have one!`,
+      });
     dispatch(applyCouponAction(coupon, user.token));
   };
 
@@ -228,7 +232,11 @@ const Checkout = ({ history }) => {
                   <>
                     <Row>
                       <Text strong>
-                        Products in cart: {cartFromDB.products.length}
+                        Products in cart:{' '}
+                        {cartFromDB.products.reduce(
+                          (sum, product) => sum + product.quantity,
+                          0
+                        )}
                       </Text>
                     </Row>
                     <hr />
