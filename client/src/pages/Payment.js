@@ -3,12 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Typography, Row, Col, Button, Modal } from 'antd';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
 import { DeleteTwoTone } from '@ant-design/icons';
 
 import { getCartAction } from '../store/actions/cartActions';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const Payment = ({ history }) => {
   const dispatch = useDispatch();
@@ -53,8 +60,12 @@ const Payment = ({ history }) => {
               textAlign: 'center',
             }}
           >
-            Payment with Stripe
+            Complete your purchase
           </Title>
+          <Elements stripe={stripePromise}>
+            {/* <CheckoutForm /> */}
+            <Text>CHECKOUT FORM</Text>
+          </Elements>
         </Col>
       </Row>
     </>
