@@ -5,8 +5,10 @@ import { Typography, Row, Col, Button, Modal } from 'antd';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import '../stripe.css';
 
 import { DeleteTwoTone } from '@ant-design/icons';
+import CheckoutForm from '../components/forms/CheckoutForm';
 
 import { getCartAction } from '../store/actions/cartActions';
 
@@ -63,8 +65,7 @@ const Payment = ({ history }) => {
             Complete your purchase
           </Title>
           <Elements stripe={stripePromise}>
-            {/* <CheckoutForm /> */}
-            <Text>CHECKOUT FORM</Text>
+            <CheckoutForm />
           </Elements>
         </Col>
       </Row>
