@@ -43,7 +43,7 @@ const CheckoutForm = () => {
     return () => {
       componentMounted = false;
     };
-  }, []);
+  }, [user.token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

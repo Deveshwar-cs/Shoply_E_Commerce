@@ -74,7 +74,7 @@ const Checkout = ({ history }) => {
     }, 500);
 
     return () => clearTimeout(delayed);
-  }, [cartFromDB, cart]);
+  }, [cartFromDB, cart, history]);
 
   const emptyUserCartHandler = () => {
     confirm({
