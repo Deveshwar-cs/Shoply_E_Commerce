@@ -11,16 +11,25 @@ exports.createPaymentIntent = async (req, res) => {
     // 2. Get user's cart
     const cart = await Cart.findOne({ orderedBy: user._id });
 
-    console.log('createPaymentIntent CART totalPrice ===>', cart.totalPrice);
-
     // 3. Create payment intent with order amount and currency
+    // Cart model only has totalPriceAfterDiscount if coupon was applied – if totalPriceAfterDiscount exist we want to charge totalPriceAfterDiscount, else totalPrice
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: cart.totalPrice * 100,
+      amount: cart.totalPriceAfterDiscount
+        ? cart.totalPriceAfterDiscount * 100
+        : cart.totalPrice * 100,
       currency: 'usd',
       payment_method_types: ['card'],
     });
 
-    res.json({ client_secret: paymentIntent.client_secret });
+    res.json({
+      client_secret: paymentIntent.client_secret,
+      totalPrice: cart.totalPrice * 100,
+      totalPriceAfterDiscount:
+        cart.totalPriceAfterDiscount && cart.totalPriceAfterDiscount * 100,
+      paid: cart.totalPriceAfterDiscount
+        ? cart.totalPriceAfterDiscount * 100
+        : cart.totalPrice * 100,
+    });
   } catch (error) {
     res.status(400).json({
       errormessage: error.message,
