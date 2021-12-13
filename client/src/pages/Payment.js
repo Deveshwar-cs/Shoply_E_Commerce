@@ -65,7 +65,7 @@ const Payment = ({ history }) => {
             Complete your purchase
           </Title>
           <Elements stripe={stripePromise}>
-            <CheckoutForm />
+            <CheckoutForm cartFromDB={cartFromDB} />
           </Elements>
         </Col>
       </Row>

@@ -3,13 +3,15 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Spin, Typography, notification } from 'antd';
+import { Spin, Typography, notification, Card, Space } from 'antd';
+
+import { CheckOutlined, DollarCircleOutlined } from '@ant-design/icons';
 
 import { createPaymentIntent } from '../../functions/stripeFunctions';
 
 const { Text } = Typography;
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ cartFromDB }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -17,8 +19,13 @@ const CheckoutForm = () => {
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [clientSecret, setClientSecret] = useState(''); // store client secret
   const [isLoadingClientSecret, setIsLoadingClientSecret] = useState(false); // show spinner when get client secret
+
+  // data from createPaymentIntent request
+  const [clientSecret, setClientSecret] = useState(''); // store client secret
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPriceAfterDiscount, setTotalPriceAfterDiscount] = useState(0);
+  const [toPay, setToPay] = useState(0);
 
   const stripe = useStripe();
   const elements = useElements(); // through elements we can get access to card element
@@ -30,9 +37,15 @@ const CheckoutForm = () => {
 
     createPaymentIntent(user.token)
       .then((res) => {
-        console.log('createPaymentIntent res.data ===>', res.data);
         if (!componentMounted) return;
+
         setClientSecret(res.data.client_secret);
+        setTotalPrice(res.data.totalPrice);
+        setToPay(res.data.toPay);
+
+        if (res.data.totalPriceAfterDiscount) {
+          setTotalPriceAfterDiscount(res.data.totalPriceAfterDiscount);
+        }
         setIsLoadingClientSecret(false);
       })
       .catch((error) => {
@@ -64,7 +77,6 @@ const CheckoutForm = () => {
         },
       },
     });
-    console.log('paymentIntent ===>', paymentIntent);
 
     if (paymentIntent.error) {
       setError(paymentIntent.error.message);
@@ -115,14 +127,48 @@ const CheckoutForm = () => {
     </div>
   ) : (
     <>
-      <div
-        className={succeeded ? 'result-message' : 'result-message hidden'}
-        style={{ textAlign: 'center', marginBottom: 20 }}
-      >
-        <Text type="success">
-          Payment successful!{' '}
-          <Link to="/user/history">See it in your purchase history.</Link>
-        </Text>
+      {!succeeded && (
+        <div
+          style={{
+            textAlign: 'center',
+            margin: '20px auto',
+            backgroundColor: cartFromDB.totalPriceAfterDiscount
+              ? '#f6ffed'
+              : '#fff1f0',
+            padding: '20px 0',
+          }}
+        >
+          {cartFromDB.totalPriceAfterDiscount ? (
+            <Text strong type="success" style={{ fontSize: 20 }}>
+              Total after discount: $
+              {(totalPriceAfterDiscount / 100).toFixed(2)}
+            </Text>
+          ) : (
+            <Text strong style={{ fontSize: 20, color: '#cf1322' }}>
+              No coupon applied!
+            </Text>
+          )}
+        </div>
+      )}
+      <div style={{ textAlign: 'center', margin: '20px auto' }}>
+        <Card title="Purchase details">
+          <Space
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Space style={{ fontSize: 20 }} direction="vertical">
+              <DollarCircleOutlined style={{ color: '#73d13d' }} />
+              <Text>Total: ${totalPrice / 100}</Text>
+            </Space>
+            <Space style={{ fontSize: 20 }} direction="vertical">
+              <CheckOutlined style={{ color: '#73d13d' }} />
+              <Text>Total to pay: ${(toPay / 100).toFixed(2)}</Text>
+            </Space>
+          </Space>
+        </Card>
       </div>
       <form id="payment-form" onSubmit={handleSubmit}>
         <CardElement
@@ -147,6 +193,15 @@ const CheckoutForm = () => {
             {error}
           </div>
         )}
+        <div
+          className={succeeded ? 'result-message' : 'result-message hidden'}
+          style={{ textAlign: 'center', margin: '20px 0' }}
+        >
+          <Text type="success" style={{ fontSize: 20 }}>
+            Payment successful!{' '}
+            <Link to="/user/history">See it in your purchase history.</Link>
+          </Text>
+        </div>
       </form>
     </>
   );

@@ -26,7 +26,7 @@ exports.createPaymentIntent = async (req, res) => {
       totalPrice: cart.totalPrice * 100,
       totalPriceAfterDiscount:
         cart.totalPriceAfterDiscount && cart.totalPriceAfterDiscount * 100,
-      paid: cart.totalPriceAfterDiscount
+      toPay: cart.totalPriceAfterDiscount
         ? cart.totalPriceAfterDiscount * 100
         : cart.totalPrice * 100,
     });
