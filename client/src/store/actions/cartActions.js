@@ -18,7 +18,9 @@ export const removeFromCart = (id) => ({
   type: actionTypes.REMOVE_FROM_CART,
   payload: { id },
 });
+// Clear cart in localStorage
 export const clearCart = () => ({ type: actionTypes.CLEAR_CART });
+
 export const setItemQuantity = ({ quantity, id }) => ({
   type: actionTypes.SET_ITEM_QUANTITY,
   payload: { quantity, id },

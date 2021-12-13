@@ -8,6 +8,7 @@ import { Spin, Typography, notification, Card, Space } from 'antd';
 import { CheckOutlined, DollarCircleOutlined } from '@ant-design/icons';
 
 import { createPaymentIntent } from '../../functions/stripeFunctions';
+import { createOrderAction } from '../../store/actions/orderActions';
 
 const { Text } = Typography;
 
@@ -84,6 +85,7 @@ const CheckoutForm = ({ cartFromDB }) => {
     } else {
       // if success
       // create order and save it in DB for admin to process
+      dispatch(createOrderAction(paymentIntent, user.token));
       // empty user cart in redux store and localStorage
       setError(null);
       setProcessing(false);

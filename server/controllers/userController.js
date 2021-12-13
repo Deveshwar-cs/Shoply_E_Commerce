@@ -182,10 +182,10 @@ exports.createOrder = async (req, res) => {
 
     const user = await User.findOne({ email: req.user.email });
 
-    const cart = await Cart.findOne({ orderedby: user._id });
+    const cart = await Cart.findOne({ orderedBy: user._id });
 
     // save new order to DB
-    const newOrder = await Order.create({
+    await Order.create({
       products: cart.products.map((item) => ({
         product: item.product,
         quantity: item.quantity,
@@ -193,7 +193,7 @@ exports.createOrder = async (req, res) => {
       paymentIntent,
       orderedBy: user._id,
     });
-    console.log('NEW ORDER SAVED TO DB =====>', newOrder);
+
     res.json({ orderCreated: true });
   } catch (error) {
     res.status(400).json({

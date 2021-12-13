@@ -59,3 +59,17 @@ export const applyCouponToUserCart = async (coupon, authToken) => {
     }
   );
 };
+
+// User order
+
+export const createUserOrder = async (stripeResponse, authToken) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API}/user/order`,
+    { stripeResponse },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
