@@ -2,6 +2,7 @@ const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
 const Coupon = require('../models/couponModel');
+const Order = require('../models/orderModel');
 
 exports.createCart = async (req, res) => {
   const { cart } = req.body;
@@ -168,6 +169,33 @@ exports.applyCouponToUserCart = async (req, res) => {
     res.json({ discountAppliedSuccess: true });
   } catch (error) {
     console.log('applyCouponToUserCart ERROR ===>', error);
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+// User order
+exports.createOrder = async (req, res) => {
+  try {
+    const { paymentIntent } = req.body.stripeResponse;
+
+    const user = await User.findOne({ email: req.user.email });
+
+    const cart = await Cart.findOne({ orderedby: user._id });
+
+    // save new order to DB
+    const newOrder = await Order.create({
+      products: cart.products.map((item) => ({
+        product: item.product,
+        quantity: item.quantity,
+      })),
+      paymentIntent,
+      orderedBy: user._id,
+    });
+    console.log('NEW ORDER SAVED TO DB =====>', newOrder);
+    res.json({ orderCreated: true });
+  } catch (error) {
     res.status(400).json({
       errormessage: error.message,
     });

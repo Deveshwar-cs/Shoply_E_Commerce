@@ -8,6 +8,7 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+// User cart routes
 router.post('/user/cart', authCheck, userController.createCart); // save cart by user in DB
 router.get('/user/cart', authCheck, userController.getUserCart);
 router.delete('/user/cart', authCheck, userController.emptyUserCart);
@@ -18,5 +19,8 @@ router.post(
   authCheck,
   userController.applyCouponToUserCart
 ); // apply coupon to cart
+
+// User order routes
+router.post('/user/order', authCheck, userController.createOrder);
 
 module.exports = router;
