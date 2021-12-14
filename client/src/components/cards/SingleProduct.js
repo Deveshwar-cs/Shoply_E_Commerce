@@ -28,7 +28,7 @@ const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product }) => {
-  const { title, images, price, description, ratings, _id } = product;
+  const { title, images, price, description, ratings, _id, quantity } = product;
 
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart.cart);
@@ -113,7 +113,7 @@ const SingleProduct = ({ product }) => {
               <Badge count={itemQuantityInCart}>
                 <a onClick={() => handleAddToCart(product)}>
                   <ShoppingCartOutlined style={{ color: '#73d13d' }} />
-                  <br /> Add to Cart
+                  <br /> {quantity === 0 ? 'Out of stock' : 'Add to Cart'}
                 </a>
               </Badge>,
               <Link to={`/`}>

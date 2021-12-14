@@ -13,7 +13,8 @@ import { setCartDrawerVisability } from '../../store/actions/drawerActions';
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
-  const { ratings, price, title, images, slug, _id, description } = product;
+  const { ratings, price, title, images, slug, _id, description, quantity } =
+    product;
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart.cart);
 
@@ -23,7 +24,7 @@ const ProductCard = ({ product }) => {
   useEffect(() => {
     const cartItem = items.find((item) => item._id === _id);
     if (cartItem) setItemQuantityInCart(cartItem.cartQuantity);
-  }, [items]);
+  }, [items, _id]);
 
   const handleAddToCart = (product) => {
     if (itemQuantityInCart >= product.quantity)
@@ -57,7 +58,7 @@ const ProductCard = ({ product }) => {
           <Badge count={itemQuantityInCart}>
             <a onClick={() => handleAddToCart(product)}>
               <ShoppingCartOutlined style={{ color: '#73d13d' }} />
-              <br /> Add to Cart
+              <br /> {quantity === 0 ? 'Out of stock' : 'Add to Cart'}
             </a>
           </Badge>,
         ]}

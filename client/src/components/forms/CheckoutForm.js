@@ -36,7 +36,7 @@ const CheckoutForm = () => {
   const elements = useElements(); // through elements we can get access to card element
 
   useEffect(() => {
-    // if purchase succeeded we don't want to redirect immediately (or make request to get cart from DB) even with empty cart
+    // if purchase succeeded we don't want to redirect immediately (or make request to get cart from DB)
     if (succeeded) return;
     dispatch(getCartAction(user.token)).then((data) => {
       // if the user somehow got to the '/payment' page with empty cart in the DB or redux store (for example typed manually the url in the search bar) – redirect user to the '/shop' page
