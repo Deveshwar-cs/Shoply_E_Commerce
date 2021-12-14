@@ -1,7 +1,5 @@
-const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
-const Coupon = require('../models/couponModel');
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 exports.createPaymentIntent = async (req, res) => {
@@ -23,12 +21,6 @@ exports.createPaymentIntent = async (req, res) => {
 
     res.json({
       client_secret: paymentIntent.client_secret,
-      totalPrice: cart.totalPrice * 100,
-      totalPriceAfterDiscount:
-        cart.totalPriceAfterDiscount && cart.totalPriceAfterDiscount * 100,
-      toPay: cart.totalPriceAfterDiscount
-        ? cart.totalPriceAfterDiscount * 100
-        : cart.totalPrice * 100,
     });
   } catch (error) {
     res.status(400).json({

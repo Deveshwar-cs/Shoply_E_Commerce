@@ -68,10 +68,9 @@ exports.getUserCart = async (req, res) => {
       'products.product'
     );
 
-    // if user don't have cart send null as response
-    if (cart === null) {
-      return res.json(null);
-    }
+    // if user don't have cart
+    if (!cart) return res.json({ cartIsEmpty: true });
+
     const { products, totalPrice, totalPriceAfterDiscount } = cart;
 
     res.json({ products, totalPrice, totalPriceAfterDiscount });

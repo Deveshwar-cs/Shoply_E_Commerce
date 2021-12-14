@@ -42,9 +42,9 @@ const Checkout = ({ history }) => {
   const {
     cartFromDB,
     getCartFromDBInProgress,
-    cart,
     shippingAddress,
     applyCouponInProgress,
+    cart,
   } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
@@ -54,27 +54,19 @@ const Checkout = ({ history }) => {
   const [coupon, setCoupon] = useState('');
 
   useEffect(() => {
-    dispatch(getCartAction(user.token));
-  }, []);
+    dispatch(getCartAction(user.token)).then((data) => {
+      // if the user somehow got to the '/checkout' page with empty cart in the DB or redux store (for example typed manually the url in the search bar) – redirect user to the '/shop' page
+      if (!cart.items.length || data.cartIsEmpty) history.push('/shop');
+    });
+  }, [user.token, dispatch, cart, history]);
 
   useEffect(() => {
     dispatch(getShippingAddressAction(user.token));
-  }, []);
+  }, [user.token, dispatch]);
 
   useEffect(() => {
     setTextAreaValue(shippingAddress);
   }, [shippingAddress]);
-
-  // if the user somehow got to the '/checkout' page with empty cart (for example manualy type url in the search bar) – redirect user to the '/shop' page
-  useEffect(() => {
-    const delayed = setTimeout(() => {
-      if (!cart.items.length || !cartFromDB) {
-        history.push('/shop');
-      }
-    }, 500);
-
-    return () => clearTimeout(delayed);
-  }, [cartFromDB, cart, history]);
 
   const emptyUserCartHandler = () => {
     confirm({

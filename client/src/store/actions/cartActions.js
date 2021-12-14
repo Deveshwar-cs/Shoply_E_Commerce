@@ -74,7 +74,13 @@ export const getCartAction = (token) => async (dispatch) => {
 
     // Request to DB
     const cart = await getUserCart(token);
-    dispatch(getCartSuccess(cart.data));
+    if (cart.data.cartIsEmpty) {
+      dispatch(getCartSuccess(null));
+    } else {
+      dispatch(getCartSuccess(cart.data));
+    }
+
+    return cart.data;
   } catch (error) {
     dispatch(getCartError(error));
   }

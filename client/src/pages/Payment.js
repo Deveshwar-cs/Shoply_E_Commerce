@@ -1,34 +1,18 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Typography, Row, Col, Button, Modal } from 'antd';
+import { Typography, Row, Col } from 'antd';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import '../stripe.css';
 
-import { DeleteTwoTone } from '@ant-design/icons';
 import CheckoutForm from '../components/forms/CheckoutForm';
 
-import { getCartAction } from '../store/actions/cartActions';
-
-const { Title, Text } = Typography;
-const { confirm } = Modal;
+const { Title } = Typography;
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-const Payment = ({ history }) => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { cartFromDB, getCartFromDBInProgress } = useSelector(
-    (state) => state.cart
-  );
-
-  useEffect(() => {
-    dispatch(getCartAction(user.token));
-  }, []);
+const Payment = () => {
   return (
     <>
       <Row>
@@ -65,7 +49,7 @@ const Payment = ({ history }) => {
             Complete your purchase
           </Title>
           <Elements stripe={stripePromise}>
-            <CheckoutForm cartFromDB={cartFromDB} />
+            <CheckoutForm />
           </Elements>
         </Col>
       </Row>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Spin, Typography, notification, Card, Space } from 'antd';
 
@@ -9,12 +9,17 @@ import { CheckOutlined, DollarCircleOutlined } from '@ant-design/icons';
 
 import { createPaymentIntent } from '../../functions/stripeFunctions';
 import { createOrderAction } from '../../store/actions/orderActions';
+import { getCartAction } from '../../store/actions/cartActions';
 
 const { Text } = Typography;
 
-const CheckoutForm = ({ cartFromDB }) => {
+const CheckoutForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { user } = useSelector((state) => state.auth);
+  const { cartFromDB, getCartFromDBInProgress, cart } = useSelector(
+    (state) => state.cart
+  );
 
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
@@ -22,8 +27,7 @@ const CheckoutForm = ({ cartFromDB }) => {
   const [disabled, setDisabled] = useState(true);
   const [isLoadingClientSecret, setIsLoadingClientSecret] = useState(false); // show spinner when get client secret
 
-  // data from createPaymentIntent request
-  const [clientSecret, setClientSecret] = useState(''); // store client secret
+  // data from createPaymentIntent request (it not necessary because we have all data in cartFromDB already)
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPriceAfterDiscount, setTotalPriceAfterDiscount] = useState(0);
   const [toPay, setToPay] = useState(0);
@@ -32,32 +36,21 @@ const CheckoutForm = ({ cartFromDB }) => {
   const elements = useElements(); // through elements we can get access to card element
 
   useEffect(() => {
-    let componentMounted = true;
+    dispatch(getCartAction(user.token)).then((data) => {
+      // if purchase succeeded we don't want to redirect immediately even with empty cart
+      if (succeeded) return;
+      // if the user somehow got to the '/payment' page with empty cart in the DB or redux store (for example typed manually the url in the search bar) – redirect user to the '/shop' page
+      if (!cart.items.length || data.cartIsEmpty) history.push('/shop');
+    });
+  }, [user.token, dispatch, cart, history, succeeded]);
 
-    setIsLoadingClientSecret(true);
-
-    createPaymentIntent(user.token)
-      .then((res) => {
-        if (!componentMounted) return;
-
-        setClientSecret(res.data.client_secret);
-        setTotalPrice(res.data.totalPrice);
-        setToPay(res.data.toPay);
-
-        if (res.data.totalPriceAfterDiscount) {
-          setTotalPriceAfterDiscount(res.data.totalPriceAfterDiscount);
-        }
-        setIsLoadingClientSecret(false);
-      })
-      .catch((error) => {
-        setIsLoadingClientSecret(false);
-        console.log(error);
-      });
-
-    return () => {
-      componentMounted = false;
-    };
-  }, [user.token]);
+  useEffect(() => {
+    if (cartFromDB) {
+      setTotalPrice(cartFromDB.totalPrice);
+      setToPay(cartFromDB.totalPriceAfterDiscount || cartFromDB.totalPrice);
+      setTotalPriceAfterDiscount(cartFromDB.totalPriceAfterDiscount);
+    }
+  }, [cartFromDB]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,31 +61,46 @@ const CheckoutForm = ({ cartFromDB }) => {
       return;
     }
 
-    setProcessing(true);
+    try {
+      // Create payment intent on the server
+      setIsLoadingClientSecret(true);
+      const clientSecretResponse = await createPaymentIntent(user.token);
 
-    const paymentIntent = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: e.target.name.value,
-        },
-      },
-    });
+      if (clientSecretResponse.data.client_secret.length > 0) {
+        setIsLoadingClientSecret(false);
+      }
 
-    if (paymentIntent.error) {
-      setError(paymentIntent.error.message);
-      setProcessing(false);
-    } else {
-      // if success
-      // create order and save it in DB for admin to process
-      dispatch(createOrderAction(paymentIntent, user.token));
-      // empty user cart in redux store and localStorage
-      setError(null);
-      setProcessing(false);
-      setSucceeded(true);
-      notification.success({
-        message: `Payment successful!`,
-      });
+      // Confirm the payment on the cleint
+      setProcessing(true);
+      const paymentIntent = await stripe.confirmCardPayment(
+        clientSecretResponse.data.client_secret,
+        {
+          payment_method: {
+            card: elements.getElement(CardElement),
+            billing_details: {
+              name: e.target.name.value,
+            },
+          },
+        }
+      );
+
+      if (paymentIntent.error) {
+        setError(paymentIntent.error.message);
+        setProcessing(false);
+      } else {
+        // if success
+        // create order and save it in DB for admin to process
+        dispatch(createOrderAction(paymentIntent, user.token));
+        // empty user cart in redux store and localStorage
+        setError(null);
+        setProcessing(false);
+        setSucceeded(true);
+        notification.success({
+          message: `Payment successful!`,
+        });
+      }
+    } catch (error) {
+      console.log('PAYMENT ERROR ===>', error);
     }
   };
 
@@ -123,7 +131,7 @@ const CheckoutForm = ({ cartFromDB }) => {
     //hidePostalCode: true,
   };
 
-  return isLoadingClientSecret ? (
+  return getCartFromDBInProgress ? (
     <div style={{ width: 40, margin: '100px auto' }}>
       <Spin size="large" />
     </div>
@@ -134,16 +142,13 @@ const CheckoutForm = ({ cartFromDB }) => {
           style={{
             textAlign: 'center',
             margin: '20px auto',
-            backgroundColor: cartFromDB.totalPriceAfterDiscount
-              ? '#f6ffed'
-              : '#fff1f0',
+            backgroundColor: totalPriceAfterDiscount ? '#f6ffed' : '#fff1f0',
             padding: '20px 0',
           }}
         >
-          {cartFromDB.totalPriceAfterDiscount ? (
+          {cartFromDB && cartFromDB.totalPriceAfterDiscount ? (
             <Text strong type="success" style={{ fontSize: 20 }}>
-              Total after discount: $
-              {(totalPriceAfterDiscount / 100).toFixed(2)}
+              Total after discount: ${totalPriceAfterDiscount}
             </Text>
           ) : (
             <Text strong style={{ fontSize: 20, color: '#cf1322' }}>
@@ -163,11 +168,11 @@ const CheckoutForm = ({ cartFromDB }) => {
           >
             <Space style={{ fontSize: 20 }} direction="vertical">
               <DollarCircleOutlined style={{ color: '#73d13d' }} />
-              <Text>Total: ${totalPrice / 100}</Text>
+              <Text>Total: ${totalPrice}</Text>
             </Space>
             <Space style={{ fontSize: 20 }} direction="vertical">
               <CheckOutlined style={{ color: '#73d13d' }} />
-              <Text>Total to pay: ${(toPay / 100).toFixed(2)}</Text>
+              <Text>Total to pay: ${toPay}</Text>
             </Space>
           </Space>
         </Card>
@@ -183,7 +188,7 @@ const CheckoutForm = ({ cartFromDB }) => {
           className="stripe-button"
         >
           <span id="button-text">
-            {processing ? (
+            {processing || isLoadingClientSecret ? (
               <div className="spinner" id="spinner"></div>
             ) : (
               'Pay now'
