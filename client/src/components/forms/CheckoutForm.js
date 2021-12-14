@@ -36,20 +36,27 @@ const CheckoutForm = () => {
   const elements = useElements(); // through elements we can get access to card element
 
   useEffect(() => {
+    // if purchase succeeded we don't want to redirect immediately (or make request to get cart from DB) even with empty cart
+    if (succeeded) return;
     dispatch(getCartAction(user.token)).then((data) => {
-      // if purchase succeeded we don't want to redirect immediately even with empty cart
-      if (succeeded) return;
       // if the user somehow got to the '/payment' page with empty cart in the DB or redux store (for example typed manually the url in the search bar) – redirect user to the '/shop' page
       if (!cart.items.length || data.cartIsEmpty) history.push('/shop');
     });
   }, [user.token, dispatch, cart, history, succeeded]);
 
   useEffect(() => {
+    let componentMounted = true;
+
     if (cartFromDB) {
+      if (!componentMounted) return;
       setTotalPrice(cartFromDB.totalPrice);
       setToPay(cartFromDB.totalPriceAfterDiscount || cartFromDB.totalPrice);
       setTotalPriceAfterDiscount(cartFromDB.totalPriceAfterDiscount);
     }
+
+    return () => {
+      componentMounted = false;
+    };
   }, [cartFromDB]);
 
   const handleSubmit = async (e) => {

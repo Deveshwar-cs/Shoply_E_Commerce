@@ -183,6 +183,23 @@ exports.createOrder = async (req, res) => {
 
     const cart = await Cart.findOne({ orderedBy: user._id });
 
+    // decrement quantity, increment sold with Model.bulkWrite(). Helpful links below
+    // https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/
+    // https://stackoverflow.com/questions/39988848/trying-to-do-a-bulk-upsert-with-mongoose-whats-the-cleanest-way-to-do-this
+    const bulkOperations = cart.products.map((item) => ({
+      updateOne: {
+        filter: { _id: item.product._id },
+        update: {
+          $inc: {
+            quantity: -item.quantity,
+            sold: +item.quantity,
+          },
+        },
+      },
+    }));
+
+    await Product.bulkWrite(bulkOperations);
+
     // save new order to DB
     await Order.create({
       products: cart.products.map((item) => ({
