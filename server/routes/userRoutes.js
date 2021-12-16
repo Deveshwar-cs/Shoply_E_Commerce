@@ -21,6 +21,7 @@ router.post(
 ); // apply coupon to cart
 
 // User order routes
-router.post('/user/order', authCheck, userController.createOrder);
+router.post('/user/orders', authCheck, userController.createOrder);
+router.get('/user/orders', authCheck, userController.getAllOrdersByUser);
 
 module.exports = router;

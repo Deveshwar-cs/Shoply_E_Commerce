@@ -217,3 +217,21 @@ exports.createOrder = async (req, res) => {
     });
   }
 };
+
+// Get all orders by user
+exports.getAllOrdersByUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email });
+
+    const userOrders = await Order.find({ orderdBy: user._id }).populate(
+      'products.product'
+    );
+
+    res.json(userOrders);
+  } catch (error) {
+    console.log('getAllOrdersByUser ERROR ===>', error);
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};

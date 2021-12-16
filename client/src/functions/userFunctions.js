@@ -64,7 +64,7 @@ export const applyCouponToUserCart = async (coupon, authToken) => {
 
 export const createUserOrder = async (stripeResponse, authToken) => {
   return await axios.post(
-    `${process.env.REACT_APP_API}/user/order`,
+    `${process.env.REACT_APP_API}/user/orders`,
     { stripeResponse },
     {
       headers: {
