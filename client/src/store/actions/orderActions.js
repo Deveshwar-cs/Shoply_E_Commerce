@@ -1,7 +1,10 @@
 import { notification } from 'antd';
 import * as actionTypes from '../actions/types';
 
-import { createUserOrder } from '../../functions/userFunctions';
+import {
+  createUserOrder,
+  getAllOrdersByUser,
+} from '../../functions/userFunctions';
 import { emptyCartInDBAction, clearCart } from '../actions/cartActions';
 
 // Create order actions
@@ -37,3 +40,34 @@ export const createOrderAction =
       console.log('createOrderAction error', error);
     }
   };
+
+// Get all orders by user
+// Get all categories actions
+
+const getAllOrdersByUserRequest = () => ({
+  type: actionTypes.GET_ALL_ORDERS_BY_USER_REQUEST,
+});
+const getAllOrdersByUserSuccess = (categories) => ({
+  type: actionTypes.GET_ALL_ORDERS_BY_USER_SUCCESS,
+  payload: categories,
+});
+const getAllOrdersByUserError = (e) => ({
+  type: actionTypes.GET_ALL_ORDERS_BY_USER_ERROR,
+  payload: e,
+});
+
+export const getAllOrdersByUserAction = (token) => async (dispatch) => {
+  try {
+    dispatch(getAllOrdersByUserRequest());
+    // Request to DB
+    const allOrdersByUser = await getAllOrdersByUser(token);
+    console.log(
+      'getAllOrdersByUserAction allOrdersByUser.data ===>',
+      allOrdersByUser.data
+    );
+
+    dispatch(getAllOrdersByUserSuccess(allOrdersByUser.data));
+  } catch (error) {
+    dispatch(getAllOrdersByUserError());
+  }
+};

@@ -7,7 +7,11 @@ const initialState = {
   getAllOrdersInProgress: false,
   getAllOrdersError: null,
 
-  allOrders: [],
+  getAllOrdersByUserInProgress: false,
+  getAllOrdersByUserError: null,
+
+  allOrdersAdmin: [],
+  allOrdersByUser: [],
 };
 
 export const orderReducer = (state = initialState, action = {}) => {
@@ -28,6 +32,23 @@ export const orderReducer = (state = initialState, action = {}) => {
         ...state,
         createOrderInProgress: false,
         createOrderError: payload,
+      };
+    case actionTypes.GET_ALL_ORDERS_BY_USER_REQUEST:
+      return {
+        ...state,
+        getAllOrdersByUserInProgress: true,
+      };
+    case actionTypes.GET_ALL_ORDERS_BY_USER_SUCCESS:
+      return {
+        ...state,
+        getAllOrdersByUserInProgress: false,
+        allOrdersByUser: payload,
+      };
+    case actionTypes.GET_ALL_ORDERS_BY_USER_ERROR:
+      return {
+        ...state,
+        getAllOrdersByUserInProgress: false,
+        getAllOrdersByUserError: payload,
       };
 
     default:

@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
         quantity: Number, // quantity of one product
       },
     ],
-    paymentIntetn: {},
+    paymentIntent: {},
     orderStatus: {
       type: String,
       default: 'Not processing',

@@ -199,7 +199,7 @@ exports.createOrder = async (req, res) => {
     }));
 
     await Product.bulkWrite(bulkOperations);
-
+    console.log('createOrder paymentIntent ====>', paymentIntent);
     // save new order to DB
     await Order.create({
       products: cart.products.map((item) => ({
@@ -223,7 +223,7 @@ exports.getAllOrdersByUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email });
 
-    const userOrders = await Order.find({ orderdBy: user._id }).populate(
+    const userOrders = await Order.find({ orderedBy: user._id }).populate(
       'products.product'
     );
 
