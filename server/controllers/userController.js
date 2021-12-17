@@ -223,9 +223,9 @@ exports.getAllOrdersByUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email });
 
-    const userOrders = await Order.find({ orderedBy: user._id }).populate(
-      'products.product'
-    );
+    const userOrders = await Order.find({ orderedBy: user._id })
+      .populate('products.product')
+      .sort([['createdAt', 'desc']]);
 
     res.json(userOrders);
   } catch (error) {
