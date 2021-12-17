@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { Card, Typography, Table, Button } from 'antd';
+import { Card, Table, Button } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 
-const { Text } = Typography;
+import ShowPaymentInfo from './ShowPaymentInfo';
 
 const OrderHistoryCard = ({ order }) => {
   // Table //////////////
@@ -65,14 +65,15 @@ const OrderHistoryCard = ({ order }) => {
     brand: item.product.brand,
     quantity: item.quantity,
     shipping: item.product.shipping,
+    slug: item.product.slug,
   }));
 
   /// Table END ////////////
 
   return (
     <Card style={{ width: '100%', textAlign: 'center', marginBottom: 20 }}>
-      <div style={{ margin: '30px 0' }}>
-        <Text>Show payment info</Text>
+      <div style={{ margin: '10px 0' }}>
+        <ShowPaymentInfo order={order} />
       </div>
       <Table
         columns={columns}
@@ -81,7 +82,7 @@ const OrderHistoryCard = ({ order }) => {
         bordered={true}
         scroll={{ x: true }}
       />
-      <div style={{ margin: '30px 0' }}>
+      <div style={{ margin: '20px 0 0' }}>
         <Button size="large">PDF Download</Button>
       </div>
     </Card>
