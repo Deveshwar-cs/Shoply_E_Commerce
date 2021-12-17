@@ -61,10 +61,6 @@ export const getAllOrdersByUserAction = (token) => async (dispatch) => {
     dispatch(getAllOrdersByUserRequest());
     // Request to DB
     const allOrdersByUser = await getAllOrdersByUser(token);
-    console.log(
-      'getAllOrdersByUserAction allOrdersByUser.data ===>',
-      allOrdersByUser.data
-    );
 
     dispatch(getAllOrdersByUserSuccess(allOrdersByUser.data));
   } catch (error) {
