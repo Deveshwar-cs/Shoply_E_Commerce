@@ -3,9 +3,34 @@ import { Link } from 'react-router-dom';
 import { Card, Table, Button } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+} from '@react-pdf/renderer';
+
 import ShowPaymentInfo from './ShowPaymentInfo';
 
 const OrderHistoryCard = ({ order }) => {
+  const showPDFDownloadLink = (order) => (
+    <PDFDownloadLink
+      document={
+        <Document>
+          <Page>
+            <View>
+              <Text>TEST PDF TEXT</Text>
+            </View>
+          </Page>
+        </Document>
+      }
+      fileName="invoice.pdf"
+    >
+      Download Invoice PDF
+    </PDFDownloadLink>
+  );
   // Table //////////////
 
   const columns = [
@@ -83,7 +108,8 @@ const OrderHistoryCard = ({ order }) => {
         scroll={{ x: true }}
       />
       <div style={{ margin: '20px 0 0' }}>
-        <Button size="large">PDF Download</Button>
+        {/* <Button size="large">PDF Download</Button> */}
+        {showPDFDownloadLink(order)}
       </div>
     </Card>
   );

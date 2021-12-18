@@ -113,7 +113,10 @@ const SingleProduct = ({ product }) => {
               <Badge count={itemQuantityInCart}>
                 <a onClick={() => handleAddToCart(product)}>
                   <ShoppingCartOutlined style={{ color: '#73d13d' }} />
-                  <br /> {quantity === 0 ? 'Out of stock' : 'Add to Cart'}
+                  <br />{' '}
+                  <span style={{ color: quantity === 0 && '#ff4d4f' }}>
+                    {quantity === 0 ? 'Out of stock' : 'Add to Cart'}
+                  </span>
                 </a>
               </Badge>,
               <Link to={`/`}>
