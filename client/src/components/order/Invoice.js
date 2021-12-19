@@ -1,11 +1,4 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFDownloadLink,
-} from '@react-pdf/renderer';
+import { Document, Page, Text, StyleSheet } from '@react-pdf/renderer';
 import {
   Table,
   TableHeader,
@@ -15,8 +8,6 @@ import {
 } from '@david.kucsai/react-pdf-table';
 
 const Invoice = ({ order }) => {
-  ///
-
   return (
     <Document>
       <Page style={styles.body}>
@@ -24,6 +15,44 @@ const Invoice = ({ order }) => {
         <Text style={styles.title}>Order Invoice</Text>
         <Text style={styles.author}>MERN Ecommerce</Text>
         <Text style={styles.subtitle}>Order Summary</Text>
+        <Table data={order.products}>
+          <TableHeader textAlign={'center'}>
+            <TableCell>Title</TableCell>
+            <TableCell weighting={0.15}> Price</TableCell>
+            <TableCell weighting={0.15}>Brand</TableCell>
+            <TableCell weighting={0.15}>Color</TableCell>
+            <TableCell weighting={0.2}>Quantity</TableCell>
+          </TableHeader>
+          <TableBody textAlign={'center'}>
+            <DataTableCell getContent={(item) => item.product.title} />
+            <DataTableCell
+              weighting={0.15}
+              getContent={(item) => `$${item.product.price}`}
+            />
+            <DataTableCell
+              weighting={0.15}
+              getContent={(item) => item.product.brand}
+            />
+            <DataTableCell
+              weighting={0.15}
+              getContent={(item) => item.product.color}
+            />
+            <DataTableCell
+              weighting={0.2}
+              getContent={(item) => item.quantity}
+            />
+          </TableBody>
+        </Table>
+        <Text style={styles.text}>
+          Order Date:{' '}
+          {new Date(order.paymentIntent.created * 1000).toLocaleString()}
+        </Text>
+        <Text style={styles.text}>Order ID: {order.paymentIntent.id}</Text>
+        <Text style={styles.text}>Order Status: {order.orderStatus}</Text>
+        <Text style={styles.text}>
+          Total Paid: ${order.paymentIntent.amount / 100}
+        </Text>
+        <Text style={styles.footer}>~ Thank you for shopping with us ~</Text>
       </Page>
     </Document>
   );

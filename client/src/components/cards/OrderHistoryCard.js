@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Card, Table, Button } from 'antd';
+import { Card, Table } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 
 import Invoice from '../order/Invoice';
@@ -94,10 +94,7 @@ const OrderHistoryCard = ({ order }) => {
         bordered={true}
         scroll={{ x: true }}
       />
-      <div style={{ margin: '20px 0 0' }}>
-        {/* <Button size="large">PDF Download</Button> */}
-        {showPDFDownloadLink(order)}
-      </div>
+      <div style={{ margin: '20px 0 0' }}>{showPDFDownloadLink(order)}</div>
     </Card>
   );
 };
