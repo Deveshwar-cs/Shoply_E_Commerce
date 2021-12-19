@@ -3,29 +3,16 @@ import { Link } from 'react-router-dom';
 import { Card, Table, Button } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFDownloadLink,
-} from '@react-pdf/renderer';
+import Invoice from '../order/Invoice';
+
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import ShowPaymentInfo from './ShowPaymentInfo';
 
 const OrderHistoryCard = ({ order }) => {
   const showPDFDownloadLink = (order) => (
     <PDFDownloadLink
-      document={
-        <Document>
-          <Page>
-            <View>
-              <Text>TEST PDF TEXT</Text>
-            </View>
-          </Page>
-        </Document>
-      }
+      document={<Invoice order={order} />}
       fileName="invoice.pdf"
     >
       Download Invoice PDF
