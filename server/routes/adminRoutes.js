@@ -18,7 +18,7 @@ router.get(
   adminController.getAllOrdersByAdmin
 );
 router.put(
-  '/admin/orders-status',
+  '/admin/order-status',
   authCheck,
   adminCheck,
   adminController.updateOrderStatus

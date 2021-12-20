@@ -1,11 +1,26 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Layout, Typography, Row, Col } from 'antd';
 
 import AdminNav from '../../components/nav/AdminNav';
+
+import { getAllOrdersByAdminAction } from '../../store/actions/orderActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const AdminDashboard = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { allOrdersByAdmin, getAllOrdersInProgress } = useSelector(
+    (state) => state.order
+  );
+
+  useEffect(() => {
+    dispatch(getAllOrdersByAdminAction(user.token));
+  }, [user.token, dispatch]);
+
   return (
     <>
       <Layout>
@@ -38,6 +53,13 @@ const AdminDashboard = () => {
                 xs={{ span: 20, offset: 2 }}
               >
                 Admin Dashboard page content
+                <br />
+                All orders:{' '}
+                {getAllOrdersInProgress ? (
+                  <span>LOADING ...</span>
+                ) : (
+                  allOrdersByAdmin.length
+                )}
               </Col>
             </Row>
           </Content>

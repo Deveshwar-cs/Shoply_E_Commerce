@@ -19,12 +19,9 @@ exports.getAllOrdersByAdmin = async (req, res) => {
 exports.updateOrderStatus = async (req, res) => {
   const { orderId, orderStatus } = req.body;
   try {
-    const updatedOrderStatus = await Order.findByIdAndUpdate(
-      orderId,
-      { orderStatus },
-      { new: true }
-    );
-    res.status(200).json(updatedOrderStatus);
+    await Order.findByIdAndUpdate(orderId, { orderStatus }, { new: true });
+
+    res.status(200).json({ orderStatusUpdated: true });
   } catch (error) {
     console.log('updateOrderStatus ERROR ===>', error);
     res.status(400).send('Update order status failed!');

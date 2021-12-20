@@ -10,7 +10,10 @@ const initialState = {
   getAllOrdersByUserInProgress: false,
   getAllOrdersByUserError: null,
 
-  allOrdersAdmin: [],
+  updateOrderStatusInProgress: false,
+  updateOrderStatusError: null,
+
+  allOrdersByAdmin: [],
   allOrdersByUser: [],
 };
 
@@ -49,6 +52,41 @@ export const orderReducer = (state = initialState, action = {}) => {
         ...state,
         getAllOrdersByUserInProgress: false,
         getAllOrdersByUserError: payload,
+      };
+
+    case actionTypes.GET_ALL_ORDERS_BY_ADMIN_REQUEST:
+      return {
+        ...state,
+        getAllOrdersInProgress: true,
+      };
+    case actionTypes.GET_ALL_ORDERS_BY_ADMIN_SUCCESS:
+      return {
+        ...state,
+        getAllOrdersInProgress: false,
+        allOrdersByAdmin: payload,
+      };
+    case actionTypes.GET_ALL_ORDERS_BY_ADMIN_ERROR:
+      return {
+        ...state,
+        getAllOrdersInProgress: false,
+        getAllOrdersError: payload,
+      };
+
+    case actionTypes.UPDATE_ORDER_STATUS_REQUEST:
+      return {
+        ...state,
+        updateOrderStatusInProgress: true,
+      };
+    case actionTypes.UPDATE_ORDER_STATUS_SUCCESS:
+      return {
+        ...state,
+        updateOrderStatusInProgress: false,
+      };
+    case actionTypes.UPDATE_ORDER_STATUS_ERROR:
+      return {
+        ...state,
+        updateOrderStatusInProgress: false,
+        updateOrderStatusError: payload,
       };
 
     default:

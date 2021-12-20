@@ -5,6 +5,11 @@ import {
   createUserOrder,
   getAllOrdersByUser,
 } from '../../functions/userFunctions';
+
+import {
+  getAllOrdersByAdmin,
+  updateOrderStatus,
+} from '../../functions/adminFunctions';
 import { emptyCartInDBAction, clearCart } from '../actions/cartActions';
 
 // Create order actions
@@ -42,14 +47,13 @@ export const createOrderAction =
   };
 
 // Get all orders by user
-// Get all categories actions
 
 const getAllOrdersByUserRequest = () => ({
   type: actionTypes.GET_ALL_ORDERS_BY_USER_REQUEST,
 });
-const getAllOrdersByUserSuccess = (categories) => ({
+const getAllOrdersByUserSuccess = (orders) => ({
   type: actionTypes.GET_ALL_ORDERS_BY_USER_SUCCESS,
-  payload: categories,
+  payload: orders,
 });
 const getAllOrdersByUserError = (e) => ({
   type: actionTypes.GET_ALL_ORDERS_BY_USER_ERROR,
@@ -67,3 +71,55 @@ export const getAllOrdersByUserAction = (token) => async (dispatch) => {
     dispatch(getAllOrdersByUserError());
   }
 };
+
+// Get all orders by admin
+
+const getAllOrdersByAdminRequest = () => ({
+  type: actionTypes.GET_ALL_ORDERS_BY_ADMIN_REQUEST,
+});
+const getAllOrdersByAdminSuccess = (orders) => ({
+  type: actionTypes.GET_ALL_ORDERS_BY_ADMIN_SUCCESS,
+  payload: orders,
+});
+const getAllOrdersByAdminError = (e) => ({
+  type: actionTypes.GET_ALL_ORDERS_BY_ADMIN_ERROR,
+  payload: e,
+});
+
+export const getAllOrdersByAdminAction = (token) => async (dispatch) => {
+  try {
+    dispatch(getAllOrdersByAdminRequest());
+    // Request to DB
+    const allOrdersByAdmin = await getAllOrdersByAdmin(token);
+
+    dispatch(getAllOrdersByAdminSuccess(allOrdersByAdmin.data));
+  } catch (error) {
+    dispatch(getAllOrdersByAdminError());
+  }
+};
+
+// Update orders status by admin
+
+const updateOrderStatusByAdminRequest = () => ({
+  type: actionTypes.UPDATE_ORDER_STATUS_REQUEST,
+});
+const updateOrderStatusByAdminSuccess = () => ({
+  type: actionTypes.UPDATE_ORDER_STATUS_SUCCESS,
+});
+const updateOrderStatusByAdminError = (e) => ({
+  type: actionTypes.UPDATE_ORDER_STATUS_ERROR,
+  payload: e,
+});
+
+export const updateOrderStatusByAdminAction =
+  (orderId, orderStatus, token) => async (dispatch) => {
+    try {
+      dispatch(updateOrderStatusByAdminRequest());
+      // Request to DB
+      const response = await updateOrderStatus(orderId, orderStatus, token);
+      if (response.orderStatusUpdated)
+        dispatch(updateOrderStatusByAdminSuccess());
+    } catch (error) {
+      dispatch(updateOrderStatusByAdminError());
+    }
+  };
