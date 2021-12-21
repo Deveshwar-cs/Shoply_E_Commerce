@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Row, Col } from 'antd';
+import { Layout, Typography, Row, Col, Spin } from 'antd';
 
 import AdminNav from '../../components/nav/AdminNav';
+import AdminOrderList from '../../components/order/AdminOrderList';
 
 import { getAllOrdersByAdminAction } from '../../store/actions/orderActions';
 
@@ -33,12 +34,7 @@ const AdminDashboard = () => {
           <AdminNav />
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
-              <Col
-                xl={{ span: 20, offset: 2 }}
-                lg={{ span: 20, offset: 2 }}
-                md={{ span: 20, offset: 2 }}
-                xs={{ span: 20, offset: 2 }}
-              >
+              <Col lg={{ span: 12, offset: 6 }} xs={{ span: 20, offset: 2 }}>
                 <Title level={2} style={{ marginTop: 40 }}>
                   All products
                 </Title>
@@ -46,19 +42,13 @@ const AdminDashboard = () => {
             </Row>
 
             <Row>
-              <Col
-                xl={{ span: 20, offset: 2 }}
-                lg={{ span: 20, offset: 2 }}
-                md={{ span: 20, offset: 2 }}
-                xs={{ span: 20, offset: 2 }}
-              >
-                Admin Dashboard page content
-                <br />
-                All orders:{' '}
+              <Col lg={{ span: 12, offset: 6 }} xs={{ span: 20, offset: 2 }}>
                 {getAllOrdersInProgress ? (
-                  <span>LOADING ...</span>
+                  <div style={{ width: 40, margin: '100px auto' }}>
+                    <Spin size="large" />
+                  </div>
                 ) : (
-                  allOrdersByAdmin.length
+                  <AdminOrderList orders={allOrdersByAdmin} />
                 )}
               </Col>
             </Row>

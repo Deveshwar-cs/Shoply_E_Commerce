@@ -117,8 +117,10 @@ export const updateOrderStatusByAdminAction =
       dispatch(updateOrderStatusByAdminRequest());
       // Request to DB
       const response = await updateOrderStatus(orderId, orderStatus, token);
-      if (response.orderStatusUpdated)
+
+      if (response.data.orderStatusUpdated) {
         dispatch(updateOrderStatusByAdminSuccess());
+      }
     } catch (error) {
       dispatch(updateOrderStatusByAdminError());
     }

@@ -5,8 +5,6 @@ const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
 
 // controllers
 const adminController = require('../controllers/adminController');
-// getAllOrdersByAdmin
-// updateOrderStatus
 
 const router = express.Router();
 

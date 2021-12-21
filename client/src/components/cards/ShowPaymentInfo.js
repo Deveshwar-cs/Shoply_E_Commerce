@@ -2,7 +2,7 @@ import { Space, Typography, Tag } from 'antd';
 // Here we use the Tag component only for styling purpose
 
 const { Text, Title } = Typography;
-const ShowPaymentInfo = ({ order }) => {
+const ShowPaymentInfo = ({ order, displayOrderStatus = true }) => {
   return (
     <Space direction="vertical">
       <Title level={4}>Order details</Title>
@@ -22,7 +22,9 @@ const ShowPaymentInfo = ({ order }) => {
         {new Date(order.paymentIntent.created * 1000).toLocaleString()}
       </Text>
       {/* <Text>STATUS: {order.orderStatus.toUpperCase()}</Text> */}
-      <Tag color="#2db7f5">STATUS: {order.orderStatus.toUpperCase()}</Tag>
+      {displayOrderStatus && (
+        <Tag color="#2db7f5">STATUS: {order.orderStatus.toUpperCase()}</Tag>
+      )}
     </Space>
   );
 };

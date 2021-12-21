@@ -5,7 +5,7 @@ exports.getAllOrdersByAdmin = async (req, res) => {
   try {
     const allOrders = await Order.find({})
       .populate('products.product')
-      .sort([['createdAt', 'desc']]);
+      .sort([['createdAt', 'asc']]);
 
     res.json(allOrders);
   } catch (error) {
@@ -24,6 +24,8 @@ exports.updateOrderStatus = async (req, res) => {
     res.status(200).json({ orderStatusUpdated: true });
   } catch (error) {
     console.log('updateOrderStatus ERROR ===>', error);
-    res.status(400).send('Update order status failed!');
+    res.status(400).json({
+      errormessage: error.message,
+    });
   }
 };
