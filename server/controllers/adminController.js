@@ -5,6 +5,7 @@ exports.getAllOrdersByAdmin = async (req, res) => {
   try {
     const allOrders = await Order.find({})
       .populate('products.product')
+      .populate('orderedBy')
       .sort([['createdAt', 'asc']]);
 
     res.json(allOrders);
