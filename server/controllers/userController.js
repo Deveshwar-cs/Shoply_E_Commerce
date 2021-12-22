@@ -235,3 +235,56 @@ exports.getAllOrdersByUser = async (req, res) => {
     });
   }
 };
+
+// USER WHISHLIST
+
+// Add to whishlist
+
+exports.addToWishlist = async (req, res) => {
+  const { productId } = req.body;
+  try {
+    await User.findOneAnUpdate(
+      { email: req.user.email },
+      { $addToSet: { wishlist: productId } } // https://docs.mongodb.com/manual/reference/operator/update/addToSet/
+    );
+
+    res.json({ productAddedToWishlist: true });
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+// Get user's whishlist
+exports.getWishlist = async (req, res) => {
+  try {
+    const wishlist = await User.findOne(
+      { email: req.user.email },
+      { whishlist: 1 }
+    ).populate('wishlist');
+
+    res.json(wishlist);
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+// Update user's wishlist (delete product from wishlist)
+exports.updateWishlist = async (req, res) => {
+  const { productId } = req.body;
+  try {
+    await User.findOneAndUpdate(
+      { email: req.user.email },
+      { $pull: { wishlist: { productId } } } // https://docs.mongodb.com/manual/reference/operator/update/pull/
+    );
+
+    res.json({ productDeletedFromWishlist: true });
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};

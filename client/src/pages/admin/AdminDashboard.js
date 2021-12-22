@@ -36,7 +36,7 @@ const AdminDashboard = () => {
             <Row>
               <Col lg={{ span: 12, offset: 6 }} xs={{ span: 20, offset: 2 }}>
                 <Title level={2} style={{ marginTop: 40 }}>
-                  All products
+                  All orders
                 </Title>
               </Col>
             </Row>
