@@ -27,10 +27,6 @@ router.get('/user/orders', authCheck, userController.getAllOrdersByUser);
 // User wishlist routes
 router.post('/user/whishlist', authCheck, userController.addToWishlist);
 router.get('/user/whishlist', authCheck, userController.getWishlist);
-router.put(
-  '/user/whishlist/:productId',
-  authCheck,
-  userController.updateWishlist
-);
+router.put('/user/whishlist', authCheck, userController.updateWishlist);
 
 module.exports = router;

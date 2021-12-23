@@ -243,7 +243,7 @@ exports.getAllOrdersByUser = async (req, res) => {
 exports.addToWishlist = async (req, res) => {
   const { productId } = req.body;
   try {
-    await User.findOneAnUpdate(
+    await User.findOneAndUpdate(
       { email: req.user.email },
       { $addToSet: { wishlist: productId } } // https://docs.mongodb.com/manual/reference/operator/update/addToSet/
     );
@@ -278,7 +278,7 @@ exports.updateWishlist = async (req, res) => {
   try {
     await User.findOneAndUpdate(
       { email: req.user.email },
-      { $pull: { wishlist: { productId } } } // https://docs.mongodb.com/manual/reference/operator/update/pull/
+      { $pull: { wishlist: productId } } // https://docs.mongodb.com/manual/reference/operator/update/pull/
     );
 
     res.json({ productDeletedFromWishlist: true });
