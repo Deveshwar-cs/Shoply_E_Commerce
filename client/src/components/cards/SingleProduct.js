@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -12,9 +11,15 @@ import {
   Tabs,
   message,
   Badge,
+  Button,
+  Space,
 } from 'antd';
 
-import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import {
+  HeartOutlined,
+  ShoppingCartOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 
 import ProductInfoList from './ProductInfoList';
 import Placeholder from '../../images/placeholder.png';
@@ -23,6 +28,10 @@ import RatingAverage from './RatingAverage';
 
 import { addToCart } from '../../store/actions/cartActions';
 import { setCartDrawerVisability } from '../../store/actions/drawerActions';
+import {
+  addProductToWishlistAction,
+  getWishlistAction,
+} from '../../store/actions/wishlistActions';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -32,6 +41,9 @@ const SingleProduct = ({ product }) => {
 
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart.cart);
+  const { user } = useSelector((state) => state.auth);
+  const { addToWishlistInProgress, wishlist, getWishlistInProgress } =
+    useSelector((state) => state.wishlist);
 
   // product quantity in cart
   const [itemQuantityInCart, setItemQuantityInCart] = useState(0);
@@ -39,13 +51,23 @@ const SingleProduct = ({ product }) => {
   useEffect(() => {
     const cartItem = items.find((item) => item._id === _id);
     if (cartItem) setItemQuantityInCart(cartItem.cartQuantity);
-  }, [items]);
+  }, [items, _id]);
+
+  useEffect(() => {
+    dispatch(getWishlistAction(user.token));
+  }, [user.token, dispatch]);
 
   const handleAddToCart = (product) => {
     if (itemQuantityInCart >= product.quantity)
       return message.warning(`There are no more items in stock!`);
     dispatch(addToCart(product));
     dispatch(setCartDrawerVisability(true));
+  };
+
+  const handleAddToWishlist = (product) => {
+    dispatch(addProductToWishlistAction(product._id, user.token)).then(() =>
+      dispatch(getWishlistAction(user.token))
+    );
   };
 
   return (
@@ -110,19 +132,40 @@ const SingleProduct = ({ product }) => {
           <RatingAverage ratings={ratings} />
           <Card
             actions={[
-              <Badge count={itemQuantityInCart}>
-                <a onClick={() => handleAddToCart(product)}>
-                  <ShoppingCartOutlined style={{ color: '#73d13d' }} />
-                  <br />{' '}
+              <Space direction="vertical">
+                <Badge count={itemQuantityInCart}>
+                  <ShoppingCartOutlined
+                    style={{ color: '#73d13d', fontSize: 26 }}
+                  />
+                </Badge>
+                <Button
+                  type="link"
+                  onClick={() => handleAddToCart(product)}
+                  disabled={quantity === 0}
+                >
                   <span style={{ color: quantity === 0 && '#ff4d4f' }}>
                     {quantity === 0 ? 'Out of stock' : 'Add to Cart'}
                   </span>
-                </a>
-              </Badge>,
-              <Link to={`/`}>
-                <HeartOutlined style={{ color: '#69c0ff' }} /> <br />
-                Add to Wishlist
-              </Link>,
+                </Button>
+              </Space>,
+
+              <Space direction="vertical">
+                {addToWishlistInProgress || getWishlistInProgress ? (
+                  <LoadingOutlined style={{ color: '#69c0ff', fontSize: 26 }} />
+                ) : (
+                  <HeartOutlined style={{ color: '#69c0ff', fontSize: 26 }} />
+                )}
+                <Button
+                  type="link"
+                  onClick={() => handleAddToWishlist(product)}
+                  style={{ marginBottom: '3px' }}
+                  disabled={wishlist.some((item) => item._id === product._id)}
+                >
+                  {wishlist.some((item) => item._id === product._id)
+                    ? 'Already in wishlist'
+                    : 'Add to Wishlist'}
+                </Button>
+              </Space>,
               <>
                 <RatingModal />
               </>,

@@ -64,7 +64,7 @@ const Product = ({ match }) => {
         <Row>
           <Col span={24}>
             <div className="spiner">
-              <Spin />
+              <Spin size="large" />
             </div>
           </Col>
         </Row>

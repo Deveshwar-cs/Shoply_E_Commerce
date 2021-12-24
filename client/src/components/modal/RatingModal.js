@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { Modal, Rate } from 'antd';
+import { Modal, Rate, Space, Button } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 
 import {
@@ -60,10 +60,12 @@ const RatingModal = () => {
 
   return (
     <>
-      <div onClick={showModal}>
-        <StarOutlined style={{ color: '#ff7a45' }} />
-        <br /> {user ? 'Leave Rating' : 'Login to Leave Rating'}
-      </div>
+      <Space direction="vertical">
+        <StarOutlined style={{ color: '#ff7a45', fontSize: 26 }} />
+        <Button type="link" onClick={showModal}>
+          {user ? 'Leave Rating' : 'Login to Leave Rating'}
+        </Button>
+      </Space>
 
       <Modal
         title="Rate the Product"
