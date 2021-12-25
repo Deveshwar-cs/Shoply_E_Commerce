@@ -10,6 +10,7 @@ import {
   Table,
   InputNumber,
   Modal,
+  Space,
 } from 'antd';
 
 import {
@@ -25,6 +26,8 @@ import {
   clearCart,
   createCartAction,
 } from '../store/actions/cartActions';
+
+import { setCashOnDelivery } from '../store/actions/cashOnDeliveryActions';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
@@ -52,6 +55,23 @@ const Cart = ({ history }) => {
       icon: <ExclamationCircleOutlined />,
       //content: 'Some descriptions',
       onOk() {
+        return dispatch(createCartAction(items, user.token)).then(() => {
+          if (!createCartError) history.push('/checkout');
+        });
+      },
+      onCancel() {
+        console.log('Cancel checkout');
+      },
+    });
+  };
+
+  const saveCashOnDeliveryOrderToDB = () => {
+    confirm({
+      title: `Do you want to go to Checkout page with cash on delivery option?`,
+      icon: <ExclamationCircleOutlined />,
+      //content: 'Some descriptions',
+      onOk() {
+        dispatch(setCashOnDelivery(true));
         return dispatch(createCartAction(items, user.token)).then(() => {
           if (!createCartError) history.push('/checkout');
         });
@@ -277,15 +297,26 @@ const Cart = ({ history }) => {
               </Row>
               <Row style={{ paddingTop: 40, paddingBottom: 40 }}>
                 {user ? (
-                  <Button
-                    type="primary"
-                    size="large"
-                    disabled={!items.length}
-                    onClick={saveOrderToDB}
-                    loading={createCartInProgress}
-                  >
-                    Proceed to Checkout
-                  </Button>
+                  <Space direction="vertical" size={20}>
+                    <Button
+                      type="primary"
+                      size="large"
+                      disabled={!items.length}
+                      onClick={saveOrderToDB}
+                      loading={createCartInProgress}
+                    >
+                      Proceed to Checkout
+                    </Button>
+                    <Button
+                      type="default"
+                      size="large"
+                      disabled={!items.length}
+                      onClick={saveCashOnDeliveryOrderToDB}
+                      loading={createCartInProgress}
+                    >
+                      Pay Cash on Delivery
+                    </Button>
+                  </Space>
                 ) : (
                   <Button type="primary" size="large">
                     <Link to={{ pathname: '/login', state: { from: 'cart' } }}>

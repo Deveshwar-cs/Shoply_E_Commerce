@@ -150,7 +150,7 @@ const SingleProduct = ({ product }) => {
               </Space>,
 
               <Space direction="vertical">
-                {addToWishlistInProgress || getWishlistInProgress ? (
+                {getWishlistInProgress ? (
                   <LoadingOutlined style={{ color: '#69c0ff', fontSize: 26 }} />
                 ) : (
                   <HeartOutlined style={{ color: '#69c0ff', fontSize: 26 }} />
@@ -160,9 +160,10 @@ const SingleProduct = ({ product }) => {
                   onClick={() => handleAddToWishlist(product)}
                   style={{ marginBottom: '3px' }}
                   disabled={wishlist.some((item) => item._id === product._id)}
+                  loading={addToWishlistInProgress}
                 >
                   {wishlist.some((item) => item._id === product._id)
-                    ? 'Already in wishlist'
+                    ? 'In wishlist'
                     : 'Add to Wishlist'}
                 </Button>
               </Space>,

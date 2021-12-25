@@ -10,6 +10,7 @@ import drawerReducer from './drawerReducer';
 import couponReducer from './couponReducer';
 import orderReducer from './orderReducer';
 import wishlistReducer from './wishlistReducer';
+import cashOnDeliveryReducer from './cashOnDeliveryReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
   coupon: couponReducer,
   order: orderReducer,
   wishlist: wishlistReducer,
+  COD: cashOnDeliveryReducer,
 });
