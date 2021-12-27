@@ -47,6 +47,7 @@ const Checkout = ({ history }) => {
     cart,
   } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
+  const { cashOnDelivery } = useSelector((state) => state.COD);
 
   // TextArea value
   const [textAreaValue, setTextAreaValue] = useState('');
@@ -118,6 +119,18 @@ const Checkout = ({ history }) => {
         message: `Please enter your coupon if you have one!`,
       });
     dispatch(applyCouponAction(coupon, user.token));
+  };
+
+  // Create order conditionaly (with card payment or cash)
+
+  const createOrder = () => {
+    if (cashOnDelivery) {
+      //
+      console.log('Pay with cash on delivery!');
+    } else {
+      // to payment with card
+      history.push('/payment');
+    }
   };
 
   return (
@@ -287,7 +300,7 @@ const Checkout = ({ history }) => {
                           }
                           size="large"
                           icon={<DollarCircleOutlined />}
-                          onClick={() => history.push('/payment')}
+                          onClick={createOrder}
                         >
                           Place Order
                         </Button>

@@ -4,6 +4,7 @@ import * as actionTypes from '../actions/types';
 import {
   createUserOrder,
   getAllOrdersByUser,
+  createUserOrderWithCashPayment,
 } from '../../functions/userFunctions';
 
 import {
@@ -45,6 +46,42 @@ export const createOrderAction =
       console.log('createOrderAction error', error);
     }
   };
+
+//
+// Create order with cash payment actions
+
+const createOrderCashPaymentRequest = () => ({
+  type: actionTypes.CREATE_ORDER_CASH_PAYMENT_REQUEST,
+});
+const createOrderCashPaymentSuccess = () => ({
+  type: actionTypes.CREATE_ORDER_CASH_PAYMENT_SUCCESS,
+});
+const createOrderCashPaymentError = (e) => ({
+  type: actionTypes.CREATE_ORDER_CASH_PAYMENT_ERROR,
+  payload: e,
+});
+
+export const createOrderCashPaymentAction = (token) => async (dispatch) => {
+  try {
+    dispatch(createOrderCashPaymentRequest());
+    // Request to DB
+    const response = await createUserOrderWithCashPayment(token);
+    if (response.data.orderCreated) {
+      dispatch(emptyCartInDBAction(token)); // delete user cart in DB
+      dispatch(clearCart()); // delete user cart from Redux store/localStorage
+      dispatch(createOrderCashPaymentSuccess());
+      notification.success({
+        message: `'Order successfully created!`,
+      });
+    }
+  } catch (error) {
+    dispatch(createOrderCashPaymentError(error));
+    notification.error({
+      message: `Create order with cash payment error!`,
+    });
+    console.log('createOrderCashPaymentAction error', error);
+  }
+};
 
 // Get all orders by user
 

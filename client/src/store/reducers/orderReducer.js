@@ -4,6 +4,9 @@ const initialState = {
   createOrderInProgress: false,
   createOrderError: null,
 
+  createOrderWithCashPaymentInProgress: false,
+  createOrderWithCashPaymentError: null,
+
   getAllOrdersInProgress: false,
   getAllOrdersError: null,
 
@@ -35,6 +38,22 @@ export const orderReducer = (state = initialState, action = {}) => {
         ...state,
         createOrderInProgress: false,
         createOrderError: payload,
+      };
+    case actionTypes.CREATE_ORDER_CASH_PAYMENT_REQUEST:
+      return {
+        ...state,
+        createOrderWithCashPaymentInProgress: true,
+      };
+    case actionTypes.CREATE_ORDER_CASH_PAYMENT_SUCCESS:
+      return {
+        ...state,
+        createOrderWithCashPaymentInProgress: false,
+      };
+    case actionTypes.CREATE_ORDER_CASH_PAYMENT_ERROR:
+      return {
+        ...state,
+        createOrderWithCashPaymentInProgress: false,
+        createOrderWithCashPaymentError: payload,
       };
     case actionTypes.GET_ALL_ORDERS_BY_USER_REQUEST:
       return {

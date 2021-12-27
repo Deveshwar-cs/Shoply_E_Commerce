@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -41,6 +42,9 @@ const Cart = ({ history }) => {
     createCartError,
   } = useSelector((state) => state.cart);
 
+  // indicate loading state for 'Proceed to Checkout' and 'Pay Cash on Delivery' buttons
+  const [paymentOption, setPaymentOption] = useState('');
+
   const listItemsData =
     items.map((item) => ({
       title: item.title,
@@ -50,6 +54,7 @@ const Cart = ({ history }) => {
     })) || [];
 
   const saveOrderToDB = () => {
+    setPaymentOption('card');
     confirm({
       title: `Do you want to go to Checkout page?`,
       icon: <ExclamationCircleOutlined />,
@@ -66,6 +71,7 @@ const Cart = ({ history }) => {
   };
 
   const saveCashOnDeliveryOrderToDB = () => {
+    setPaymentOption('cash');
     confirm({
       title: `Do you want to go to Checkout page with cash on delivery option?`,
       icon: <ExclamationCircleOutlined />,
@@ -303,7 +309,7 @@ const Cart = ({ history }) => {
                       size="large"
                       disabled={!items.length}
                       onClick={saveOrderToDB}
-                      loading={createCartInProgress}
+                      loading={paymentOption === 'card' && createCartInProgress}
                     >
                       Proceed to Checkout
                     </Button>
@@ -312,7 +318,7 @@ const Cart = ({ history }) => {
                       size="large"
                       disabled={!items.length}
                       onClick={saveCashOnDeliveryOrderToDB}
-                      loading={createCartInProgress}
+                      loading={paymentOption === 'cash' && createCartInProgress}
                     >
                       Pay Cash on Delivery
                     </Button>
