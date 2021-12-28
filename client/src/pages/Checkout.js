@@ -57,7 +57,7 @@ const Checkout = ({ history }) => {
 
   useEffect(() => {
     dispatch(getCartAction(user.token)).then((data) => {
-      // need to handle redirect after createOrder with cash payment option (kinda not best practice, but it works)
+      // need to handle redirect when cartIsEmpty after createOrder with cash payment option (kinda not best practice, but it works)
       if (cashOnDelivery) return;
       // if the user somehow got to the '/checkout' page with empty cart in the DB or redux store (for example typed manually the url in the search bar) – redirect user to the '/shop' page
       if (!cart.items.length || data.cartIsEmpty) history.push('/shop');
@@ -128,8 +128,11 @@ const Checkout = ({ history }) => {
 
   const createOrder = () => {
     if (cashOnDelivery) {
-      dispatch(createOrderCashPaymentAction(cashOnDelivery, user.token));
-      history.push('/user/history');
+      dispatch(createOrderCashPaymentAction(cashOnDelivery, user.token)).then(
+        (orderCreated) => {
+          if (orderCreated) history.push('/user/history');
+        }
+      );
     } else {
       // to payment with card
       history.push('/payment');

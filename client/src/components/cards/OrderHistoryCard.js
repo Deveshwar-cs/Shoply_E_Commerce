@@ -83,7 +83,14 @@ const OrderHistoryCard = ({ order }) => {
   /// Table END ////////////
 
   return (
-    <Card style={{ width: '100%', textAlign: 'center', marginBottom: 20 }}>
+    <Card
+      style={{
+        width: '100%',
+        textAlign: 'center',
+        marginBottom: 20,
+        backgroundColor: '#e6f7ff',
+      }}
+    >
       <div style={{ margin: '10px 0' }}>
         <ShowPaymentInfo order={order} />
       </div>

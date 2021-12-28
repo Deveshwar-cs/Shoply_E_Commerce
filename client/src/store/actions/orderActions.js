@@ -76,13 +76,14 @@ export const createOrderCashPaymentAction =
         });
       }
       if (response.data.orderCreated) {
+        dispatch(createOrderCashPaymentSuccess());
         dispatch(emptyCartInDBAction(token)); // delete user cart in DB
         dispatch(clearCart()); // delete user cart from Redux store/localStorage
-        dispatch(createOrderCashPaymentSuccess());
         notification.success({
           message: `'Order successfully created!`,
         });
       }
+      return response.data;
     } catch (error) {
       dispatch(createOrderCashPaymentError(error));
       notification.error({

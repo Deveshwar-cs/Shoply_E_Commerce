@@ -60,6 +60,7 @@ const Cart = ({ history }) => {
       icon: <ExclamationCircleOutlined />,
       //content: 'Some descriptions',
       onOk() {
+        dispatch(setCashOnDelivery(false));
         return dispatch(createCartAction(items, user.token)).then(() => {
           if (!createCartError) history.push('/checkout');
         });

@@ -109,6 +109,7 @@ const AdminOrderList = ({ orders }) => {
               loading={updateOrderStatusInProgress}
             >
               <Option value="Not Processed">Not Processed</Option>
+              <Option value="Cash On Delivery">Cash On Delivery</Option>
               <Option value="Processing">Processing</Option>
               <Option value="Dispatched">Dispatched</Option>
               <Option value="Canceled">Canceled</Option>
