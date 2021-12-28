@@ -61,27 +61,36 @@ const createOrderCashPaymentError = (e) => ({
   payload: e,
 });
 
-export const createOrderCashPaymentAction = (token) => async (dispatch) => {
-  try {
-    dispatch(createOrderCashPaymentRequest());
-    // Request to DB
-    const response = await createUserOrderWithCashPayment(token);
-    if (response.data.orderCreated) {
-      dispatch(emptyCartInDBAction(token)); // delete user cart in DB
-      dispatch(clearCart()); // delete user cart from Redux store/localStorage
-      dispatch(createOrderCashPaymentSuccess());
-      notification.success({
-        message: `'Order successfully created!`,
+export const createOrderCashPaymentAction =
+  (cashOnDelivery, token) => async (dispatch) => {
+    try {
+      dispatch(createOrderCashPaymentRequest());
+      // Request to DB
+      const response = await createUserOrderWithCashPayment(
+        cashOnDelivery,
+        token
+      );
+      if (!response.data.orderCreated) {
+        notification.error({
+          message: `Create order with cash payment failed!`,
+        });
+      }
+      if (response.data.orderCreated) {
+        dispatch(emptyCartInDBAction(token)); // delete user cart in DB
+        dispatch(clearCart()); // delete user cart from Redux store/localStorage
+        dispatch(createOrderCashPaymentSuccess());
+        notification.success({
+          message: `'Order successfully created!`,
+        });
+      }
+    } catch (error) {
+      dispatch(createOrderCashPaymentError(error));
+      notification.error({
+        message: `Create order with cash payment error!`,
       });
+      console.log('createOrderCashPaymentAction error', error);
     }
-  } catch (error) {
-    dispatch(createOrderCashPaymentError(error));
-    notification.error({
-      message: `Create order with cash payment error!`,
-    });
-    console.log('createOrderCashPaymentAction error', error);
-  }
-};
+  };
 
 // Get all orders by user
 

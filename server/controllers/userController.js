@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
 const Coupon = require('../models/couponModel');
 const Order = require('../models/orderModel');
+const uniqid = require('uniqid');
 
 exports.createCart = async (req, res) => {
   const { cart } = req.body;
@@ -207,6 +208,62 @@ exports.createOrder = async (req, res) => {
         quantity: item.quantity,
       })),
       paymentIntent,
+      orderedBy: user._id,
+    });
+
+    res.json({ orderCreated: true });
+  } catch (error) {
+    res.status(400).json({
+      errormessage: error.message,
+    });
+  }
+};
+
+// User order with cash pyment
+exports.createOrderCashPayment = async (req, res) => {
+  try {
+    // if cashOnDelivery true, create order with status 'Cash On Delivery'
+    const { cashOnDelivery } = req.body;
+
+    if (!cashOnDelivery) return res.status(400).json({ orderCreated: false });
+
+    const user = await User.findOne({ email: req.user.email });
+    const cart = await Cart.findOne({ orderedBy: user._id });
+
+    // decrement quantity, increment sold with Model.bulkWrite(). Helpful links below
+    // https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/
+    // https://stackoverflow.com/questions/39988848/trying-to-do-a-bulk-upsert-with-mongoose-whats-the-cleanest-way-to-do-this
+    const bulkOperations = cart.products.map((item) => ({
+      updateOne: {
+        filter: { _id: item.product._id },
+        update: {
+          $inc: {
+            quantity: -item.quantity,
+            sold: +item.quantity,
+          },
+        },
+      },
+    }));
+
+    await Product.bulkWrite(bulkOperations);
+
+    // save new order to DB
+    await Order.create({
+      products: cart.products.map((item) => ({
+        product: item.product,
+        quantity: item.quantity,
+      })),
+      // crate our custom paymentIntent
+      paymentIntent: {
+        id: uniqid(),
+        amount: cart.totalPriceAfterDiscount
+          ? cart.totalPriceAfterDiscount * 100
+          : cart.totalPrice * 100,
+        currency: 'usd',
+        status: 'Cash On Delivery',
+        created: Math.floor(Date.now() / 1000),
+        payment_method_types: ['cash'],
+      },
       orderedBy: user._id,
     });
 

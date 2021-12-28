@@ -23,6 +23,7 @@ const orderSchema = new mongoose.Schema(
         'Dispatched',
         'Cancelled',
         'Completed',
+        'Cash On Delivery',
       ],
     },
     orderedBy: {

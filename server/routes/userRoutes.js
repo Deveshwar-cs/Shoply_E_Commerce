@@ -22,6 +22,11 @@ router.post(
 
 // User order routes
 router.post('/user/orders', authCheck, userController.createOrder);
+router.post(
+  '/user/cash-orders',
+  authCheck,
+  userController.createOrderCashPayment
+);
 router.get('/user/orders', authCheck, userController.getAllOrdersByUser);
 
 // User wishlist routes

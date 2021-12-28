@@ -32,6 +32,7 @@ import {
   getShippingAddressAction,
   applyCouponAction,
 } from '../store/actions/cartActions';
+import { createOrderCashPaymentAction } from '../store/actions/orderActions';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -56,10 +57,12 @@ const Checkout = ({ history }) => {
 
   useEffect(() => {
     dispatch(getCartAction(user.token)).then((data) => {
+      // need to handle redirect after createOrder with cash payment option (kinda not best practice, but it works)
+      if (cashOnDelivery) return;
       // if the user somehow got to the '/checkout' page with empty cart in the DB or redux store (for example typed manually the url in the search bar) – redirect user to the '/shop' page
       if (!cart.items.length || data.cartIsEmpty) history.push('/shop');
     });
-  }, [user.token, dispatch, cart, history]);
+  }, [user.token, dispatch, cart, history, cashOnDelivery]);
 
   useEffect(() => {
     dispatch(getShippingAddressAction(user.token));
@@ -125,8 +128,8 @@ const Checkout = ({ history }) => {
 
   const createOrder = () => {
     if (cashOnDelivery) {
-      //
-      console.log('Pay with cash on delivery!');
+      dispatch(createOrderCashPaymentAction(cashOnDelivery, user.token));
+      history.push('/user/history');
     } else {
       // to payment with card
       history.push('/payment');
