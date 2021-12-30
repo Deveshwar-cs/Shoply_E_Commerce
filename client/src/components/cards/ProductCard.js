@@ -47,7 +47,12 @@ const ProductCard = ({ product }) => {
           <img
             alt={title}
             src={images && images.length ? images[0].url : defaultImage}
-            style={{ objectFit: 'cover', height: 200 }}
+            style={{
+              width: 'auto',
+              maxWidth: '100%',
+              maxHeight: 200,
+              margin: '0 auto',
+            }}
           />
         }
         actions={[
