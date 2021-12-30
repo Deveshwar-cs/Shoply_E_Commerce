@@ -54,8 +54,8 @@ const SingleProduct = ({ product }) => {
   }, [items, _id]);
 
   useEffect(() => {
-    dispatch(getWishlistAction(user.token));
-  }, [user.token, dispatch]);
+    if (user) dispatch(getWishlistAction(user.token));
+  }, [user, dispatch]);
 
   const handleAddToCart = (product) => {
     if (itemQuantityInCart >= product.quantity)
@@ -65,6 +65,8 @@ const SingleProduct = ({ product }) => {
   };
 
   const handleAddToWishlist = (product) => {
+    if (!user)
+      return message.error('Please login to add the product to wishlist!');
     dispatch(addProductToWishlistAction(product._id, user.token)).then(() =>
       dispatch(getWishlistAction(user.token))
     );
