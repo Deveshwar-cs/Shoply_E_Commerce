@@ -1,32 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  Layout,
-  Typography,
-  Divider,
-  Row,
-  Col,
-  Form,
-  Spin,
-  Modal,
-  Table,
-} from 'antd';
-
-import { ExclamationCircleOutlined, DeleteTwoTone } from '@ant-design/icons';
+import { Layout, Typography, Divider, Row, Col, Form, Spin } from 'antd';
 
 import AdminNav from '../../components/nav/AdminNav';
 import CouponForm from '../../components/forms/CouponForm';
+import CouponTable from '../../components/tables/CouponTable';
 
 import {
   createCouponAction,
   getAllCouponsAction,
-  deleteCouponAction,
 } from '../../store/actions/couponActions';
 
 const { Header, Content } = Layout;
-const { Title, Text } = Typography;
-const { confirm } = Modal;
+const { Title } = Typography;
 
 const CategoryCreate = () => {
   const [form] = Form.useForm();
@@ -38,7 +25,7 @@ const CategoryCreate = () => {
 
   useEffect(() => {
     dispatch(getAllCouponsAction(user.token));
-  }, []);
+  }, [user.token, dispatch]);
 
   const onFinish = ({ name, discount, expiry }) => {
     // the expiry here is the momentjs object and we can choose date format if we need – for example expiry.format(moment.defaultFormatUtc). moment.defaultFormatUtc === 'YYYY-MM-DDTHH:mm:ss:SS[Z]'
@@ -53,72 +40,6 @@ const CategoryCreate = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  // Table //////////////
-
-  const handleDeleteConfirm = (couponId, couponName) => {
-    confirm({
-      title: `Do you want to delete ${couponName} coupon?`,
-      icon: <ExclamationCircleOutlined />,
-      //content: 'Some descriptions',
-      onOk() {
-        // return promise (dispatch is the promise here) to display loading state on the confirm button
-        return dispatch(deleteCouponAction(couponId, user.token)).then(() =>
-          dispatch(getAllCouponsAction(user.token))
-        );
-      },
-      onCancel() {
-        console.log('Cancel delete coupon!');
-      },
-    });
-  };
-
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      fixed: 'left',
-      render: (name) => <Text>{name}</Text>,
-    },
-    {
-      title: 'Expiry (Year/Month/Day)',
-      dataIndex: 'expiry',
-      key: 'expiry',
-      align: 'center',
-      render: (expiry) => <Text>{expiry.substring(0, 10)}</Text>,
-    },
-    {
-      title: 'Discount, %',
-      dataIndex: 'discount',
-      key: 'discount',
-      align: 'center',
-    },
-    {
-      title: 'Remove',
-      key: 'remove',
-      dataIndex: 'remove',
-      align: 'center',
-      render: (id, record) => (
-        <DeleteTwoTone
-          twoToneColor="#ff4d4f"
-          style={{ fontSize: 26 }}
-          onClick={() => handleDeleteConfirm(id, record.name)}
-        />
-      ),
-    },
-  ];
-
-  const tableData = allCoupons.map((item) => ({
-    key: item._id,
-    id: item._id,
-    name: item.name,
-    expiry: item.expiry,
-    discount: item.discount,
-    remove: item._id,
-  }));
-
-  /// Table END ////////////
 
   return (
     <>
@@ -174,13 +95,7 @@ const CategoryCreate = () => {
                     <Divider style={{ fontWeight: 'bold' }}>
                       All Coupons
                     </Divider>
-                    <Table
-                      columns={columns}
-                      dataSource={tableData}
-                      pagination={false}
-                      bordered={true}
-                      scroll={{ x: true }}
-                    />
+                    <CouponTable allCoupons={allCoupons} />
                   </>
                 )}
               </Col>
