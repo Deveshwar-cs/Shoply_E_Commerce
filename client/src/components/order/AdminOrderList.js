@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { Card, Table, Typography, Space, Select, Button } from 'antd';
-import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
+import { Card, Typography, Space, Select, Button } from 'antd';
 
 import ShowPaymentInfo from '../cards/ShowPaymentInfo';
+import AdminOrderTable from '../tables/AdminOrderTable';
 
 import { updateOrderStatusByAdminAction } from '../../store/actions/orderActions';
 
@@ -19,71 +18,6 @@ const AdminOrderList = ({ orders }) => {
   const handleChange = (orderStatus, orderId) => {
     dispatch(updateOrderStatusByAdminAction(orderId, orderStatus, user.token));
   };
-
-  // Table //////////////
-
-  const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-      fixed: 'left',
-      render: (title, record) => (
-        <Link to={`/product/${record.slug}`}>{title}</Link>
-      ),
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      align: 'center',
-    },
-    {
-      title: 'Brand',
-      dataIndex: 'brand',
-      key: 'brand',
-      align: 'center',
-    },
-    {
-      title: 'Color',
-      dataIndex: 'color',
-      key: 'color',
-      align: 'center',
-    },
-    {
-      title: 'Quantity',
-      key: 'quantity',
-      dataIndex: 'quantity',
-      align: 'center',
-    },
-    {
-      title: 'Shipping',
-      key: 'shipping',
-      dataIndex: 'shipping',
-      align: 'center',
-      render: (shipping) =>
-        shipping === 'Yes' ? (
-          <CheckCircleTwoTone style={{ fontSize: 30 }} twoToneColor="#52c41a" />
-        ) : (
-          <CloseCircleTwoTone style={{ fontSize: 30 }} twoToneColor="#ff4d4f" />
-        ),
-    },
-  ];
-
-  const tableData = (order) =>
-    order.products.map((item) => ({
-      key: item._id,
-      id: item._id,
-      title: item.product.title,
-      color: item.product.color,
-      price: `$${item.product.price}`,
-      brand: item.product.brand,
-      quantity: item.quantity,
-      shipping: item.product.shipping,
-      slug: item.product.slug,
-    }));
-
-  /// Table END ////////////
 
   return (
     <>
@@ -116,13 +50,7 @@ const AdminOrderList = ({ orders }) => {
               <Option value="Completed">Completed</Option>
             </Select>
           </Space>
-          <Table
-            columns={columns}
-            dataSource={tableData(order)}
-            pagination={false}
-            bordered={true}
-            scroll={{ x: true }}
-          />
+          <AdminOrderTable order={order} />
           <Space direction="vertical" style={{ margin: '10px 0' }}>
             <Text>
               Customer email:
