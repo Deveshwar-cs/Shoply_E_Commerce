@@ -13,7 +13,11 @@ import {
   Form,
   Button,
   Spin,
+  Space,
+  Grid,
 } from 'antd';
+
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 
 import { toast } from 'react-toastify';
 
@@ -22,6 +26,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import { LocalSearch, searched } from '../../../components/forms/LocalSearch';
+import MobileSideDrawer from '../../../components/drawer/MobileSideDrawer';
 
 import {
   createCategoryAction,
@@ -29,12 +34,16 @@ import {
   deleteCategoryAction,
 } from '../../../store/actions/categoryActions';
 
+import { setMobileDrawerVisability } from '../../../store/actions/drawerActions';
+
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
+const { useBreakpoint } = Grid;
 
 const CategoryCreate = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
   const {
     createCategoryInProgress,
     allCategories,
@@ -87,6 +96,10 @@ const CategoryCreate = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
+
   // Step 2. Category search filter – input field
 
   // const searchInput = () => (
@@ -102,12 +115,31 @@ const CategoryCreate = () => {
     <>
       <Layout>
         <Header>
-          <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            Admin Create Category Page
-          </Title>
+          <Space direction="horizontal" size="middle">
+            {!screens.md && (
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<MenuUnfoldOutlined />}
+                size="large"
+                onClick={showMobileMenuDrawer}
+              />
+            )}
+            <Title
+              level={2}
+              style={{ color: 'white', marginTop: '10px', fontSize: 18 }}
+            >
+              Admin Create Category Page
+            </Title>
+          </Space>
         </Header>
         <Layout hasSider>
-          <AdminNav />
+          {!screens.md && (
+            <MobileSideDrawer>
+              <AdminNav />
+            </MobileSideDrawer>
+          )}
+          {(screens.md || screens.lg || screens.xl) && <AdminNav />}
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
               <Col

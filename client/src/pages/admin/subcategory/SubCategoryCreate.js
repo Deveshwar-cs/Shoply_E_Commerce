@@ -13,16 +13,23 @@ import {
   Form,
   Button,
   Spin,
+  Space,
+  Grid,
 } from 'antd';
 
 import { toast } from 'react-toastify';
 
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  MenuUnfoldOutlined,
+} from '@ant-design/icons';
 
 import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import { LocalSearch, searched } from '../../../components/forms/LocalSearch';
 import CategorySelect from '../../../components/forms/CategorySelect';
+import MobileSideDrawer from '../../../components/drawer/MobileSideDrawer';
 
 import { getAllCategoriesAction } from '../../../store/actions/categoryActions';
 
@@ -32,12 +39,16 @@ import {
   deleteSubCategoryAction,
 } from '../../../store/actions/subCategoryActions';
 
+import { setMobileDrawerVisability } from '../../../store/actions/drawerActions';
+
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
+const { useBreakpoint } = Grid;
 
 const SubCategoryCreate = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
   const { allCategories } = useSelector((state) => state.category);
   const {
     createSubCategoryInProgress,
@@ -85,16 +96,39 @@ const SubCategoryCreate = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
+
   return (
     <>
       <Layout>
         <Header>
-          <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            Admin Create Subcategory Page
-          </Title>
+          <Space direction="horizontal" size="middle">
+            {!screens.md && (
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<MenuUnfoldOutlined />}
+                size="large"
+                onClick={showMobileMenuDrawer}
+              />
+            )}
+            <Title
+              level={2}
+              style={{ color: 'white', marginTop: '10px', fontSize: 18 }}
+            >
+              Admin Create Subcategory Page
+            </Title>
+          </Space>
         </Header>
         <Layout hasSider>
-          <AdminNav />
+          {!screens.md && (
+            <MobileSideDrawer>
+              <AdminNav />
+            </MobileSideDrawer>
+          )}
+          {(screens.md || screens.lg || screens.xl) && <AdminNav />}
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
               <Col

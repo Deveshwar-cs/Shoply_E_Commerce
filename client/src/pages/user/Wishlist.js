@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Row, Col, Spin, Button, Grid } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Layout, Typography, Row, Col, Spin, Button, Grid, Space } from 'antd';
+import { DeleteOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 import UserNav from '../../components/nav/UserNav';
+import MobileSideDrawer from '../../components/drawer/MobileSideDrawer';
 
 import {
   getWishlistAction,
   deleteProductFromWishlistAction,
 } from '../../store/actions/wishlistActions';
+import { setMobileDrawerVisability } from '../../store/actions/drawerActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -37,15 +39,38 @@ const Wishlist = () => {
     dispatch(deleteProductFromWishlistAction(productId, user.token));
   };
 
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
+
   return (
     <>
       <Layout>
         <Header>
-          <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            User Wishlist Page
-          </Title>
+          <Space direction="horizontal" size="middle">
+            {!screens.md && (
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<MenuUnfoldOutlined />}
+                size="large"
+                onClick={showMobileMenuDrawer}
+              ></Button>
+            )}
+            <Title
+              level={2}
+              style={{ color: 'white', marginTop: '10px', fontSize: 18 }}
+            >
+              User Wishlist Page
+            </Title>
+          </Space>
         </Header>
         <Layout hasSider>
+          {!screens.md && (
+            <MobileSideDrawer>
+              <UserNav />
+            </MobileSideDrawer>
+          )}
           {(screens.md || screens.lg || screens.xl) && <UserNav />}
           <Content style={{ backgroundColor: 'white' }}>
             <Row>

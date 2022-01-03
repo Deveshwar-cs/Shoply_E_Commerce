@@ -1,6 +1,11 @@
-import { SET_CART_DRAWER_VISABILITY } from '../actions/types';
+import * as actionTypes from '../actions/types';
 
 export const setCartDrawerVisability = (boolValue) => ({
-  type: SET_CART_DRAWER_VISABILITY,
+  type: actionTypes.SET_CART_DRAWER_VISABILITY,
+  payload: boolValue,
+});
+
+export const setMobileDrawerVisability = (boolValue) => ({
+  type: actionTypes.SET_MOBILE_DRAWER_VISABILITY,
   payload: boolValue,
 });

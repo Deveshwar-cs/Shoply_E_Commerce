@@ -1,11 +1,27 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Divider, Row, Col, Form, Spin } from 'antd';
+import {
+  Layout,
+  Typography,
+  Divider,
+  Row,
+  Col,
+  Form,
+  Spin,
+  Grid,
+  Space,
+  Button,
+} from 'antd';
+
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 
 import AdminNav from '../../components/nav/AdminNav';
 import CouponForm from '../../components/forms/CouponForm';
 import CouponTable from '../../components/tables/CouponTable';
+import MobileSideDrawer from '../../components/drawer/MobileSideDrawer';
+
+import { setMobileDrawerVisability } from '../../store/actions/drawerActions';
 
 import {
   createCouponAction,
@@ -14,10 +30,12 @@ import {
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 const CategoryCreate = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
 
   const { user } = useSelector((state) => state.auth);
   const { createCouponInProgress, getAllCouponsInProgress, allCoupons } =
@@ -41,16 +59,39 @@ const CategoryCreate = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
+
   return (
     <>
       <Layout>
         <Header>
-          <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            Manage Coupons
-          </Title>
+          <Space direction="horizontal" size="middle">
+            {!screens.md && (
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<MenuUnfoldOutlined />}
+                size="large"
+                onClick={showMobileMenuDrawer}
+              />
+            )}
+            <Title
+              level={2}
+              style={{ color: 'white', marginTop: '10px', fontSize: 18 }}
+            >
+              Manage Coupons
+            </Title>
+          </Space>
         </Header>
         <Layout hasSider>
-          <AdminNav />
+          {!screens.md && (
+            <MobileSideDrawer>
+              <AdminNav />
+            </MobileSideDrawer>
+          )}
+          {(screens.md || screens.lg || screens.xl) && <AdminNav />}
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
               <Col

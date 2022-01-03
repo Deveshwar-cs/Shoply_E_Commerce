@@ -1,13 +1,26 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Row, Col, Form, Divider } from 'antd';
+import {
+  Layout,
+  Typography,
+  Row,
+  Col,
+  Form,
+  Divider,
+  Space,
+  Button,
+  Grid,
+} from 'antd';
+
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 
 import { toast } from 'react-toastify';
 
 import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import CategorySelect from '../../../components/forms/CategorySelect';
+import MobileSideDrawer from '../../../components/drawer/MobileSideDrawer';
 
 import {
   updateSubCategoryAction,
@@ -15,13 +28,16 @@ import {
   clearParentCategory,
 } from '../../../store/actions/subCategoryActions';
 import { getAllCategoriesAction } from '../../../store/actions/categoryActions';
+import { setMobileDrawerVisability } from '../../../store/actions/drawerActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 const CategoryUpdate = ({ history, match }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
   const { updateSubCategoryInProgress, oneSubCategory, parentCategory } =
     useSelector((state) => state.sub);
   const { allCategories } = useSelector((state) => state.category);
@@ -80,16 +96,39 @@ const CategoryUpdate = ({ history, match }) => {
     console.log('Failed:', errorInfo);
   };
 
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
+
   return (
     <>
       <Layout>
         <Header>
-          <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            Admin Update Category Name Page
-          </Title>
+          <Space direction="horizontal" size="middle">
+            {!screens.md && (
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<MenuUnfoldOutlined />}
+                size="large"
+                onClick={showMobileMenuDrawer}
+              />
+            )}
+            <Title
+              level={2}
+              style={{ color: 'white', marginTop: '10px', fontSize: 18 }}
+            >
+              Admin Update Category Name Page
+            </Title>
+          </Space>
         </Header>
         <Layout hasSider>
-          <AdminNav />
+          {!screens.md && (
+            <MobileSideDrawer>
+              <AdminNav />
+            </MobileSideDrawer>
+          )}
+          {(screens.md || screens.lg || screens.xl) && <AdminNav />}
           <Content style={{ backgroundColor: 'white' }}>
             <Row>
               <Col

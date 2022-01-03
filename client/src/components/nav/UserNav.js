@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { Menu, Layout } from 'antd';
 import {
@@ -7,6 +8,8 @@ import {
   UnlockOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
+
+import { setMobileDrawerVisability } from '../../store/actions/drawerActions';
 
 const { Sider } = Layout;
 
@@ -35,6 +38,7 @@ const UserNav = () => {
     []
   );
 
+  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const [selectedKey, setSelectedKey] = useState(
@@ -42,6 +46,7 @@ const UserNav = () => {
   );
 
   const onClickMenu = (item) => {
+    dispatch(setMobileDrawerVisability(false));
     const clicked = items.find((_item) => _item.key === item.key);
     history.push(clicked.path);
   };

@@ -1,23 +1,32 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Row, Col, Form, Input, Button } from 'antd';
+import { Row, Col, Form, Input, Button, Grid, Space } from 'antd';
 import { Layout, Typography } from 'antd';
-import { KeyOutlined } from '@ant-design/icons';
+import { KeyOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 import { toast } from 'react-toastify';
 
 import UserNav from '../../components/nav/UserNav';
+import MobileSideDrawer from '../../components/drawer/MobileSideDrawer';
 
 import { updatePassword } from '../../store/actions/authActions';
+import { setMobileDrawerVisability } from '../../store/actions/drawerActions';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 const { Item } = Form;
+const { useBreakpoint } = Grid;
 
 const Password = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
   const { updatePasswordInProgress } = useSelector((state) => state.auth);
+
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
 
   const formItemLayout = {
     labelCol: {
@@ -163,12 +172,31 @@ const Password = () => {
     <>
       <Layout>
         <Header>
-          <Title level={2} style={{ color: 'white', marginTop: '10px' }}>
-            User Password Page
-          </Title>
+          <Space direction="horizontal" size="middle">
+            {!screens.md && (
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<MenuUnfoldOutlined />}
+                size="large"
+                onClick={showMobileMenuDrawer}
+              />
+            )}
+            <Title
+              level={2}
+              style={{ color: 'white', marginTop: '10px', fontSize: 18 }}
+            >
+              User Password Page
+            </Title>
+          </Space>
         </Header>
         <Layout hasSider>
-          <UserNav />
+          {!screens.md && (
+            <MobileSideDrawer>
+              <UserNav />
+            </MobileSideDrawer>
+          )}
+          {(screens.md || screens.lg || screens.xl) && <UserNav />}
           <Content style={{ backgroundColor: 'white' }}>
             <>
               <Row>
