@@ -148,20 +148,15 @@ const RegisterComplete = ({ history }) => {
         <Input.Password placeholder="Enter your password" size="large" />
       </Item>
       <Item {...tailFormItemLayout}>
-        {signupInProgress ? (
-          <Button type="primary" style={{ marginTop: 10 }} size="large" loading>
-            Complete Registration
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            size="large"
-          >
-            Complete Registration
-          </Button>
-        )}
+        <Button
+          type="primary"
+          style={{ marginTop: 10 }}
+          size="large"
+          htmlType="submit"
+          loading={signupInProgress}
+        >
+          Complete Registration
+        </Button>
       </Item>
     </Form>
   );

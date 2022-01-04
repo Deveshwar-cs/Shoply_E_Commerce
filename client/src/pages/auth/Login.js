@@ -113,54 +113,29 @@ const Login = ({ history }) => {
         <Input.Password placeholder="Enter your password" size="large" />
       </Item>
       <Item {...tailFormItemLayout}>
-        {loginInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            icon={<MailOutlined />}
-            loading
-            block
-          >
-            Login with Email/Password
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            size="large"
-            icon={<MailOutlined />}
-            block
-          >
-            Login with Email/Password
-          </Button>
-        )}
-        {loginGoogleInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            icon={<GoogleOutlined />}
-            loading
-            danger
-            block
-          >
-            Login with Google
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            icon={<GoogleOutlined />}
-            danger
-            block
-            onClick={onGoogleLogin}
-          >
-            Login with Google
-          </Button>
-        )}
+        <Button
+          type="primary"
+          style={{ marginTop: 10 }}
+          size="large"
+          icon={<MailOutlined />}
+          loading={loginInProgress}
+          htmlType="submit"
+          block
+        >
+          Login with Email/Password
+        </Button>
+        <Button
+          type="primary"
+          style={{ marginTop: 10 }}
+          size="large"
+          icon={<GoogleOutlined />}
+          loading={loginGoogleInProgress}
+          danger
+          block
+          onClick={onGoogleLogin}
+        >
+          Login with Google
+        </Button>
       </Item>
       <Item {...tailFormItemLayout}>
         <Link to="forgot-password">Forgot Password?</Link>

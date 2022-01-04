@@ -75,29 +75,17 @@ const Register = ({ history }) => {
           autoFocus
         />
       </Item>
-      {sendEmailInProgress ? (
-        <Button
-          type="primary"
-          style={{ marginTop: 10 }}
-          size="large"
-          icon={<MailOutlined />}
-          block
-          loading
-        >
-          Send Email
-        </Button>
-      ) : (
-        <Button
-          type="primary"
-          htmlType="submit"
-          style={{ marginTop: 10 }}
-          size="large"
-          icon={<MailOutlined />}
-          block
-        >
-          Send Email
-        </Button>
-      )}
+      <Button
+        type="primary"
+        style={{ marginTop: 10 }}
+        size="large"
+        icon={<MailOutlined />}
+        block
+        loading={sendEmailInProgress}
+        htmlType="submit"
+      >
+        Send Email
+      </Button>
     </Form>
   );
 

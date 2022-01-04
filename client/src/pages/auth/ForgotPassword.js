@@ -56,29 +56,17 @@ const ForgotPassword = ({ history }) => {
           autoFocus
         />
       </Item>
-      {sendForgotPasswordEmailInProgress ? (
-        <Button
-          type="primary"
-          style={{ marginTop: 10 }}
-          size="large"
-          block
-          icon={<MailOutlined />}
-          loading
-        >
-          Send Email
-        </Button>
-      ) : (
-        <Button
-          type="primary"
-          htmlType="submit"
-          style={{ marginTop: 10 }}
-          size="large"
-          block
-          icon={<MailOutlined />}
-        >
-          Send Email
-        </Button>
-      )}
+      <Button
+        type="primary"
+        style={{ marginTop: 10 }}
+        size="large"
+        htmlType="submit"
+        block
+        icon={<MailOutlined />}
+        loading={sendForgotPasswordEmailInProgress}
+      >
+        Send Email
+      </Button>
     </Form>
   );
 
