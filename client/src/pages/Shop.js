@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Typography, Row, Col, Spin, Menu, Slider, Checkbox, Rate } from 'antd';
-import {
-  DollarOutlined,
-  DownSquareOutlined,
-  StarOutlined,
-  StarFilled,
-  TagsOutlined,
-  BgColorsOutlined,
-  CarOutlined,
-} from '@ant-design/icons';
+import { Typography, Row, Col, Spin, Grid, Space, Button } from 'antd';
+
+import { MenuUnfoldOutlined } from '@ant-design/icons';
 
 import ProductCard from '../components/cards/ProductCard';
+import ShopFilters from '../components/nav/ShopFilters';
+import MobileSideDrawer from '../components/drawer/MobileSideDrawer';
 
 import {
   getProductByFilter,
@@ -21,12 +16,14 @@ import {
 import { clearSearchQuery } from '../store/actions/searchActions';
 import { getAllCategoriesAction } from '../store/actions/categoryActions';
 import { getAllSubCategoriesAction } from '../store/actions/subCategoryActions';
+import { setMobileDrawerVisability } from '../store/actions/drawerActions';
 
-const { SubMenu } = Menu;
-const { Title, Text } = Typography;
+const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 const Shop = () => {
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
   const { text } = useSelector((state) => state.search);
   const { allCategories, getCategoriesInProgress } = useSelector(
     (state) => state.category
@@ -50,7 +47,7 @@ const Shop = () => {
   useEffect(() => {
     dispatch(getAllCategoriesAction());
     dispatch(getAllSubCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   // Get products by search input
   useEffect(() => {
@@ -168,13 +165,6 @@ const Shop = () => {
   };
 
   // FILTER – RATING
-  const displayStars = (quantity) => {
-    let iconsArrey = [];
-    for (let i = 1; i <= quantity; i++) {
-      iconsArrey.push(<StarFilled style={{ color: '#fbdb14' }} key={i} />);
-    }
-    return iconsArrey;
-  };
 
   const onChangeRatingCheckbox = (checkedValuese) => {
     setRatingCheckbox(checkedValuese); // add checked values in state
@@ -285,207 +275,77 @@ const Shop = () => {
       shipping: checkedValuese,
     }));
   };
+
+  // all ShopFilters props
+  const shopFilterProps = {
+    price,
+    handlePriceSlider,
+    handleOnAfterChange,
+    checkboxCategoryOptions,
+    onChangeCategoryCheckbox,
+    getCategoriesInProgress,
+    categoryCheckbox,
+    onChangeRatingCheckbox,
+    ratingCheckbox,
+    dynamicSubOptions,
+    onChangeSubcategoryCheckbox,
+    subcategoryCheckbox,
+    getSubCategoriesInProgress,
+    brandOptions,
+    onChangeBrandCheckbox,
+    brandCheckbox,
+    colorOptions,
+    onChangeColorCheckbox,
+    colorCheckbox,
+    shippingOptions,
+    onChangeShippingCheckbox,
+    shippingCheckbox,
+  };
+
+  const showMobileMenuDrawer = () => {
+    dispatch(setMobileDrawerVisability(true));
+  };
+
   return (
     <>
-      <Row>
-        <Col span={4}>
-          <Title level={3} style={{ margin: '16px 20px' }}>
+      <Row style={{ paddingLeft: 20 }}>
+        <Space direction="horizontal" size="middle">
+          {!screens.md && (
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<MenuUnfoldOutlined />}
+              size="large"
+              onClick={showMobileMenuDrawer}
+            />
+          )}
+          <Title
+            level={2}
+            style={{ color: 'black', marginTop: '10px', fontSize: 18 }}
+          >
             Filters
           </Title>
-          <Menu
-            mode="inline"
-            defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']}
-          >
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <DollarOutlined style={{ fontSize: 18 }} /> Price
-                </span>
-              }
-              key="1"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: 80 }}
-                key="price"
-                className="ant-slider-wrapper"
-              >
-                <Slider
-                  range
-                  tipFormatter={(value) => `$${value}`}
-                  value={price}
-                  onChange={handlePriceSlider}
-                  onAfterChange={handleOnAfterChange}
-                  max="4999"
-                />
-                <Text>Chosen range: {`$${price[0]} – $${price[1]}`}</Text>
-              </Menu.Item>
-            </SubMenu>
+        </Space>
+      </Row>
+      <Row>
+        {!screens.md && (
+          <MobileSideDrawer width={300}>
+            <Col span={24}>
+              <Title level={3} style={{ margin: '16px 20px' }}>
+                Filters
+              </Title>
+              <ShopFilters {...shopFilterProps} />
+            </Col>
+          </MobileSideDrawer>
+        )}
 
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <DownSquareOutlined style={{ fontSize: 18 }} /> Category
-                </span>
-              }
-              key="2"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
-                key="category"
-                className="ant-slider-wrapper"
-              >
-                <Checkbox.Group
-                  options={checkboxCategoryOptions}
-                  onChange={onChangeCategoryCheckbox}
-                  disabled={getCategoriesInProgress}
-                  value={categoryCheckbox}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0',
-                  }}
-                ></Checkbox.Group>
-              </Menu.Item>
-            </SubMenu>
+        {screens.md && (
+          <Col xl={{ span: 4 }} lg={{ span: 6 }} md={{ span: 6 }}>
+            <ShopFilters {...shopFilterProps} />
+          </Col>
+        )}
 
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <StarOutlined style={{ fontSize: 18 }} /> Rating
-                </span>
-              }
-              key="3"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
-                key="rating"
-                className="ant-slider-wrapper"
-              >
-                <Checkbox.Group
-                  onChange={onChangeRatingCheckbox}
-                  value={ratingCheckbox}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0',
-                  }}
-                >
-                  <Checkbox value={5}>{displayStars(5)}</Checkbox>
-                  <Checkbox value={4}>{displayStars(4)}</Checkbox>
-                  <Checkbox value={3}>{displayStars(3)}</Checkbox>
-                  <Checkbox value={2}>{displayStars(2)}</Checkbox>
-                  <Checkbox value={1}>{displayStars(1)}</Checkbox>
-                </Checkbox.Group>
-              </Menu.Item>
-            </SubMenu>
-
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <TagsOutlined style={{ fontSize: 18 }} /> Subcategories
-                </span>
-              }
-              key="4"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
-                key="subcategory"
-                className="ant-slider-wrapper"
-              >
-                <Checkbox.Group
-                  options={dynamicSubOptions}
-                  onChange={onChangeSubcategoryCheckbox}
-                  value={subcategoryCheckbox}
-                  disabled={getSubCategoriesInProgress}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0',
-                  }}
-                ></Checkbox.Group>
-              </Menu.Item>
-            </SubMenu>
-
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <TagsOutlined style={{ fontSize: 18 }} /> Brands
-                </span>
-              }
-              key="5"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
-                key="brands"
-                className="ant-slider-wrapper"
-              >
-                <Checkbox.Group
-                  options={brandOptions}
-                  onChange={onChangeBrandCheckbox}
-                  value={brandCheckbox}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0',
-                  }}
-                ></Checkbox.Group>
-              </Menu.Item>
-            </SubMenu>
-
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <BgColorsOutlined style={{ fontSize: 18 }} /> Colors
-                </span>
-              }
-              key="6"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
-                key="colors"
-                className="ant-slider-wrapper"
-              >
-                <Checkbox.Group
-                  options={colorOptions}
-                  onChange={onChangeColorCheckbox}
-                  value={colorCheckbox}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0',
-                  }}
-                ></Checkbox.Group>
-              </Menu.Item>
-            </SubMenu>
-
-            <SubMenu
-              title={
-                <span style={{ fontSize: 18 }}>
-                  <CarOutlined style={{ fontSize: 18 }} /> Shipping
-                </span>
-              }
-              key="7"
-            >
-              <Menu.Item
-                style={{ paddingLeft: 15, width: '100%', height: '100%' }}
-                key="shipping"
-                className="ant-slider-wrapper"
-              >
-                <Checkbox.Group
-                  options={shippingOptions}
-                  onChange={onChangeShippingCheckbox}
-                  value={shippingCheckbox}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '10px 0',
-                  }}
-                ></Checkbox.Group>
-              </Menu.Item>
-            </SubMenu>
-          </Menu>
-        </Col>
-        <Col span={20}>
+        <Col xl={{ span: 20 }} lg={{ span: 18 }} md={{ span: 18 }}>
           <Row>
             <Col
               xl={{ span: 16, offset: 4 }}

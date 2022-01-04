@@ -4,7 +4,7 @@ import { Drawer } from 'antd';
 
 import { setMobileDrawerVisability } from '../../store/actions/drawerActions';
 
-const MobileSideDrawer = ({ children }) => {
+const MobileSideDrawer = ({ children, width }) => {
   const dispatch = useDispatch();
 
   const { mobileIsVisible } = useSelector((state) => state.drawer);
@@ -15,7 +15,7 @@ const MobileSideDrawer = ({ children }) => {
       visible={mobileIsVisible}
       closable
       placement="left"
-      width={224}
+      width={width || 224}
       keyboard
       onClose={() => dispatch(setMobileDrawerVisability(false))}
       style={{ margin: 0, padding: 0 }}
