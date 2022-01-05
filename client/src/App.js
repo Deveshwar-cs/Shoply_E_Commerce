@@ -11,6 +11,7 @@ import Header from './components/nav/Header';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import History from './pages/user/History';
 import Password from './pages/user/Password';
+import AdminPassword from './pages/admin/Password';
 import Wishlist from './pages/user/Wishlist';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CategoryCreate from './pages/admin/category/CategoryCreate';
@@ -62,6 +63,7 @@ const App = () => {
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
         <AdminRoute exact path="/admin/coupon" component={Coupon} />
+        <AdminRoute exact path="/admin/password" component={AdminPassword} />
         <AdminRoute
           exact
           path="/admin/category/:slug"
