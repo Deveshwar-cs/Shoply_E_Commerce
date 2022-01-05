@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Row, Col, Form, Input, Button, Grid, Space } from 'antd';
+import { Row, Col, Form, Input, Button, Grid, Space, notification } from 'antd';
 import { Layout, Typography } from 'antd';
 import { KeyOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-
-import { toast } from 'react-toastify';
 
 import UserNav from '../../components/nav/UserNav';
 import MobileSideDrawer from '../../components/drawer/MobileSideDrawer';
@@ -62,7 +59,9 @@ const Password = () => {
   const onFinish = ({ currentPassword, password: newPassword }) => {
     // simple validation
     if (newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      notification.error({
+        message: `Password must be at least 6 characters!`,
+      });
       return;
     }
     dispatch(updatePassword(currentPassword, newPassword));

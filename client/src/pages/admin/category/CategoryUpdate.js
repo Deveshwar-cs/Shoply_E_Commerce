@@ -11,11 +11,10 @@ import {
   Space,
   Button,
   Grid,
+  notification,
 } from 'antd';
 
 import { MenuUnfoldOutlined } from '@ant-design/icons';
-
-import { toast } from 'react-toastify';
 
 import AdminNav from '../../../components/nav/AdminNav';
 import CategoryForm from '../../../components/forms/CategoryForm';
@@ -56,13 +55,21 @@ const CategoryUpdate = ({ history, match }) => {
 
   const onFinish = ({ name }) => {
     if (name.toLowerCase().trim() === oneCategory.category.name.toLowerCase())
-      return toast.error(`Please enter a new catogory name!`);
+      return notification.error({
+        message: `Please enter a new catogory name!`,
+      });
     dispatch(updateCategoryAction(match.params.slug, { name }, user.token))
       .then((res) => {
-        toast.success(`Category ${oneCategory.category.name} is updated!`);
+        notification.success({
+          message: `Category ${oneCategory.category.name} is updated!`,
+        });
         history.push('/admin/category');
       })
-      .catch((error) => toast.error(`Category ${name} update is failed!`));
+      .catch((error) => {
+        notification.error({
+          message: `Category ${name} update is failed!`,
+        });
+      });
   };
 
   const onFinishFailed = (errorInfo) => {

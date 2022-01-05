@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Form, Input, Button, Typography } from 'antd';
-import { toast } from 'react-toastify';
+import { Row, Col, Form, Input, Button, Typography, notification } from 'antd';
 
 import { signUp } from '../../store/actions/authActions';
 
@@ -26,7 +25,9 @@ const RegisterComplete = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      toast.info('You are logged in already.');
+      notification.info({
+        message: `You are logged in already.`,
+      });
       return history.push('/');
     }
 
@@ -69,7 +70,9 @@ const RegisterComplete = ({ history }) => {
   const onFinish = ({ email, password }) => {
     // simple validation
     if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      notification.error({
+        message: `Password must be at least 6 characters.`,
+      });
       return;
     }
     dispatch(signUp(email, password));

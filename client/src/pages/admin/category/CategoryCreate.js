@@ -15,11 +15,10 @@ import {
   Spin,
   Space,
   Grid,
+  notification,
 } from 'antd';
 
 import { MenuUnfoldOutlined } from '@ant-design/icons';
-
-import { toast } from 'react-toastify';
 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -67,7 +66,9 @@ const CategoryCreate = () => {
       dispatch(deleteCategoryAction(category.slug, user.token)).then(() => {
         // dispatch getAllCategoriesAction after category was deleted
         dispatch(getAllCategoriesAction());
-        toast.success(`Category ${category.name} deleted`);
+        notification.success({
+          message: `Category ${category.name} deleted`,
+        });
       });
     }
   };

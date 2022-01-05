@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Form, Input, Button, Typography } from 'antd';
+import { Row, Col, Form, Input, Button, Typography, notification } from 'antd';
 import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
-import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import { login, googleLogin } from '../../store/actions/authActions';
@@ -58,7 +57,9 @@ const Login = ({ history }) => {
   const onFinish = ({ email, password }) => {
     // simple validation
     if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      notification.error({
+        message: `Password must be at least 6 characters`,
+      });
       return;
     }
     dispatch(login(email, password));

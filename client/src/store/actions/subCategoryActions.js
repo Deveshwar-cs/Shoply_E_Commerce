@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { notification } from 'antd';
 
 import {
   createSubCategory,
@@ -48,10 +48,14 @@ export const createSubCategoryAction =
 
       dispatch(createSubCategorySuccess());
 
-      toast.success(`Subcategory ${name} successfully created!`);
+      notification.success({
+        message: `Subcategory ${name} successfully created!`,
+      });
     } catch (error) {
       dispatch(createSubCategoryError(error));
-      toast.error(error.message);
+      notification.error({
+        message: error.message,
+      });
     }
   };
 

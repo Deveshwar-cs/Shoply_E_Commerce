@@ -29,10 +29,6 @@ const Register = ({ history }) => {
 
   //   await auth.sendSignInLinkToEmail(email, config);
 
-  //   toast.success(
-  //     `Email is sent to ${email}. Click the link to complete your registration.`
-  //   );
-
   //   // Save user email in localStorage
   //   window.localStorage.setItem('emailForRegistration', email);
   //   // Claer input from email

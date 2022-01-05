@@ -1,7 +1,7 @@
 import { auth, googleAuthProvider } from '../../firebase';
 // need use firebase import. Credential it's a static method in a static class that's why you need the namespace
 import firebase from 'firebase';
-import { toast } from 'react-toastify';
+import { notification } from 'antd';
 
 import {
   AUTH_INFO_REQUEST,
@@ -116,9 +116,9 @@ export const sendEmail = (email) => async (dispatch) => {
 
     await auth.sendSignInLinkToEmail(email, config);
 
-    toast.success(
-      `Email is sent to ${email}. Click the link to complete your registration.`
-    );
+    notification.success({
+      message: `Email is sent to ${email}. Click the link to complete your registration.`,
+    });
 
     // Save user email in localStorage
     window.localStorage.setItem('emailForRegistration', email);
@@ -166,14 +166,18 @@ export const signUp = (email, password) => async (dispatch) => {
         .catch((error) => dispatch(signupError(error.message)));
 
       // notification
-      toast.success(`Сongratulations, your account ${email} has been created!`);
+      notification.success({
+        message: `Сongratulations, your account ${email} has been created!`,
+      });
     }
   } catch (error) {
     //console.log('AuthActions -- SIGNUP ERROR CODE', error.code);
 
     dispatch(signupError(error));
 
-    toast.error(displayErrorMessage(error));
+    notification.error({
+      message: displayErrorMessage(error),
+    });
   }
 };
 
@@ -206,7 +210,9 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch(loginError(error.message));
 
-    toast.error(error.message);
+    notification.error({
+      message: error.message,
+    });
   }
 };
 
@@ -243,7 +249,9 @@ export const googleLogin = (email, password) => async (dispatch) => {
 
     dispatch(loginGoogleError(error.message));
 
-    toast.error(error.message);
+    notification.error({
+      message: error.message,
+    });
   }
 };
 
@@ -256,13 +264,17 @@ export const logout = () => async (dispatch) => {
 
     dispatch(logoutSuccess());
 
-    toast.info('You are succeccfuly logged out!');
+    notification.info({
+      message: 'You are succeccfuly logged out!',
+    });
   } catch (error) {
     console.log(error);
 
     dispatch(logoutError(error));
 
-    toast.error(error.message);
+    notification.error({
+      message: error.message,
+    });
   }
 };
 
@@ -279,11 +291,15 @@ export const forgotPassword = (email) => async (dispatch) => {
     await auth.sendPasswordResetEmail(email, config).then(() => {
       dispatch(sendForgotPasswordEmailSuccess());
 
-      toast.success('Please check your email for password reset link!');
+      notification.success({
+        message: 'Please check your email for password reset link!',
+      });
     });
   } catch (error) {
     dispatch(sendForgotPasswordEmailError(error));
-    toast.error(error.message);
+    notification.error({
+      message: error.message,
+    });
   }
 };
 
@@ -313,15 +329,19 @@ export const updatePassword =
 
       dispatch(updatePasswordSuccess());
 
-      toast.success('Password successfully updated!');
+      notification.success({
+        message: 'Password successfully updated!',
+      });
     } catch (error) {
       dispatch(updatePasswordError());
-      toast.error(error.message);
+      notification.error({
+        message: error.message,
+      });
     }
 
     // PROMISE IMPLEMENTATION
 
-    //dispatch(updatePasswordRequest());
+    // dispatch(updatePasswordRequest());
 
     // reauthenticate(currentPassword)
     //   .then(() => {
@@ -332,16 +352,23 @@ export const updatePassword =
     //       .then(() => {
     //         //success
     //         dispatch(updatePasswordSuccess());
-    //         toast.success('Password successfully updated!');
+
+    //         notification.success({
+    //           message: 'Password successfully updated!',
+    //         });
     //       })
     //       .catch((error) => {
     //         //error
     //         dispatch(updatePasswordError());
-    //         toast.error(error.message);
+    //         notification.error({
+    //           message: error.message,
+    //         });
     //       });
     //   })
     //   .catch((error) => {
     //     dispatch(updatePasswordError());
-    //     toast.error(error.message);
+    //     notification.error({
+    //       message: error.message,
+    //     });
     //   });
   };

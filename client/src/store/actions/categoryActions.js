@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { notification } from 'antd';
 
 import {
   createCategory,
@@ -45,10 +45,15 @@ export const createCategoryAction = (name, token) => async (dispatch) => {
 
     dispatch(createCategorySuccess());
 
-    toast.success(`Category ${name} successfully created!`);
+    notification.success({
+      message: `Category ${name} successfully created!`,
+    });
   } catch (error) {
     dispatch(createCategoryError(error));
-    toast.error(error.message);
+
+    notification.error({
+      message: error.message,
+    });
     console.log('createCategoryAction error', error);
   }
 };

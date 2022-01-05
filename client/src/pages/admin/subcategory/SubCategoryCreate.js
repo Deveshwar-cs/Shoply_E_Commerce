@@ -15,9 +15,8 @@ import {
   Spin,
   Space,
   Grid,
+  notification,
 } from 'antd';
-
-import { toast } from 'react-toastify';
 
 import {
   DeleteOutlined,
@@ -76,7 +75,9 @@ const SubCategoryCreate = () => {
         () => {
           // dispatch getAllCategoriesAction after subcategory was deleted
           dispatch(getAllSubCategoriesAction());
-          toast.success(`Subcategory ${subCategory.name} deleted`);
+          notification.success({
+            message: `Subcategory ${subCategory.name} deleted`,
+          });
         }
       );
     }

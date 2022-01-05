@@ -1,7 +1,5 @@
 import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { Spin } from 'antd';
 
@@ -45,7 +43,6 @@ const App = () => {
     <>
       <Header />
       <SideCartDrawer />
-      <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
