@@ -1,12 +1,12 @@
 import firebase from 'firebase';
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyBBkqKxvdXoJswWBLd6LG6qxuTBzTDwIZ4',
-  authDomain: 'mern-ecommerce-e4a93.firebaseapp.com',
-  projectId: 'mern-ecommerce-e4a93',
-  storageBucket: 'mern-ecommerce-e4a93.appspot.com',
-  messagingSenderId: '273072875762',
-  appId: '1:273072875762:web:b93966e5217a0d9e2f486b',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGIN_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
