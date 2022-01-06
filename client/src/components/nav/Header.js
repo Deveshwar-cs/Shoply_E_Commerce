@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -26,6 +26,21 @@ const Header = () => {
   const {
     cart: { totalQuantity },
   } = useSelector((state) => state.cart);
+
+  // listen to location.pathname to set active state in the header menu
+  useEffect(() => {
+    return history.listen((location) => {
+      if (location.pathname.includes('product')) {
+        setCurrent('shop');
+      }
+      if (location.pathname.includes('cart')) {
+        setCurrent('cart');
+      }
+      if (location.pathname.includes('shop')) {
+        setCurrent('shop');
+      }
+    });
+  }, [history]);
 
   const handleClick = (e) => {
     setCurrent(e.key);
