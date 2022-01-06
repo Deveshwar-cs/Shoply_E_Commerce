@@ -40,4 +40,17 @@ Project based on [this course](https://www.udemy.com/course/react-redux-ecommerc
 - new implementation for calculating average product rating (with mongoose middlewares + changes in the model);
 - new implementation for filtering products feature (now we can combine filters for more specific results – original project miss this functionality);
 
-### Screens
+### Screenshots
+
+**By User**
+![home-page](https://user-images.githubusercontent.com/20335885/148426821-c12d797b-6610-490d-b18a-0b1e9cce338f.jpg)
+![shop-page](https://user-images.githubusercontent.com/20335885/148426882-b3c67245-325e-46f6-95aa-616959909827.jpg)
+![product-page](https://user-images.githubusercontent.com/20335885/148426915-1966a7b9-451f-4034-a2ac-9d1dcad0548e.jpg)
+![cart-page](https://user-images.githubusercontent.com/20335885/148426967-170cf311-f53c-4cff-9f18-dd0ef93696a8.jpg)
+![checkout-page](https://user-images.githubusercontent.com/20335885/148427018-f7195fc3-4702-41de-93fb-e56970a1bfef.jpg)
+![card-payment-page](https://user-images.githubusercontent.com/20335885/148427079-e25dfd12-f2aa-4742-9a53-3a9e5e24bc23.jpg)
+![card-payment-success](https://user-images.githubusercontent.com/20335885/148427138-41723ed1-e3f1-4ff7-935e-a5b14b08b3ea.jpg)
+![user-order-history-page](https://user-images.githubusercontent.com/20335885/148427194-314c13d7-3b39-4cf5-bf75-b418ca9176ac.jpg)
+
+**By Admin**
+![admin-dashboard-page](https://user-images.githubusercontent.com/20335885/148427256-b9a55636-0dcb-4ed8-bbdb-0c19e956a6e4.jpg)
