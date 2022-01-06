@@ -40,6 +40,17 @@ Project based on [this course](https://www.udemy.com/course/react-redux-ecommerc
 - new implementation for calculating average product rating (with mongoose middlewares + changes in the model);
 - new implementation for filtering products feature (now we can combine filters for more specific results – original project miss this functionality);
 
+### How to run the project locally?
+
+1. Clone repo;
+2. In `client` directory run terminal command `npm install`;
+3. In `server` directory run terminal command `npm install`;
+4. Setup MongoDB instance – local or [Atlas](https://www.mongodb.com/atlas/database);
+5. Setup [Firebase](https://console.firebase.google.com/) project;
+6. Setup [Cloudinary](https://cloudinary.com/) API;
+7. Setup [Stripe](https://stripe.com/) project;
+8. In `server` directory run terminal command `npm run dev`;
+
 ### Screenshots
 
 **By User**
