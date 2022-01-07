@@ -35,7 +35,7 @@
 Project based on [this course](https://www.udemy.com/course/react-redux-ecommerce/) with a lot of changes:
 
 - used only Ant Design UI (because why to use two UI libraries with same features);
-- more complex Redux setup (there a lot of Redux here 😂);
+- more complex Redux setup (there is a lot of Redux here 😂);
 - added mobile layout for all pages;
 - new implementation for calculating average product rating (with mongoose middlewares + changes in the model);
 - new implementation for filtering products feature (now we can combine filters for more specific results – original project miss this functionality);
