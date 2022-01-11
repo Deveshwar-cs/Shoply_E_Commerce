@@ -1,5 +1,7 @@
 # MERN Ecommerce project
 
+# [Heroku Live Demo](https://mighty-thicket-25370.herokuapp.com/)
+
 ### Client stack:
 
 - React

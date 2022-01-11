@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+//import { useSelector } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 
 import { Spin } from 'antd';
 
