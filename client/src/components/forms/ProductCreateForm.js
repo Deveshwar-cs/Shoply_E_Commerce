@@ -274,29 +274,16 @@ const ProductCreateForm = () => {
       </Form.Item>
       <FileUpload />
       <Form.Item>
-        {createProductInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10, marginBottom: 40 }}
-            size="large"
-            block
-            icon={<FileAddOutlined />}
-            loading
-          >
-            Create product
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10, marginBottom: 40 }}
-            size="large"
-            block
-            icon={<FileAddOutlined />}
-          >
-            Create product
-          </Button>
-        )}
+        <Button
+          type="primary"
+          style={{ marginTop: 10, marginBottom: 40 }}
+          size="large"
+          block
+          icon={<FileAddOutlined />}
+          loading={createProductInProgress}
+        >
+          Create product
+        </Button>
       </Form.Item>
     </Form>
   );

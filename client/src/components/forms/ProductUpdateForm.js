@@ -398,29 +398,16 @@ const ProductUpdateForm = () => {
           </div>
           <FileUpload />
           <Form.Item>
-            {createProductInProgress ? (
-              <Button
-                type="primary"
-                style={{ marginTop: 10, marginBottom: 40 }}
-                size="large"
-                block
-                icon={<FileAddOutlined />}
-                loading
-              >
-                Update product
-              </Button>
-            ) : (
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ marginTop: 10, marginBottom: 40 }}
-                size="large"
-                block
-                icon={<FileAddOutlined />}
-              >
-                Update product
-              </Button>
-            )}
+            <Button
+              type="primary"
+              style={{ marginTop: 10, marginBottom: 40 }}
+              size="large"
+              block
+              icon={<FileAddOutlined />}
+              loading={createProductInProgress}
+            >
+              Update product
+            </Button>
           </Form.Item>
         </>
       )}

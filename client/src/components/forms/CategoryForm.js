@@ -72,29 +72,16 @@ const CategoryForm = ({
       </Item>
 
       <Item {...tailFormItemLayout}>
-        {inProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<LaptopOutlined />}
-            loading
-          >
-            {btnText}
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<LaptopOutlined />}
-          >
-            {btnText}
-          </Button>
-        )}
+        <Button
+          type="primary"
+          style={{ marginTop: 10 }}
+          size="large"
+          block
+          icon={<LaptopOutlined />}
+          loading={inProgress}
+        >
+          {btnText}
+        </Button>
       </Item>
     </Form>
   );
