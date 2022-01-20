@@ -79,6 +79,7 @@ const CategoryForm = ({
           block
           icon={<LaptopOutlined />}
           loading={inProgress}
+          htmlType="submit"
         >
           {btnText}
         </Button>

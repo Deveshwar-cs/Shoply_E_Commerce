@@ -140,29 +140,17 @@ const Password = () => {
         <Input.Password placeholder="Confirm your new password" size="large" />
       </Item>
       <Item {...tailFormItemLayout}>
-        {updatePasswordInProgress ? (
-          <Button
-            type="primary"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<KeyOutlined />}
-            loading
-          >
-            Update Password
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginTop: 10 }}
-            size="large"
-            block
-            icon={<KeyOutlined />}
-          >
-            Update Password
-          </Button>
-        )}
+        <Button
+          type="primary"
+          style={{ marginTop: 10 }}
+          size="large"
+          block
+          icon={<KeyOutlined />}
+          loading={updatePasswordInProgress}
+          htmlType="submit"
+        >
+          Update Password
+        </Button>
       </Item>
     </Form>
   );

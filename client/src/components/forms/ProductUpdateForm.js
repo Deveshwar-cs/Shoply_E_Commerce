@@ -405,6 +405,7 @@ const ProductUpdateForm = () => {
               block
               icon={<FileAddOutlined />}
               loading={createProductInProgress}
+              htmlType="submit"
             >
               Update product
             </Button>

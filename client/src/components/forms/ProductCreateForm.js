@@ -281,6 +281,7 @@ const ProductCreateForm = () => {
           block
           icon={<FileAddOutlined />}
           loading={createProductInProgress}
+          htmlType="submit"
         >
           Create product
         </Button>
