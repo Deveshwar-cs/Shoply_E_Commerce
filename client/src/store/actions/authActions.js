@@ -3,88 +3,93 @@ import { auth, googleAuthProvider } from '../../firebase';
 import firebase from 'firebase';
 import { notification } from 'antd';
 
-import {
-  AUTH_INFO_REQUEST,
-  AUTH_INFO_SUCCESS,
-  AUTH_INFO_ERROR,
-  SEND_EMAIL_REQUEST,
-  SEND_EMAIL_SUCCESS,
-  SEND_EMAIL_ERROR,
-  SEND_FORGOT_PASSWORD_EMAIL_REQUEST,
-  SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
-  SEND_FORGOT_PASSWORD_EMAIL_ERROR,
-  UPDATE_PASSWORD_REQUEST,
-  UPDATE_PASSWORD_SUCCESS,
-  UPDATE_PASSWORD_ERROR,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  LOGIN_GOOGLE_REQUEST,
-  LOGIN_GOOGLE_SUCCESS,
-  LOGIN_GOOGLE_ERROR,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_ERROR,
-} from '../actions/types';
+import * as actionTypes from '../actions/types';
 
 import { createOrUpdateUser } from '../../functions/authFunctions';
 
-export const authInfoInRequest = () => ({ type: AUTH_INFO_REQUEST });
+export const authInfoInRequest = () => ({
+  type: actionTypes.AUTH_INFO_REQUEST,
+});
 export const authInfoSuccess = (user) => ({
-  type: AUTH_INFO_SUCCESS,
+  type: actionTypes.AUTH_INFO_SUCCESS,
   payload: user,
 });
-export const authInfoError = (e) => ({ type: AUTH_INFO_ERROR, payload: e });
+export const authInfoError = (e) => ({
+  type: actionTypes.AUTH_INFO_ERROR,
+  payload: e,
+});
 
-export const sendEmailInRequest = () => ({ type: SEND_EMAIL_REQUEST });
-export const sendEmailSuccess = () => ({ type: SEND_EMAIL_SUCCESS });
-export const sendEmailError = (e) => ({ type: SEND_EMAIL_ERROR, payload: e });
+export const sendEmailInRequest = () => ({
+  type: actionTypes.SEND_EMAIL_REQUEST,
+});
+export const sendEmailSuccess = () => ({
+  type: actionTypes.SEND_EMAIL_SUCCESS,
+});
+export const sendEmailError = (e) => ({
+  type: actionTypes.SEND_EMAIL_ERROR,
+  payload: e,
+});
 
 export const sendForgotPasswordEmailInRequest = () => ({
-  type: SEND_FORGOT_PASSWORD_EMAIL_REQUEST,
+  type: actionTypes.SEND_FORGOT_PASSWORD_EMAIL_REQUEST,
 });
 export const sendForgotPasswordEmailSuccess = () => ({
-  type: SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
+  type: actionTypes.SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
 });
 export const sendForgotPasswordEmailError = (e) => ({
-  type: SEND_FORGOT_PASSWORD_EMAIL_ERROR,
+  type: actionTypes.SEND_FORGOT_PASSWORD_EMAIL_ERROR,
   payload: e,
 });
 
-export const updatePasswordRequest = () => ({ type: UPDATE_PASSWORD_REQUEST });
-export const updatePasswordSuccess = () => ({ type: UPDATE_PASSWORD_SUCCESS });
+export const updatePasswordRequest = () => ({
+  type: actionTypes.UPDATE_PASSWORD_REQUEST,
+});
+export const updatePasswordSuccess = () => ({
+  type: actionTypes.UPDATE_PASSWORD_SUCCESS,
+});
 export const updatePasswordError = (e) => ({
-  type: UPDATE_PASSWORD_ERROR,
+  type: actionTypes.UPDATE_PASSWORD_ERROR,
   payload: e,
 });
 
-export const loginRequest = () => ({ type: LOGIN_REQUEST });
-export const loginSuccess = (user) => ({ type: LOGIN_SUCCESS, payload: user });
-export const loginError = (e) => ({ type: LOGIN_ERROR, payload: e });
+export const loginRequest = () => ({ type: actionTypes.LOGIN_REQUEST });
+export const loginSuccess = (user) => ({
+  type: actionTypes.LOGIN_SUCCESS,
+  payload: user,
+});
+export const loginError = (e) => ({
+  type: actionTypes.LOGIN_ERROR,
+  payload: e,
+});
 
-export const loginGoogleRequest = () => ({ type: LOGIN_GOOGLE_REQUEST });
+export const loginGoogleRequest = () => ({
+  type: actionTypes.LOGIN_GOOGLE_REQUEST,
+});
 export const loginGoogleSuccess = (user) => ({
-  type: LOGIN_GOOGLE_SUCCESS,
+  type: actionTypes.LOGIN_GOOGLE_SUCCESS,
   payload: user,
 });
 export const loginGoogleError = (e) => ({
-  type: LOGIN_GOOGLE_ERROR,
+  type: actionTypes.LOGIN_GOOGLE_ERROR,
   payload: e,
 });
 
-export const signupRequest = () => ({ type: SIGNUP_REQUEST });
+export const signupRequest = () => ({ type: actionTypes.SIGNUP_REQUEST });
 export const signupSuccess = (user) => ({
-  type: SIGNUP_SUCCESS,
+  type: actionTypes.SIGNUP_SUCCESS,
   payload: user,
 });
-export const signupError = (e) => ({ type: SIGNUP_ERROR, payload: e });
+export const signupError = (e) => ({
+  type: actionTypes.SIGNUP_ERROR,
+  payload: e,
+});
 
-export const logoutRequest = () => ({ type: LOGOUT_REQUEST });
-export const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
-export const logoutError = (e) => ({ type: LOGOUT_ERROR, payload: e });
+export const logoutRequest = () => ({ type: actionTypes.LOGOUT_REQUEST });
+export const logoutSuccess = () => ({ type: actionTypes.LOGOUT_SUCCESS });
+export const logoutError = (e) => ({
+  type: actionTypes.LOGOUT_ERROR,
+  payload: e,
+});
 
 // ERROR HANDLING -- START
 // Error Codes

@@ -8,34 +8,18 @@ import {
   getOneSubCategory,
 } from '../../functions/subCategoryFunctions';
 
-import {
-  CREATE_SUB_CATEGORY_REQUEST,
-  CREATE_SUB_CATEGORY_SUCCESS,
-  CREATE_SUB_CATEGORY_ERROR,
-  GET_SUB_CATEGORIES_REQUEST,
-  GET_SUB_CATEGORIES_SUCCESS,
-  GET_SUB_CATEGORIES_ERROR,
-  DELETE_SUB_CATEGORY_REQUEST,
-  DELETE_SUB_CATEGORY_SUCCESS,
-  DELETE_SUB_CATEGORY_ERROR,
-  UPDATE_SUB_CATEGORY_REQUEST,
-  UPDATE_SUB_CATEGORY_SUCCESS,
-  UPDATE_SUB_CATEGORY_ERROR,
-  GET_ONE_SUB_CATEGORY_REQUEST,
-  GET_ONE_SUB_CATEGORY_SUCCESS,
-  GET_ONE_SUB_CATEGORY_ERROR,
-  SET_PARENT_CATEGORY,
-  CLEAR_PARENT_CATEGORY,
-} from '../actions/types';
+import * as actionTypes from '../actions/types';
 
 // Create subcategory actions
 
-const createSubCategoryRequest = () => ({ type: CREATE_SUB_CATEGORY_REQUEST });
+const createSubCategoryRequest = () => ({
+  type: actionTypes.CREATE_SUB_CATEGORY_REQUEST,
+});
 const createSubCategorySuccess = () => ({
-  type: CREATE_SUB_CATEGORY_SUCCESS,
+  type: actionTypes.CREATE_SUB_CATEGORY_SUCCESS,
 });
 const createSubCategoryError = (e) => ({
-  type: CREATE_SUB_CATEGORY_ERROR,
+  type: actionTypes.CREATE_SUB_CATEGORY_ERROR,
   payload: e,
 });
 
@@ -61,13 +45,15 @@ export const createSubCategoryAction =
 
 // Get all subcategories actions
 
-const getSubCategoriesRequest = () => ({ type: GET_SUB_CATEGORIES_REQUEST });
+const getSubCategoriesRequest = () => ({
+  type: actionTypes.GET_SUB_CATEGORIES_REQUEST,
+});
 const getSubCategoriesSuccess = (categories) => ({
-  type: GET_SUB_CATEGORIES_SUCCESS,
+  type: actionTypes.GET_SUB_CATEGORIES_SUCCESS,
   payload: categories,
 });
 const getSubCategoriesError = (e) => ({
-  type: GET_SUB_CATEGORIES_ERROR,
+  type: actionTypes.GET_SUB_CATEGORIES_ERROR,
   payload: e,
 });
 
@@ -85,12 +71,14 @@ export const getAllSubCategoriesAction = () => async (dispatch) => {
 
 // Delete subcategory actions
 
-const deleteSubCategoryRequest = () => ({ type: DELETE_SUB_CATEGORY_REQUEST });
+const deleteSubCategoryRequest = () => ({
+  type: actionTypes.DELETE_SUB_CATEGORY_REQUEST,
+});
 const deleteSubCategorySuccess = () => ({
-  type: DELETE_SUB_CATEGORY_SUCCESS,
+  type: actionTypes.DELETE_SUB_CATEGORY_SUCCESS,
 });
 const deleteSubCategoryError = (e) => ({
-  type: DELETE_SUB_CATEGORY_ERROR,
+  type: actionTypes.DELETE_SUB_CATEGORY_ERROR,
   payload: e,
 });
 
@@ -112,12 +100,14 @@ export const deleteSubCategoryAction = (slug, token) => async (dispatch) => {
 
 // Update subcategory actions
 
-const updateSubCategoryRequest = () => ({ type: UPDATE_SUB_CATEGORY_REQUEST });
+const updateSubCategoryRequest = () => ({
+  type: actionTypes.UPDATE_SUB_CATEGORY_REQUEST,
+});
 const updateSubCategorySuccess = () => ({
-  type: UPDATE_SUB_CATEGORY_SUCCESS,
+  type: actionTypes.UPDATE_SUB_CATEGORY_SUCCESS,
 });
 const updateSubCategoryError = (e) => ({
-  type: UPDATE_SUB_CATEGORY_ERROR,
+  type: actionTypes.UPDATE_SUB_CATEGORY_ERROR,
   payload: e,
 });
 
@@ -137,13 +127,15 @@ export const updateSubCategoryAction =
 
 // Get one subcategory actions
 
-const getOneSubCategoryRequest = () => ({ type: GET_ONE_SUB_CATEGORY_REQUEST });
+const getOneSubCategoryRequest = () => ({
+  type: actionTypes.GET_ONE_SUB_CATEGORY_REQUEST,
+});
 const getOneSubCategorySuccess = (category) => ({
-  type: GET_ONE_SUB_CATEGORY_SUCCESS,
+  type: actionTypes.GET_ONE_SUB_CATEGORY_SUCCESS,
   payload: category,
 });
 const getOneSubCategoryError = (e) => ({
-  type: GET_ONE_SUB_CATEGORY_ERROR,
+  type: actionTypes.GET_ONE_SUB_CATEGORY_ERROR,
   payload: e,
 });
 
@@ -163,7 +155,9 @@ export const getOneSubCategoryAction = (slug) => async (dispatch) => {
 // Set parent category for subcategory
 
 export const setParentCategory = (parentCategor) => ({
-  type: SET_PARENT_CATEGORY,
+  type: actionTypes.SET_PARENT_CATEGORY,
   payload: parentCategor,
 });
-export const clearParentCategory = () => ({ type: CLEAR_PARENT_CATEGORY });
+export const clearParentCategory = () => ({
+  type: actionTypes.CLEAR_PARENT_CATEGORY,
+});
