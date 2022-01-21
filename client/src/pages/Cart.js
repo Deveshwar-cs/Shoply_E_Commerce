@@ -6,6 +6,7 @@ import { Typography, Row, Col, List, Button, Modal, Space } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import CartTable from '../components/tables/CartTable';
+import Placeholder from '../images/placeholder.png';
 
 import { clearCart, createCartAction } from '../store/actions/cartActions';
 
@@ -26,10 +27,12 @@ const Cart = ({ history }) => {
   // indicate loading state for 'Proceed to Checkout' and 'Pay Cash on Delivery' buttons
   const [paymentOption, setPaymentOption] = useState('');
 
+  console.log('items ==>', items);
+
   const listItemsData =
     items.map((item) => ({
       title: item.title,
-      imgUrl: item.images[0].url,
+      imgUrl: item.images.length ? item.images[0].url : Placeholder,
       price: item.price,
       cartQuantity: item.cartQuantity,
     })) || [];

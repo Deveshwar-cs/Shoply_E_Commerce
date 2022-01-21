@@ -14,6 +14,8 @@ import {
   removeFromCart,
 } from '../../store/actions/cartActions';
 
+import Placeholder from '../../images/placeholder.png';
+
 const { confirm } = Modal;
 
 const CartTable = ({ items }) => {
@@ -118,7 +120,7 @@ const CartTable = ({ items }) => {
     key: item._id,
     id: item._id,
     title: item.title,
-    image: item.images[0].url,
+    image: item.images.length ? item.images[0].url : Placeholder,
     price: `$${item.price}`,
     brand: item.brand,
     quantity: item.quantity,
