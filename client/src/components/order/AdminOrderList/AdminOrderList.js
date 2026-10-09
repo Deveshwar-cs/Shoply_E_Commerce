@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Typography, Space, Select, Tag, Spin } from 'antd';
+import { Card, Typography, Select, Tag, Spin } from 'antd';
 import {
   MailOutlined,
   EnvironmentOutlined,

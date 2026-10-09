@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+
 import { Menu, Layout } from 'antd';
+
 import {
   HistoryOutlined,
   UnlockOutlined,
@@ -15,6 +17,10 @@ import './UserNav.css';
 const { Sider } = Layout;
 
 const UserNav = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const items = useMemo(
     () => [
       {
@@ -42,22 +48,16 @@ const UserNav = () => {
     []
   );
 
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
+  // Derive the selected menu item from the current URL.
+  const selectedKey =
+    items.find(
+      (item) =>
+        location.pathname === item.path ||
+        location.pathname.startsWith(`${item.path}/`)
+    )?.key || '1';
 
-  const getSelectedKey = () => {
-    const matchedItem = items.find((item) =>
-      location.pathname.startsWith(item.path)
-    );
-
-    return matchedItem?.key || '1';
-  };
-
-  const [selectedKey, setSelectedKey] = useState(getSelectedKey);
-
-  const onClickMenu = (item) => {
-    const clicked = items.find((menuItem) => menuItem.key === item.key);
+  const onClickMenu = ({ key }) => {
+    const clicked = items.find((item) => item.key === key);
 
     if (!clicked) return;
 
@@ -65,17 +65,13 @@ const UserNav = () => {
     navigate(clicked.path);
   };
 
-  useEffect(() => {
-    setSelectedKey(getSelectedKey());
-  }, [location.pathname]);
-
   return (
     <Sider className="shoply-user-nav" width={240}>
       <div className="shoply-user-nav-inner">
         {/* Navigation header */}
         <div className="shoply-user-nav-header">
           <div className="shoply-user-nav-heading">
-            <span className="shoply-user-nav-line"></span>
+            <span className="shoply-user-nav-line" />
 
             <div>
               <span className="shoply-user-nav-eyebrow">SHOPLY / ACCOUNT</span>

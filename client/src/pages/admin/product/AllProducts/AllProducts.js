@@ -4,11 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Layout, Typography, Spin, Button, Grid, Breadcrumb } from 'antd';
 
-import {
-  MenuUnfoldOutlined,
-  PlusOutlined,
-  ShoppingOutlined,
-} from '@ant-design/icons';
+import { PlusOutlined, ShoppingOutlined } from '@ant-design/icons';
 
 import AdminNav from '../../../../components/nav/AdminNav/AdminNav';
 import AdminProductCard from '../../../../components/cards/AdminProductCard/AdminProductCard';

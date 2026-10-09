@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { Spin, Typography, notification } from 'antd';
+import { Spin, notification } from 'antd';
 
 import { CheckOutlined, DollarCircleOutlined } from '@ant-design/icons';
 
@@ -15,8 +15,6 @@ import { createPaymentIntent } from '../../../functions/stripeFunctions';
 import { createOrderAction } from '../../../store/actions/orderActions';
 
 import './CheckoutForm.css';
-
-const { Text } = Typography;
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();

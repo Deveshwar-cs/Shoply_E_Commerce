@@ -2,13 +2,9 @@ import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Layout, Typography, Row, Col, Spin, Space, Button, Grid } from 'antd';
+import { Layout, Typography, Spin, Grid } from 'antd';
 
-import {
-  MenuUnfoldOutlined,
-  ShoppingOutlined,
-  ArrowRightOutlined,
-} from '@ant-design/icons';
+import { ShoppingOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 import AdminNav from '../../../components/nav/AdminNav/AdminNav';
 

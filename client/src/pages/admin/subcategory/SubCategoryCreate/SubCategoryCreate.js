@@ -44,8 +44,6 @@ import {
   deleteSubCategoryAction,
 } from '../../../../store/actions/subCategoryActions';
 
-import { setMobileDrawerVisability } from '../../../../store/actions/drawerActions';
-
 import './SubCategoryCreate.css';
 
 const { Content } = Layout;
