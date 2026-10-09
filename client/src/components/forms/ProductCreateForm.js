@@ -49,19 +49,19 @@ const ProductCreateForm = () => {
   useEffect(() => {
     // get all categories to fill Category select
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   //get subcategories by parent category and fill subcategories select option
   useEffect(() => {
     if (parentCategoryId.length > 0) {
       dispatch(getAllSubCategoriesByParentAction(parentCategoryId));
     }
-  }, [parentCategoryId]);
+  }, [parentCategoryId, dispatch]);
 
   // Clear subcategory select when parentCategoryId changed
   useEffect(() => {
     form.resetFields(['subcategory']);
-  }, [parentCategoryId]);
+  }, [parentCategoryId, form]);
 
   //clear local state with parent category and redux state allSubsByParent when component unmount
   useEffect(
@@ -69,7 +69,7 @@ const ProductCreateForm = () => {
       setParentCategoryId('');
       dispatch(clearAllSubCategoriesByParent());
     },
-    []
+    [dispatch]
   );
 
   const onFinish = (values) => {

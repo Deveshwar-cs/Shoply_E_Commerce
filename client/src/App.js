@@ -1,85 +1,102 @@
-import { lazy, Suspense } from 'react';
-//import { useSelector } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+
+import { Routes, Route } from 'react-router-dom';
 
 import { Spin } from 'antd';
+import { useDispatch } from 'react-redux';
+import { getUser } from './store/actions/authActions';
+// import { Footer } from 'antd/lib/layout/layout';
 
-// import Login from './pages/auth/Login';
-// import Register from './pages/auth/Register';
-// import RegisterComplete from './pages/auth/RegisterComplete';
-// import Home from './pages/Home';
-// import Header from './components/nav/Header';
-// import ForgotPassword from './pages/auth/ForgotPassword';
-// import History from './pages/user/History';
-// import Password from './pages/user/Password';
-// import AdminPassword from './pages/admin/Password';
-// import Wishlist from './pages/user/Wishlist';
-// import AdminDashboard from './pages/admin/AdminDashboard';
-// import CategoryCreate from './pages/admin/category/CategoryCreate';
-// import CategoryUpdate from './pages/admin/category/CategoryUpdate';
-// import SubCategoryCreate from './pages/admin/subcategory/SubCategoryCreate';
-// import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
-// import ProductCreate from './pages/admin/product/ProductCreate';
-// import ProductUpdate from './pages/admin/product/ProductUpdate';
-// import AllProducts from './pages/admin/product/AllProducts';
-// import Coupon from './pages/admin/Coupon';
-// import Product from './pages/Product';
-// import CategoryHome from './pages/CategoryHome';
-// import SubcategoryHome from './pages/SubcategoryHome';
-// import Shop from './pages/Shop';
-// import Cart from './pages/Cart';
-// import Checkout from './pages/Checkout';
-// import Payment from './pages/Payment';
-// import UserRoute from './components/routes/UserRoute';
-// import AdminRoute from './components/routes/AdminRoute';
-// import SideCartDrawer from './components/drawer/SideCartDrawer';
+const Login = lazy(() => import('./pages/auth/Login/Login'));
 
-const Login = lazy(() => import('./pages/auth/Login'));
-const Register = lazy(() => import('./pages/auth/Register'));
-const RegisterComplete = lazy(() => import('./pages/auth/RegisterComplete'));
-const Home = lazy(() => import('./pages/Home'));
-const Header = lazy(() => import('./components/nav/Header'));
-const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
-const History = lazy(() => import('./pages/user/History'));
-const Password = lazy(() => import('./pages/user/Password'));
-const AdminPassword = lazy(() => import('./pages/admin/Password'));
-const Wishlist = lazy(() => import('./pages/user/Wishlist'));
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const Register = lazy(() => import('./pages/auth/Register/Register'));
+
+const RegisterComplete = lazy(() =>
+  import('./pages/auth/RegisterComplete/RegisterComplete')
+);
+
+const Home = lazy(() => import('./pages/Home/Home'));
+
+const Header = lazy(() => import('./components/nav/Header/Header'));
+
+const ForgotPassword = lazy(() =>
+  import('./pages/auth/ForgotPassword/ForgotPassword')
+);
+
+const History = lazy(() => import('./pages/History/History'));
+
+const Password = lazy(() => import('./pages/password/Password'));
+
+const AdminPassword = lazy(() => import('./pages/admin/Password/Password'));
+
+const Wishlist = lazy(() => import('./pages/user/Wishlist/Wishlist'));
+
+const AdminDashboard = lazy(() =>
+  import('./pages/admin/AdminDashBoard/AdminDashboard')
+);
+
+const Footer = lazy(() => import('./components/nav/footer/Footer'));
+
 const CategoryCreate = lazy(() =>
-  import('./pages/admin/category/CategoryCreate')
+  import('./pages/admin/category/CategoryCreate/CategoryCreate')
 );
+
 const CategoryUpdate = lazy(() =>
-  import('./pages/admin/category/CategoryUpdate')
+  import('./pages/admin/category/CategoryUpdate/CategoryUpdate')
 );
+
 const SubCategoryCreate = lazy(() =>
-  import('./pages/admin/subcategory/SubCategoryCreate')
+  import('./pages/admin/subcategory/SubCategoryCreate/SubCategoryCreate')
 );
+
 const SubCategoryUpdate = lazy(() =>
-  import('./pages/admin/subcategory/SubCategoryUpdate')
+  import('./pages/admin/subcategory/SubCategoryUpdate/SubCategoryUpdate')
 );
-const ProductCreate = lazy(() => import('./pages/admin/product/ProductCreate'));
-const ProductUpdate = lazy(() => import('./pages/admin/product/ProductUpdate'));
-const AllProducts = lazy(() => import('./pages/admin/product/AllProducts'));
-const Coupon = lazy(() => import('./pages/admin/Coupon'));
-const Product = lazy(() => import('./pages/Product'));
-const CategoryHome = lazy(() => import('./pages/CategoryHome'));
-const SubcategoryHome = lazy(() => import('./pages/SubcategoryHome'));
-const Shop = lazy(() => import('./pages/Shop'));
-const Cart = lazy(() => import('./pages/Cart'));
-const Checkout = lazy(() => import('./pages/Checkout'));
-const Payment = lazy(() => import('./pages/Payment'));
+
+const ProductCreate = lazy(() =>
+  import('./pages/admin/product/ProductCreate/ProductCreate')
+);
+
+const ProductUpdate = lazy(() =>
+  import('./pages/admin/product/ProductUpdate/ProductUpdate')
+);
+
+const AllProducts = lazy(() =>
+  import('./pages/admin/product/AllProducts/AllProducts')
+);
+
+const Coupon = lazy(() => import('./pages/admin/Coupon/Coupon'));
+
+const Product = lazy(() => import('./pages/Product/Product'));
+
+const CategoryHome = lazy(() => import('./pages/CategoryHome/CategoryHome'));
+
+const SubcategoryHome = lazy(() =>
+  import('./pages/SubcategoryHome/SubcategoryHome')
+);
+
+const Shop = lazy(() => import('./pages/shop/Shop'));
+
+const Cart = lazy(() => import('./pages/Cart/Cart'));
+
+const Checkout = lazy(() => import('./pages/checkout/Checkout'));
+
+const Payment = lazy(() => import('./pages/payment/Payment'));
+
 const UserRoute = lazy(() => import('./components/routes/UserRoute'));
+
 const AdminRoute = lazy(() => import('./components/routes/AdminRoute'));
-const SideCartDrawer = lazy(() => import('./components/drawer/SideCartDrawer'));
+
+const SideCartDrawer = lazy(() =>
+  import('./components/drawer/sideCartDrawer/SideCartDrawer')
+);
 
 const App = () => {
-  // const { authInfoInProgress } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  // return authInfoInProgress ? (
-  //   <div className="spiner">
-  //     <Spin size="large" />
-  //   </div>
-  // ) :
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
   return (
     <>
       <Suspense
@@ -90,54 +107,172 @@ const App = () => {
         }
       >
         <Header />
+
         <SideCartDrawer />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/register-complete" component={RegisterComplete} />
-          <Route exact path="/forgot-password" component={ForgotPassword} />
-          <Route exact path="/product/:slug" component={Product} />
-          <Route exact path="/category/:slug" component={CategoryHome} />
-          <Route exact path="/subcategory/:slug" component={SubcategoryHome} />
-          <Route exact path="/shop" component={Shop} />
-          <Route exact path="/cart" component={Cart} />
-          <UserRoute exact path="/user/history" component={History} />
-          <UserRoute exact path="/user/password" component={Password} />
-          <UserRoute exact path="/user/wishlist" component={Wishlist} />
-          <UserRoute exact path="/checkout" component={Checkout} />
-          <UserRoute exact path="/payment" component={Payment} />
-          <AdminRoute
-            exact
+
+        <Routes>
+          {/* Public Routes */}
+
+          <Route path="/" element={<Home />} />
+
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/register" element={<Register />} />
+
+          <Route path="/register-complete" element={<RegisterComplete />} />
+
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          <Route path="/product/:slug" element={<Product />} />
+
+          <Route path="/category/:slug" element={<CategoryHome />} />
+
+          <Route path="/subcategory/:slug" element={<SubcategoryHome />} />
+
+          <Route path="/shop" element={<Shop />} />
+
+          <Route path="/cart" element={<Cart />} />
+
+          {/* User Protected Routes */}
+
+          <Route
+            path="/user/history"
+            element={
+              <UserRoute>
+                <History />
+              </UserRoute>
+            }
+          />
+
+          <Route
+            path="/user/password"
+            element={
+              <UserRoute>
+                <Password />
+              </UserRoute>
+            }
+          />
+
+          <Route
+            path="/user/wishlist"
+            element={
+              <UserRoute>
+                <Wishlist />
+              </UserRoute>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <UserRoute>
+                <Checkout />
+              </UserRoute>
+            }
+          />
+
+          <Route
+            path="/payment"
+            element={
+              <UserRoute>
+                <Payment />
+              </UserRoute>
+            }
+          />
+
+          {/* Admin Protected Routes */}
+
+          <Route
             path="/admin/dashboard"
-            component={AdminDashboard}
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
           />
-          <AdminRoute exact path="/admin/category" component={CategoryCreate} />
-          <AdminRoute exact path="/admin/coupon" component={Coupon} />
-          <AdminRoute exact path="/admin/password" component={AdminPassword} />
-          <AdminRoute
-            exact
+
+          <Route
+            path="/admin/category"
+            element={
+              <AdminRoute>
+                <CategoryCreate />
+              </AdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/coupon"
+            element={
+              <AdminRoute>
+                <Coupon />
+              </AdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/password"
+            element={
+              <AdminRoute>
+                <AdminPassword />
+              </AdminRoute>
+            }
+          />
+
+          <Route
             path="/admin/category/:slug"
-            component={CategoryUpdate}
+            element={
+              <AdminRoute>
+                <CategoryUpdate />
+              </AdminRoute>
+            }
           />
-          <AdminRoute
-            exact
+
+          <Route
             path="/admin/subcategory"
-            component={SubCategoryCreate}
+            element={
+              <AdminRoute>
+                <SubCategoryCreate />
+              </AdminRoute>
+            }
           />
-          <AdminRoute
-            exact
+
+          <Route
             path="/admin/subcategory/:slug"
-            component={SubCategoryUpdate}
+            element={
+              <AdminRoute>
+                <SubCategoryUpdate />
+              </AdminRoute>
+            }
           />
-          <AdminRoute exact path="/admin/product" component={ProductCreate} />
-          <AdminRoute exact path="/admin/allproducts" component={AllProducts} />
-          <AdminRoute
-            exact
+
+          <Route
+            path="/admin/product"
+            element={
+              <AdminRoute>
+                <ProductCreate />
+              </AdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/allproducts"
+            element={
+              <AdminRoute>
+                <AllProducts />
+              </AdminRoute>
+            }
+          />
+
+          <Route
             path="/admin/allproducts/:slug"
-            component={ProductUpdate}
+            element={
+              <AdminRoute>
+                <ProductUpdate />
+              </AdminRoute>
+            }
           />
-        </Switch>
+        </Routes>
+        <Footer />
       </Suspense>
     </>
   );

@@ -1,0 +1,372 @@
+.shoply-cart-drawer .ant-drawer-content {
+  background: #f6f5f1;
+}
+
+.shoply-cart-drawer .ant-drawer-body {
+  padding: 0;
+  background: #f6f5f1;
+}
+
+.shoply-cart-drawer-content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #f6f5f1;
+  color: #171717;
+}
+
+/* Header */
+
+.shoply-cart-drawer-header {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-cart-drawer-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shoply-cart-drawer-line {
+  width: 25px;
+  height: 1px;
+  background: #171717;
+}
+
+.shoply-cart-drawer-heading > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.shoply-cart-drawer-eyebrow {
+  color: #85837d;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.shoply-cart-drawer-heading h2 {
+  margin: 0;
+  color: #171717;
+  font-size: 27px;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+.shoply-cart-drawer-close {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #c9c8c2;
+  border-radius: 50%;
+
+  background: transparent;
+  color: #171717;
+
+  font-size: 12px;
+  cursor: pointer;
+
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.shoply-cart-drawer-close:hover {
+  border-color: #171717;
+  background: #171717;
+  color: #fff;
+}
+
+/* Meta */
+
+.shoply-cart-drawer-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0 25px;
+  padding: 17px 0;
+
+  border-bottom: 1px solid #d3d2cc;
+
+  color: #85837d;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.shoply-cart-drawer-meta strong {
+  color: #171717;
+  font-size: 11px;
+}
+
+/* Body */
+
+.shoply-cart-drawer-body {
+  flex: 1;
+  padding: 10px 25px 25px;
+  overflow-y: auto;
+}
+
+.shoply-cart-drawer-item {
+  display: grid;
+  grid-template-columns: 24px 86px minmax(0, 1fr);
+  gap: 13px;
+
+  padding: 18px 0;
+
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-cart-drawer-item-number {
+  padding-top: 3px;
+
+  color: #aaa8a1;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.shoply-cart-drawer-image {
+  width: 86px;
+  height: 100px;
+  overflow: hidden;
+  background: #eeece7;
+}
+
+.shoply-cart-drawer-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+.shoply-cart-drawer-item:hover .shoply-cart-drawer-image img {
+  transform: scale(1.04);
+}
+
+.shoply-cart-drawer-item-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 2px 0;
+}
+
+.shoply-cart-drawer-title {
+  overflow: hidden;
+
+  color: #242320;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+
+  text-decoration: none;
+  text-overflow: ellipsis;
+
+  transition: color 0.2s ease;
+}
+
+.shoply-cart-drawer-title:hover {
+  color: #77756f;
+  text-decoration: underline;
+}
+
+.shoply-cart-drawer-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding-top: 12px;
+}
+
+.shoply-cart-drawer-item-bottom span {
+  color: #999791;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.shoply-cart-drawer-item-bottom strong {
+  color: #171717;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Empty state */
+
+.shoply-cart-drawer-empty {
+  min-height: 280px;
+
+  display: grid;
+  grid-template-columns: 55px 1fr;
+
+  margin-top: 15px;
+
+  border-top: 1px solid #d3d2cc;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-cart-drawer-empty-number {
+  padding-top: 25px;
+
+  display: flex;
+  justify-content: center;
+
+  border-right: 1px solid #d3d2cc;
+
+  color: #aaa8a1;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.shoply-cart-drawer-empty > div {
+  align-self: center;
+  padding: 30px;
+}
+
+.shoply-cart-drawer-empty > div > span {
+  color: #85837d;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.shoply-cart-drawer-empty h3 {
+  margin: 10px 0 0;
+
+  color: #171717;
+
+  font-size: 27px;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+.shoply-cart-drawer-empty p {
+  margin: 12px 0 0;
+
+  color: #77756f;
+
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+/* Footer */
+
+.shoply-cart-drawer-footer {
+  padding: 20px 25px;
+
+  border-top: 1px solid #d3d2cc;
+  background: #f6f5f1;
+}
+
+.shoply-cart-drawer-footer-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 13px;
+
+  color: #8a8881;
+
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.shoply-cart-drawer-footer-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #68665f;
+}
+
+.shoply-cart-drawer-cart-button {
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+
+  border: 1px solid #171717;
+
+  background: #171717;
+  color: #fff;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.shoply-cart-drawer-cart-button:hover {
+  background: transparent;
+  color: #171717;
+}
+
+.shoply-cart-drawer-cart-button svg {
+  font-size: 13px;
+}
+
+/* Responsive */
+
+@media (max-width: 500px) {
+  .shoply-cart-drawer-header {
+    min-height: 80px;
+    padding: 0 18px;
+  }
+
+  .shoply-cart-drawer-meta {
+    margin: 0 18px;
+  }
+
+  .shoply-cart-drawer-body {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .shoply-cart-drawer-footer {
+    padding: 18px;
+  }
+
+  .shoply-cart-drawer-item {
+    grid-template-columns: 20px 75px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .shoply-cart-drawer-image {
+    width: 75px;
+    height: 90px;
+  }
+
+  .shoply-cart-drawer-title {
+    font-size: 11px;
+  }
+}

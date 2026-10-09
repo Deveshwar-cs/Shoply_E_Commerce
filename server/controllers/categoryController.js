@@ -1,10 +1,8 @@
-const slugify = require('slugify');
-
-const Category = require('../models/categoryModel');
-const SubCategory = require('../models/subCategoryModel');
-const Product = require('../models/productModel');
-
-exports.createCategory = async (req, res) => {
+import slugify from 'slugify';
+import Category from '../models/categoryModel.js';
+import SubCategory from '../models/subCategoryModel.js';
+import Product from '../models/productModel.js';
+export const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
 
@@ -20,14 +18,14 @@ exports.createCategory = async (req, res) => {
   }
 };
 
-exports.getCategory = async (req, res, next) => {
+export const getCategory = async (req, res, next) => {
   try {
     const category = await Category.findOne({ slug: req.params.slug }).exec();
     if (!category) {
       return next(
         new Error(
-          'No document found with that slug – (categoryController.getCategory)'
-        )
+          'No document found with that slug – (categoryController.getCategory)',
+        ),
       );
     }
     const products = await Product.find({ category }).populate('category');
@@ -38,20 +36,20 @@ exports.getCategory = async (req, res, next) => {
   }
 };
 
-exports.updateCategory = async (req, res) => {
+export const updateCategory = async (req, res) => {
   const { name } = req.body;
   try {
     const updatedCategory = await Category.findOneAndUpdate(
       { slug: req.params.slug },
       { name, slug: slugify(name, { lower: true }) },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedCategory) {
       return next(
         new Error(
-          'No document found with that slug – (categoryController.updateCategory)'
-        )
+          'No document found with that slug – (categoryController.updateCategory)',
+        ),
       );
     }
 
@@ -61,7 +59,7 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
-exports.deleteCategory = async (req, res, next) => {
+export const deleteCategory = async (req, res, next) => {
   try {
     const deletedCategory = await Category.findOneAndDelete({
       slug: req.params.slug,
@@ -69,8 +67,8 @@ exports.deleteCategory = async (req, res, next) => {
     if (!deletedCategory) {
       return next(
         new Error(
-          'No document found with that slug – (categoryController.deleteCategory)'
-        )
+          'No document found with that slug – (categoryController.deleteCategory)',
+        ),
       );
     }
     // need to send json
@@ -80,7 +78,7 @@ exports.deleteCategory = async (req, res, next) => {
   }
 };
 
-exports.getAllCategories = async (req, res) => {
+export const getAllCategories = async (req, res) => {
   try {
     const allCategories = await Category.find({})
       .sort({ createdAt: -1 })
@@ -91,7 +89,7 @@ exports.getAllCategories = async (req, res) => {
   }
 };
 
-exports.getAllSubcategoriesByCategory = async (req, res) => {
+export const getAllSubcategoriesByCategory = async (req, res) => {
   try {
     const { _id } = req.params;
 

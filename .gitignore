@@ -44,3 +44,6 @@ tmp/
 .env
 .env.test
 .env.production
+
+# firebase backend admin SDK service account key
+config/fbServiceAccountKey.json

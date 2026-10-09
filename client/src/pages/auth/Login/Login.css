@@ -1,0 +1,430 @@
+.shoply-login {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f6f5f1;
+  color: #171717;
+}
+
+/* Background grid */
+
+.shoply-login-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image: linear-gradient(to right, #deddd7 1px, transparent 1px),
+    linear-gradient(to bottom, #deddd7 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* Main layout */
+
+.shoply-login-container {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, calc(100% - 60px));
+  min-height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  align-items: center;
+  gap: 90px;
+  padding: 70px 0;
+}
+
+/* Intro */
+
+.shoply-login-intro {
+  min-height: 610px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shoply-login-intro-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-login-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #77756f;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.shoply-login-label-line {
+  width: 28px;
+  height: 1px;
+  background: #77756f;
+}
+
+.shoply-login-number {
+  color: #aaa8a1;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.shoply-login-intro-content {
+  max-width: 650px;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 70px 0;
+}
+
+.shoply-login-eyebrow {
+  display: block;
+  color: #85837d;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.shoply-login-intro-content h1 {
+  margin: 14px 0 0;
+  color: #171717;
+  font-size: clamp(64px, 8vw, 105px);
+  font-weight: 300;
+  letter-spacing: -5px;
+  line-height: 0.9;
+}
+
+.shoply-login-intro-content h1 span {
+  color: #77756f;
+}
+
+.shoply-login-intro-content p {
+  max-width: 410px;
+  margin: 30px 0 0;
+  color: #77756f;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.shoply-login-intro-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid #d3d2cc;
+  color: #aaa8a1;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+/* Login panel */
+
+.shoply-login-panel {
+  padding: 35px;
+  border: 1px solid #d3d2cc;
+  background: rgba(246, 245, 241, 0.94);
+}
+
+.shoply-login-panel-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-login-panel-header h2 {
+  margin: 8px 0 0;
+  color: #171717;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: -1.5px;
+}
+
+.shoply-login-panel-icon {
+  color: #999791;
+  font-size: 19px;
+}
+
+/* Form */
+
+.shoply-login-form .ant-form-item {
+  margin-bottom: 23px;
+}
+
+.shoply-login-form .ant-form-item-label {
+  padding-bottom: 7px;
+}
+
+.shoply-login-form .ant-form-item-label > label {
+  color: #77756f;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.shoply-login-form .ant-input-affix-wrapper,
+.shoply-login-form .ant-input {
+  min-height: 48px;
+  border: 1px solid #c9c8c2;
+  border-radius: 0;
+  background: #eeece7;
+  box-shadow: none;
+  color: #171717;
+  font-size: 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.shoply-login-form .ant-input-affix-wrapper:hover,
+.shoply-login-form .ant-input-affix-wrapper-focused,
+.shoply-login-form .ant-input:hover,
+.shoply-login-form .ant-input:focus {
+  border-color: #171717;
+  background: #f6f5f1;
+  box-shadow: none;
+}
+
+.shoply-login-form .ant-input-prefix {
+  margin-right: 10px;
+  color: #999791;
+  font-size: 13px;
+}
+
+.shoply-login-form .ant-input::placeholder {
+  color: #aaa8a1;
+}
+
+.shoply-login-form .ant-input-password-icon {
+  color: #999791;
+}
+
+/* Forgot password */
+
+.shoply-login-forgot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 22px;
+}
+
+.shoply-login-forgot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #77756f;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.shoply-login-forgot a:hover {
+  color: #171717;
+}
+
+.shoply-login-forgot a span {
+  font-size: 12px;
+}
+
+/* Buttons */
+
+.shoply-login-submit,
+.shoply-google-button {
+  width: 100%;
+  height: 48px;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.shoply-login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border: 1px solid #171717;
+  background: #171717;
+  color: #fff;
+}
+
+.shoply-login-submit:hover,
+.shoply-login-submit:focus {
+  border-color: #333;
+  background: #333 !important;
+  color: #fff !important;
+}
+
+.shoply-login-submit .anticon {
+  font-size: 13px;
+}
+
+/* Divider */
+
+.shoply-login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 23px 0;
+}
+
+.shoply-login-divider span {
+  flex: 1;
+  height: 1px;
+  background: #d3d2cc;
+}
+
+.shoply-login-divider strong {
+  color: #aaa8a1;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Google */
+
+.shoply-google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #c9c8c2;
+  background: transparent;
+  color: #171717;
+}
+
+.shoply-google-button:hover,
+.shoply-google-button:focus {
+  border-color: #171717 !important;
+  background: #171717 !important;
+  color: #fff !important;
+}
+
+/* Register */
+
+.shoply-login-register {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid #d3d2cc;
+}
+
+.shoply-login-register > span {
+  color: #999791;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.shoply-login-register a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #171717;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.shoply-login-register a:hover {
+  text-decoration: underline;
+}
+
+.shoply-login-register a span {
+  font-size: 13px;
+}
+
+/* Security */
+
+.shoply-login-security {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  color: #999791;
+  font-size: 8px;
+  letter-spacing: 0.4px;
+}
+
+.shoply-login-security-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #68665f;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .shoply-login-container {
+    width: min(650px, calc(100% - 40px));
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 45px 0 60px;
+  }
+
+  .shoply-login-intro {
+    min-height: auto;
+  }
+
+  .shoply-login-intro-content {
+    padding: 55px 0 45px;
+  }
+
+  .shoply-login-intro-content h1 {
+    font-size: clamp(58px, 13vw, 90px);
+  }
+
+  .shoply-login-intro-footer {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .shoply-login-container {
+    width: calc(100% - 24px);
+    padding: 30px 0 45px;
+  }
+
+  .shoply-login-intro-content {
+    padding: 45px 0 35px;
+  }
+
+  .shoply-login-intro-content h1 {
+    font-size: 56px;
+    letter-spacing: -3px;
+  }
+
+  .shoply-login-intro-content p {
+    margin-top: 20px;
+    font-size: 11px;
+  }
+
+  .shoply-login-panel {
+    padding: 22px 18px;
+  }
+
+  .shoply-login-panel-header h2 {
+    font-size: 27px;
+  }
+
+  .shoply-login-register {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

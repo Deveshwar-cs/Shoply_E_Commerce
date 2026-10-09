@@ -1,13 +1,10 @@
-const mongoose = require('mongoose');
-
-const { ObjectId } = mongoose.Schema;
-
+import mongoose from 'mongoose';
 const cartSchema = new mongoose.Schema(
   {
     products: [
       {
         product: {
-          type: ObjectId,
+          type: mongoose.Schema.ObjectId,
           ref: 'Product',
         },
         quantity: Number, // quantity of one product
@@ -17,13 +14,13 @@ const cartSchema = new mongoose.Schema(
     totalPrice: Number, // total products in cart
     totalPriceAfterDiscount: Number,
     orderedBy: {
-      type: ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Cart = mongoose.model('Cart', cartSchema);
 
-module.exports = Cart;
+export default Cart;

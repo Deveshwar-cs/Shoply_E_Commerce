@@ -1,0 +1,230 @@
+.shoply-product-card {
+  min-width: 0;
+  overflow: hidden;
+  background: #fbfaf7;
+  border: 1px solid #d3d2cc;
+  transition: border-color 0.25s ease;
+}
+
+.shoply-product-card:hover {
+  border-color: #a5a39b;
+}
+
+/* Image */
+
+.shoply-product-card__image-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.shoply-product-card__image-wrap {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  background: #eeede8;
+}
+
+.shoply-product-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.shoply-product-card:hover .shoply-product-card__image {
+  transform: scale(1.035);
+}
+
+.shoply-product-card__image-label {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 8px 10px;
+  background: #fbfaf7;
+  color: #373630;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+
+.shoply-product-card__image-action {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: #fbfaf7;
+  color: #171717;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.shoply-product-card:hover .shoply-product-card__image-action,
+.shoply-product-card:focus-within .shoply-product-card__image-action {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Content */
+
+.shoply-product-card__body {
+  padding: 18px;
+}
+
+.shoply-product-card__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shoply-product-card__title {
+  min-width: 0;
+  margin: 0;
+  color: #171717;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.4px;
+  overflow-wrap: anywhere;
+}
+
+.shoply-product-card__indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 5px;
+  color: #77756e;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.shoply-product-card__dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #548263;
+}
+
+.shoply-product-card__description {
+  min-height: 60px;
+  margin: 12px 0 18px;
+  color: #77756e;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+/* Footer */
+
+.shoply-product-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #e1e0da;
+}
+
+.shoply-product-card__reference {
+  min-width: 0;
+  color: #85837c;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shoply-product-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.shoply-product-card__edit,
+.shoply-product-card__delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  padding: 0;
+  border: 1px solid #d3d2cc;
+  border-radius: 0;
+  background: transparent;
+  color: #33332f;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.shoply-product-card__edit:hover {
+  border-color: #171717;
+  background: #171717;
+  color: #fff;
+}
+
+.shoply-product-card__delete:hover {
+  border-color: #a73535;
+  background: #a73535;
+  color: #fff;
+}
+
+.shoply-product-card__edit:focus-visible,
+.shoply-product-card__delete:focus-visible,
+.shoply-product-card__image-link:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 3px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .shoply-product-card__image-wrap {
+    height: 220px;
+  }
+
+  .shoply-product-card__body {
+    padding: 16px;
+  }
+
+  .shoply-product-card__title {
+    font-size: 16px;
+  }
+
+  .shoply-product-card__image-action {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .shoply-product-card__image-wrap {
+    height: 240px;
+  }
+
+  .shoply-product-card__description {
+    min-height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shoply-product-card,
+  .shoply-product-card__image,
+  .shoply-product-card__image-action,
+  .shoply-product-card__edit,
+  .shoply-product-card__delete {
+    transition: none;
+  }
+}

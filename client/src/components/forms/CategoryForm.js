@@ -68,7 +68,7 @@ const CategoryForm = ({
           },
         ]}
       >
-        <Input size="large" placeholder={placeholderText} autoFocus />
+        <Input size="large" placeholder={placeholderText} />
       </Item>
 
       <Item {...tailFormItemLayout}>

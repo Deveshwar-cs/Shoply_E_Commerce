@@ -1,17 +1,12 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck } = require('../middlewares/authMiddleware');
+import { authCheck } from '../middlewares/authMiddleware.js';
 
 // controllers
-const stripeController = require('../controllers/stripeController');
+import { createPaymentIntent } from '../controllers/stripeController.js';
 
 const router = express.Router();
 
-router.post(
-  '/create-payment-intent',
-  authCheck,
-  stripeController.createPaymentIntent
-);
+router.post('/create-payment-intent', authCheck, createPaymentIntent);
 
-module.exports = router;
+export default router;

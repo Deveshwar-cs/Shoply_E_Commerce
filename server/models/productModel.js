@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
@@ -8,53 +7,63 @@ const productSchema = new mongoose.Schema(
       trim: true,
       required: true,
       maxlength: 52,
-      text: true,
     },
+
     slug: {
       type: String,
       unique: true,
       lowercase: true,
       index: true,
     },
+
     description: {
       type: String,
       required: true,
       maxlength: 1000,
-      text: true,
+      trim: true,
     },
+
     price: {
       type: Number,
       required: true,
-      trim: true,
-      maxlength: 32,
     },
+
     category: {
-      type: ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'Category',
     },
+
     subcategory: [
       {
-        type: ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'SubCategory',
       },
     ],
-    quantity: Number,
+
+    quantity: {
+      type: Number,
+    },
+
     sold: {
       type: Number,
       default: 0,
     },
+
     images: {
       type: Array,
     },
+
     shipping: {
       type: String,
       enum: ['Yes', 'No'],
     },
+
     color: {
       type: String,
       enum: ['Black', 'Brown', 'Silver', 'White', 'Blue', 'Red'],
     },
-    // if needed, we can make Brand model, like we did with Categories
+
+    // If needed, we can create a separate Brand model later.
     brand: {
       type: String,
       enum: [
@@ -68,67 +77,72 @@ const productSchema = new mongoose.Schema(
         'ASUS',
       ],
     },
+
     ratings: [
       {
-        star: Number,
-        postedBy: { type: ObjectId, ref: 'User' },
+        star: {
+          type: Number,
+          min: 1,
+          max: 5,
+        },
+        postedBy: {
+          type: mongoose.Schema.ObjectId,
+          ref: 'User',
+        },
       },
     ],
+
     ratingsAverage: {
       type: Number,
       default: 0,
     },
+
     ratingsQuantity: {
       type: Number,
       default: 0,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  },
 );
 
-// We want calculate average rating of each product when user rate product
-// 1) Create static method calcAverageRatings
-// 2) Run calcAverageRatings when updateOne hook triggered
+// Text search index
+productSchema.index({
+  title: 'text',
+  description: 'text',
+});
 
-// When call updateOne method for updating rating (in productController.productRating function) it trigger Query middlewares  –> 'updateOne' hook
-
-// Static mongoose method on Product model
+// Calculate average rating
 productSchema.statics.calcAverageRatings = async function (productId) {
-  const product = await Product.aggregate([
-    { $match: { _id: productId } },
+  const product = await this.aggregate([
+    {
+      $match: {
+        _id: productId,
+      },
+    },
     {
       $project: {
-        // floorAverage is new custom field in projection
-        floorAverage: {
-          $floor: { $avg: '$ratings.star' },
+        average: {
+          $avg: '$ratings.star',
         },
-        // numberOfStars is new custom field
-        numberOfStars: { $size: '$ratings' },
+        numberOfStars: {
+          $size: '$ratings',
+        },
       },
     },
   ]);
 
-  // save results to Product document
+  if (!product.length) {
+    return;
+  }
+
   await this.findByIdAndUpdate(productId, {
-    ratingsAverage: product[0].floorAverage,
-    ratingsQuantity: product[0].numberOfStars,
+    ratingsAverage: product[0].average || 0,
+    ratingsQuantity: product[0].numberOfStars || 0,
   });
 };
 
-// Query middleware: 'updateOne' hooks
-productSchema.pre('updateOne', async function () {
-  // here 'this' keyword reference to Query
-  // get current document from Mongoose Query and save in 'document' field of Query object
-  this.document = await this.findOne();
-  // 'this.document' – product document, it will be available in 'post' updateOne hook
-});
-
-// updateOne post hook runs after the document has been updated
-productSchema.post('updateOne', async function () {
-  // here document.constructor is Product model itself and it contain calcAverageRatings static method
-  await this.document.constructor.calcAverageRatings(this.document._id);
-});
-
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = Product;
+export default Product;

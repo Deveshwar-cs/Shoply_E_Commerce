@@ -1,0 +1,478 @@
+.payment-page {
+  min-height: 100vh;
+  background: #f6f5f1;
+  color: #171717;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.payment-header {
+  border-bottom: 1px solid #d8d7d2;
+  background: #f6f5f1;
+}
+
+.payment-header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 42px 48px 54px;
+}
+
+.payment-header-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 55px;
+
+  color: #77756f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.payment-header-line {
+  width: 34px;
+  height: 1px;
+  background: #171717;
+}
+
+.payment-header-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.payment-title {
+  margin: 0;
+
+  font-size: clamp(48px, 7vw, 104px);
+  line-height: 0.9;
+  font-weight: 500;
+  letter-spacing: -5px;
+}
+
+.payment-title span {
+  display: block;
+  color: #96948e;
+}
+
+.payment-description {
+  max-width: 500px;
+  margin: 30px 0 0;
+
+  color: #77756f;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.payment-header-number {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.payment-header-number strong {
+  font-size: 58px;
+  line-height: 0.8;
+  font-weight: 400;
+  letter-spacing: -3px;
+}
+
+.payment-header-number span {
+  margin-top: 12px;
+
+  color: #85837d;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+/* ================================
+   CONTENT
+================================ */
+
+.payment-content {
+  padding: 80px 0 110px;
+}
+
+.payment-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.payment-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 500px;
+  gap: 100px;
+  align-items: start;
+}
+
+/* ================================
+   LEFT INTRO
+================================ */
+
+.payment-intro {
+  padding-top: 10px;
+}
+
+.payment-eyebrow {
+  display: block;
+
+  margin-bottom: 15px;
+
+  color: #85837d;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.payment-intro h2 {
+  margin: 0;
+
+  font-size: clamp(38px, 5vw, 65px);
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -3px;
+}
+
+.payment-intro h2 span {
+  color: #999791;
+}
+
+.payment-intro > p {
+  max-width: 480px;
+  margin: 30px 0 50px;
+
+  color: #77756f;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ================================
+   SECURITY ITEMS
+================================ */
+
+.payment-security {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  max-width: 500px;
+
+  padding: 20px 0;
+
+  border-top: 1px solid #d8d7d2;
+}
+
+.payment-security:last-child {
+  border-bottom: 1px solid #d8d7d2;
+}
+
+.payment-security-number {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #c9c8c2;
+  border-radius: 50%;
+
+  color: #77756f;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.payment-security div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.payment-security strong {
+  color: #222;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.payment-security span {
+  color: #8a8882;
+  font-size: 10px;
+}
+
+/* ================================
+   PAYMENT CARD
+================================ */
+
+.payment-card {
+  border: 1px solid #d0cfca;
+  background: #eeede8;
+}
+
+.payment-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding: 30px;
+
+  border-bottom: 1px solid #d0cfca;
+}
+
+.payment-card-header h2 {
+  margin: 0;
+
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -1.5px;
+}
+
+.payment-card-header h2 span {
+  color: #999791;
+}
+
+.payment-card-number {
+  color: #8d8b85;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.payment-card-body {
+  padding: 30px;
+}
+
+/* ================================
+   STRIPE FORM OVERRIDES
+================================ */
+
+/*
+   These styles help the existing
+   CheckoutForm fit the new SHOPLY
+   payment card without changing
+   its payment logic.
+*/
+
+.payment-card-body form {
+  width: 100%;
+}
+
+.payment-card-body label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #77756f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.payment-card-body input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 14px 15px;
+
+  border: 1px solid #cfcec8;
+  outline: none;
+
+  background: #f6f5f1;
+  color: #171717;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.payment-card-body input:focus {
+  border-color: #171717;
+  background: #fff;
+}
+
+.payment-card-body input::placeholder {
+  color: #a19f99;
+}
+
+/* Stripe Elements */
+
+.payment-card-body .StripeElement {
+  box-sizing: border-box;
+
+  width: 100%;
+
+  padding: 14px 15px;
+
+  border: 1px solid #cfcec8;
+
+  background: #f6f5f1;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-card-body .StripeElement--focus {
+  border-color: #171717;
+  box-shadow: none;
+}
+
+/* ================================
+   BUTTONS
+================================ */
+
+.payment-card-body button {
+  width: 100%;
+
+  min-height: 56px;
+
+  margin-top: 20px;
+
+  padding: 0 20px;
+
+  border: 1px solid #171717;
+
+  background: #171717;
+  color: #fff;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.payment-card-body button:hover:not(:disabled) {
+  background: transparent;
+  color: #171717;
+}
+
+.payment-card-body button:disabled {
+  border-color: #c5c4bf;
+  background: #c5c4bf;
+  color: #f2f1ed;
+  cursor: not-allowed;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+  .payment-container,
+  .payment-header-inner {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .payment-layout {
+    grid-template-columns: minmax(0, 1fr) 430px;
+    gap: 55px;
+  }
+
+  .payment-title {
+    letter-spacing: -3px;
+  }
+}
+
+@media (max-width: 850px) {
+  .payment-header-inner {
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+
+  .payment-header-label {
+    margin-bottom: 40px;
+  }
+
+  .payment-header-content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .payment-header-number {
+    align-items: flex-start;
+  }
+
+  .payment-layout {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
+
+  .payment-content {
+    padding-top: 55px;
+  }
+
+  .payment-intro {
+    padding-top: 0;
+  }
+
+  .payment-intro > p {
+    margin-bottom: 35px;
+  }
+}
+
+@media (max-width: 600px) {
+  .payment-container,
+  .payment-header-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .payment-content {
+    padding-top: 45px;
+    padding-bottom: 70px;
+  }
+
+  .payment-title {
+    font-size: 54px;
+    letter-spacing: -3px;
+  }
+
+  .payment-description {
+    font-size: 13px;
+  }
+
+  .payment-intro h2 {
+    font-size: 42px;
+  }
+
+  .payment-card-header {
+    padding: 22px;
+  }
+
+  .payment-card-body {
+    padding: 22px;
+  }
+
+  .payment-card-header h2 {
+    font-size: 29px;
+  }
+}
+
+@media (max-width: 400px) {
+  .payment-title {
+    font-size: 46px;
+  }
+
+  .payment-intro h2 {
+    font-size: 37px;
+  }
+
+  .payment-card-header,
+  .payment-card-body {
+    padding: 18px;
+  }
+}

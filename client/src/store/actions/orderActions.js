@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+
 import * as actionTypes from '../actions/types';
 
 import {
@@ -11,14 +12,23 @@ import {
   getAllOrdersByAdmin,
   updateOrderStatus,
 } from '../../functions/adminFunctions';
+
+import { getCartAction } from '../actions/cartActions';
+
 import { emptyCartInDBAction, clearCart } from '../actions/cartActions';
 
-// Create order actions
+// ======================================================
+// CREATE ORDER ACTIONS - CARD PAYMENT
+// ======================================================
 
-const createOrderRequest = () => ({ type: actionTypes.CREATE_ORDER_REQUEST });
+const createOrderRequest = () => ({
+  type: actionTypes.CREATE_ORDER_REQUEST,
+});
+
 const createOrderSuccess = () => ({
   type: actionTypes.CREATE_ORDER_SUCCESS,
 });
+
 const createOrderError = (e) => ({
   type: actionTypes.CREATE_ORDER_ERROR,
   payload: e,
@@ -28,34 +38,53 @@ export const createOrderAction =
   (stripeResponse, token) => async (dispatch) => {
     try {
       dispatch(createOrderRequest());
+
       // Request to DB
       const response = await createUserOrder(stripeResponse, token);
+
       if (response.data.orderCreated) {
-        dispatch(emptyCartInDBAction(token)); // delete user cart in DB
-        dispatch(clearCart()); // delete user cart from Redux store/localStorage
+        // Delete cart from DB first
+        await dispatch(emptyCartInDBAction(token));
+
+        // Delete cart from Redux + localStorage
+        dispatch(clearCart());
+
         dispatch(createOrderSuccess());
+
+        dispatch(getCartAction(token));
+
         notification.success({
-          message: `'Order successfully created!`,
+          message: 'Order successfully created!',
         });
       }
+
+      return response.data;
     } catch (error) {
       dispatch(createOrderError(error));
+
       notification.error({
-        message: `Order create error!`,
+        message: 'Order create error!',
+        description: error.message,
       });
+
       console.log('createOrderAction error', error);
+
+      throw error;
     }
   };
 
-//
-// Create order with cash payment actions
+// ======================================================
+// CREATE ORDER WITH CASH PAYMENT
+// ======================================================
 
 const createOrderCashPaymentRequest = () => ({
   type: actionTypes.CREATE_ORDER_CASH_PAYMENT_REQUEST,
 });
+
 const createOrderCashPaymentSuccess = () => ({
   type: actionTypes.CREATE_ORDER_CASH_PAYMENT_SUCCESS,
 });
+
 const createOrderCashPaymentError = (e) => ({
   type: actionTypes.CREATE_ORDER_CASH_PAYMENT_ERROR,
   payload: e,
@@ -65,43 +94,65 @@ export const createOrderCashPaymentAction =
   (cashOnDelivery, token) => async (dispatch) => {
     try {
       dispatch(createOrderCashPaymentRequest());
+
       // Request to DB
       const response = await createUserOrderWithCashPayment(
         cashOnDelivery,
         token
       );
+
       if (!response.data.orderCreated) {
+        dispatch(
+          createOrderCashPaymentError(new Error('Order was not created'))
+        );
+
         notification.error({
-          message: `Create order with cash payment failed!`,
+          message: 'Create order with cash payment failed!',
         });
+
+        return response.data;
       }
-      if (response.data.orderCreated) {
-        dispatch(createOrderCashPaymentSuccess());
-        dispatch(emptyCartInDBAction(token)); // delete user cart in DB
-        dispatch(clearCart()); // delete user cart from Redux store/localStorage
-        notification.success({
-          message: `'Order successfully created!`,
-        });
-      }
+
+      dispatch(createOrderCashPaymentSuccess());
+
+      // Delete cart from DB
+      await dispatch(emptyCartInDBAction(token));
+
+      // Delete cart from Redux + localStorage
+      dispatch(clearCart());
+
+      notification.success({
+        message: 'Order successfully created!',
+      });
+
       return response.data;
     } catch (error) {
       dispatch(createOrderCashPaymentError(error));
+
       notification.error({
-        message: `Create order with cash payment error!`,
+        message: 'Create order with cash payment error!',
+        description: error.message,
       });
+
       console.log('createOrderCashPaymentAction error', error);
+
+      throw error;
     }
   };
 
-// Get all orders by user
+// ======================================================
+// GET ALL ORDERS BY USER
+// ======================================================
 
 const getAllOrdersByUserRequest = () => ({
   type: actionTypes.GET_ALL_ORDERS_BY_USER_REQUEST,
 });
+
 const getAllOrdersByUserSuccess = (orders) => ({
   type: actionTypes.GET_ALL_ORDERS_BY_USER_SUCCESS,
   payload: orders,
 });
+
 const getAllOrdersByUserError = (e) => ({
   type: actionTypes.GET_ALL_ORDERS_BY_USER_ERROR,
   payload: e,
@@ -110,24 +161,35 @@ const getAllOrdersByUserError = (e) => ({
 export const getAllOrdersByUserAction = (token) => async (dispatch) => {
   try {
     dispatch(getAllOrdersByUserRequest());
+
     // Request to DB
     const allOrdersByUser = await getAllOrdersByUser(token);
 
     dispatch(getAllOrdersByUserSuccess(allOrdersByUser.data));
+
+    return allOrdersByUser.data;
   } catch (error) {
-    dispatch(getAllOrdersByUserError());
+    dispatch(getAllOrdersByUserError(error));
+
+    console.log('getAllOrdersByUserAction error', error);
+
+    throw error;
   }
 };
 
-// Get all orders by admin
+// ======================================================
+// GET ALL ORDERS BY ADMIN
+// ======================================================
 
 const getAllOrdersByAdminRequest = () => ({
   type: actionTypes.GET_ALL_ORDERS_BY_ADMIN_REQUEST,
 });
+
 const getAllOrdersByAdminSuccess = (orders) => ({
   type: actionTypes.GET_ALL_ORDERS_BY_ADMIN_SUCCESS,
   payload: orders,
 });
+
 const getAllOrdersByAdminError = (e) => ({
   type: actionTypes.GET_ALL_ORDERS_BY_ADMIN_ERROR,
   payload: e,
@@ -136,39 +198,68 @@ const getAllOrdersByAdminError = (e) => ({
 export const getAllOrdersByAdminAction = (token) => async (dispatch) => {
   try {
     dispatch(getAllOrdersByAdminRequest());
+
     // Request to DB
     const allOrdersByAdmin = await getAllOrdersByAdmin(token);
-
     dispatch(getAllOrdersByAdminSuccess(allOrdersByAdmin.data));
+
+    return allOrdersByAdmin.data;
   } catch (error) {
-    dispatch(getAllOrdersByAdminError());
+    dispatch(getAllOrdersByAdminError(error));
+
+    console.log('getAllOrdersByAdminAction error', error);
+
+    throw error;
   }
 };
 
-// Update orders status by admin
+// ======================================================
+// UPDATE ORDER STATUS BY ADMIN
+// ======================================================
 
 const updateOrderStatusByAdminRequest = () => ({
   type: actionTypes.UPDATE_ORDER_STATUS_REQUEST,
 });
-const updateOrderStatusByAdminSuccess = () => ({
+
+const updateOrderStatusByAdminSuccess = (orderId, orderStatus) => ({
   type: actionTypes.UPDATE_ORDER_STATUS_SUCCESS,
+  payload: { orderId, orderStatus },
 });
-const updateOrderStatusByAdminError = (e) => ({
+
+const updateOrderStatusByAdminError = (error) => ({
   type: actionTypes.UPDATE_ORDER_STATUS_ERROR,
-  payload: e,
+  payload: error,
 });
 
 export const updateOrderStatusByAdminAction =
   (orderId, orderStatus, token) => async (dispatch) => {
     try {
       dispatch(updateOrderStatusByAdminRequest());
-      // Request to DB
+
       const response = await updateOrderStatus(orderId, orderStatus, token);
 
-      if (response.data.orderStatusUpdated) {
-        dispatch(updateOrderStatusByAdminSuccess());
+      if (!response.data.orderStatusUpdated) {
+        throw new Error('The server did not confirm the order status update.');
       }
+
+      // Update Redux only after the backend confirms success.
+      dispatch(updateOrderStatusByAdminSuccess(orderId, orderStatus));
+
+      notification.success({
+        message: 'Order status updated',
+        description: `Order status changed to ${orderStatus}.`,
+      });
+
+      return response.data;
     } catch (error) {
-      dispatch(updateOrderStatusByAdminError());
+      dispatch(updateOrderStatusByAdminError(error));
+
+      notification.error({
+        message: 'Unable to update order status',
+        description:
+          error.response?.data?.message || error.message || 'Please try again.',
+      });
+
+      throw error;
     }
   };

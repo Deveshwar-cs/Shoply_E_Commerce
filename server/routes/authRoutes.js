@@ -1,24 +1,20 @@
-const express = require('express');
+import express from 'express';
 
 // controllers
-const authController = require('../controllers/authController');
+import {
+  createOrUpdateUser,
+  currentUser,
+} from '../controllers/authController.js';
 
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.post(
-  '/create-or-update-user',
-  authCheck,
-  authController.createOrUpdateUser
-);
-router.post('/current-user', authCheck, authController.currentUser);
-// router.post(
-//   '/current-admin',
-//   authCheck,
-//   adminCheck,
-//   authController.currentUser
-// );
+router.post('/create-or-update-user', authCheck, createOrUpdateUser);
 
-module.exports = router;
+router.post('/current-user', authCheck, currentUser);
+
+// router.post('/current-admin', authCheck, adminCheck, currentUser);
+
+export default router;

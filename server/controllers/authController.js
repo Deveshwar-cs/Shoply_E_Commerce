@@ -1,31 +1,36 @@
-const User = require('../models/userModel');
+import User from '../models/userModel.js';
 
-exports.createOrUpdateUser = async (req, res) => {
-  const { email, name, picture } = req.user;
+export const createOrUpdateUser = async (req, res) => {
+  try {
+    const { email, name, picture } = req.user;
 
-  const user = await User.findOneAndUpdate(
-    { email },
-    { name: email.split('@')[0], picture },
-    { new: true }
-  );
-  if (user) {
-    console.log('USER UPDATED', user);
+    const user = await User.findOneAndUpdate(
+      { email },
+      { name, email, picture },
+      { new: true, upsert: true },
+    );
     res.status(200).json(user);
-  } else {
-    const newUser = await new User({
-      email,
-      name: email.split('@')[0],
-      picture,
-    }).save();
-    console.log('USER CREATED', newUser);
-    res.status(200).json(newUser);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Unable to create or update user',
+      success: false,
+    });
   }
 };
 
-exports.currentUser = async (req, res) => {
-  await User.findOne({ email: req.user.email }).exec((error, user) => {
-    if (error) throw new Error(error);
-
+export const currentUser = async (req, res) => {
+  try {
+    const user = await User.find({ email: req.user.email });
+    if (!user) {
+      res.status(400).json({
+        message: 'User Not Found!',
+      });
+    }
     res.status(200).json(user);
-  });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Something went wrong!',
+      error: error.message,
+    });
+  }
 };

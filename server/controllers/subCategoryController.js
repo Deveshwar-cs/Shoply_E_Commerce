@@ -1,9 +1,8 @@
-const slugify = require('slugify');
+import slugify from 'slugify';
+import SubCategory from '../models/subCategoryModel.js';
+import Product from '../models/productModel.js';
 
-const SubCategory = require('../models/subCategoryModel');
-const Product = require('../models/productModel');
-
-exports.createSubCategory = async (req, res) => {
+export const createSubCategory = async (req, res) => {
   try {
     const { name, category } = req.body;
 
@@ -19,7 +18,7 @@ exports.createSubCategory = async (req, res) => {
   }
 };
 
-exports.getSubCategory = async (req, res) => {
+export const getSubCategory = async (req, res) => {
   console.log('SERVER  getSubCategory req.params.slug', req.params.slug);
   try {
     const subcategory = await SubCategory.findOne({
@@ -34,14 +33,14 @@ exports.getSubCategory = async (req, res) => {
   }
 };
 
-exports.updateSubCategory = async (req, res) => {
+export const updateSubCategory = async (req, res) => {
   // here category is a parent category of sub
   const { name, category } = req.body;
   try {
     const updatedSubCategory = await SubCategory.findOneAndUpdate(
       { slug: req.params.slug },
       { name, category, slug: slugify(name, { lower: true }) },
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedSubCategory);
   } catch (error) {
@@ -49,7 +48,7 @@ exports.updateSubCategory = async (req, res) => {
   }
 };
 
-exports.deleteSubCategory = async (req, res) => {
+export const deleteSubCategory = async (req, res) => {
   try {
     const deletedSubCategory = await SubCategory.findOneAndDelete({
       slug: req.params.slug,
@@ -60,7 +59,7 @@ exports.deleteSubCategory = async (req, res) => {
   }
 };
 
-exports.getAllSubCategories = async (req, res) => {
+export const getAllSubCategories = async (req, res) => {
   try {
     const allSubCategories = await SubCategory.find({})
       .sort({ createdAt: -1 })

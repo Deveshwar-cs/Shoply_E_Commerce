@@ -1,10 +1,10 @@
-const slugify = require('slugify');
-const ObjectId = require('bson').ObjectId;
+// import slugify from slugify;
+import { ObjectId } from 'bson';
 
-const Coupon = require('../models/couponModel');
-const User = require('../models/userModel');
+import Coupon from '../models/couponModel.js';
+import User from '../models/userModel.js';
 
-exports.createCoupon = async (req, res) => {
+export const createCoupon = async (req, res) => {
   const { name, expiry, discount } = req.body.coupon;
 
   try {
@@ -18,7 +18,7 @@ exports.createCoupon = async (req, res) => {
   }
 };
 
-exports.getAllCoupons = async (req, res) => {
+export const getAllCoupons = async (req, res) => {
   try {
     const allCoupons = await Coupon.find({}).sort([['createdAt', 'desc']]);
 
@@ -30,7 +30,7 @@ exports.getAllCoupons = async (req, res) => {
   }
 };
 
-exports.deleteCoupon = async (req, res) => {
+export const deleteCoupon = async (req, res) => {
   try {
     const deletedCoupon = await Coupon.findByIdAndDelete(req.params.couponId);
 

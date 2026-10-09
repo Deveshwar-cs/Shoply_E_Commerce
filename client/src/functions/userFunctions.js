@@ -28,6 +28,35 @@ export const emptyUserCart = async (authToken) => {
   });
 };
 
+export const removeProductFromUserCart = async (productId, authToken) => {
+  return await axios.delete(
+    `${process.env.REACT_APP_API}/user/cart/product/${productId}`,
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
+
+export const updateProductCartQuantity = async (
+  productId,
+  quantity,
+  authToken
+) => {
+  return await axios.put(
+    `${process.env.REACT_APP_API}/user/cart/product/${productId}`,
+    {
+      quantity,
+    },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
+
 export const saveUserAddress = async (address, authToken) => {
   return await axios.post(
     `${process.env.REACT_APP_API}/user/address`,

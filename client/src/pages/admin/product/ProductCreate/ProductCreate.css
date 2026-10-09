@@ -1,0 +1,301 @@
+.shoply-product-create-page {
+  min-height: 100vh;
+  background: #f6f5f1;
+}
+
+.shoply-product-create-header.ant-layout-header {
+  height: 76px;
+  padding: 0 36px;
+  border-bottom: 1px solid #d3d2cc;
+  background: #fff;
+  line-height: normal;
+}
+
+.shoply-product-create-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.shoply-product-create-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.shoply-product-create-brand-name {
+  color: #171717;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.shoply-product-create-brand-label {
+  color: #77766f;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.shoply-product-create-header-caption {
+  color: #77766f;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.shoply-product-create-menu-button.ant-btn {
+  color: #171717;
+  font-size: 18px;
+}
+
+.shoply-product-create-body {
+  min-height: calc(100vh - 76px);
+  background: #f6f5f1;
+}
+
+.shoply-product-create-content {
+  min-width: 0;
+  background: #f6f5f1;
+}
+
+.shoply-product-create-main {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 36px 42px 28px;
+}
+
+.shoply-product-create-breadcrumb {
+  margin-bottom: 34px;
+  font-size: 12px;
+}
+
+.shoply-product-create-breadcrumb button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #77766f;
+  cursor: pointer;
+  font: inherit;
+}
+
+.shoply-product-create-breadcrumb button:hover {
+  color: #171717;
+}
+
+.shoply-product-create-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding-bottom: 34px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-product-create-eyebrow {
+  color: #77766f;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.shoply-product-create-title.ant-typography {
+  margin: 13px 0 12px;
+  color: #171717;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -1.8px;
+  line-height: 1.12;
+}
+
+.shoply-product-create-description {
+  display: block;
+  max-width: 580px;
+  color: #696861;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.shoply-product-create-back.ant-btn {
+  height: 42px;
+  flex-shrink: 0;
+  padding: 0 16px;
+  border: 1px solid #d3d2cc;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  color: #171717;
+  font-size: 12px;
+}
+
+.shoply-product-create-back.ant-btn:hover {
+  border-color: #171717 !important;
+  background: #fff !important;
+  color: #171717 !important;
+}
+
+.shoply-product-create-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 32px 0 20px;
+}
+
+.shoply-product-create-section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid #d3d2cc;
+  background: #fff;
+  color: #171717;
+  font-size: 17px;
+}
+
+.shoply-product-create-section-title.ant-typography {
+  margin: 0 0 5px;
+  color: #171717;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.shoply-product-create-section-description {
+  color: #77766f;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.shoply-product-create-form-card {
+  padding: 32px;
+  border: 1px solid #d3d2cc;
+  border-radius: 2px;
+  background: #fff;
+}
+
+/*
+ * These rules provide a consistent visual baseline for common
+ * Ant Design form controls inside ProductCreateForm.
+ */
+.shoply-product-create-form-card .ant-form-item-label > label {
+  color: #33332f;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.shoply-product-create-form-card .ant-input,
+.shoply-product-create-form-card .ant-input-affix-wrapper,
+.shoply-product-create-form-card .ant-input-number,
+.shoply-product-create-form-card .ant-select-selector,
+.shoply-product-create-form-card .ant-picker {
+  min-height: 42px;
+  border-color: #d3d2cc !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+.shoply-product-create-form-card .ant-input:focus,
+.shoply-product-create-form-card .ant-input-affix-wrapper-focused,
+.shoply-product-create-form-card .ant-input-number-focused,
+.shoply-product-create-form-card .ant-select-focused .ant-select-selector {
+  border-color: #77766f !important;
+  box-shadow: none !important;
+}
+
+.shoply-product-create-form-card .ant-btn-primary {
+  min-height: 42px;
+  border: 1px solid #171717;
+  border-radius: 2px;
+  background: #171717;
+  box-shadow: none;
+  font-size: 12px;
+}
+
+.shoply-product-create-form-card .ant-btn-primary:hover {
+  border-color: #3a3a3a !important;
+  background: #3a3a3a !important;
+}
+
+.shoply-product-create-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #d3d2cc;
+  color: #85847d;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 991px) {
+  .shoply-product-create-header.ant-layout-header {
+    padding: 0 24px;
+  }
+
+  .shoply-product-create-main {
+    padding: 30px 24px 24px;
+  }
+
+  .shoply-product-create-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .shoply-product-create-form-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 575px) {
+  .shoply-product-create-header.ant-layout-header {
+    height: 66px;
+    padding: 0 16px;
+  }
+
+  .shoply-product-create-header-caption {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .shoply-product-create-brand-name {
+    font-size: 18px;
+  }
+
+  .shoply-product-create-body {
+    min-height: calc(100vh - 66px);
+  }
+
+  .shoply-product-create-main {
+    padding: 24px 16px;
+  }
+
+  .shoply-product-create-breadcrumb {
+    margin-bottom: 26px;
+  }
+
+  .shoply-product-create-title.ant-typography {
+    font-size: 34px;
+    letter-spacing: -1.2px;
+  }
+
+  .shoply-product-create-description {
+    font-size: 13px;
+  }
+
+  .shoply-product-create-section-heading {
+    align-items: flex-start;
+  }
+
+  .shoply-product-create-form-card {
+    padding: 18px 14px;
+  }
+
+  .shoply-product-create-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

@@ -1,31 +1,52 @@
-const admin = require('../firebase');
-const User = require('../models/userModel');
+import User from '../models/userModel.js';
+import { auth } from '../firebase/index.js';
 
-// virufy token from client with firebase-admin
-exports.authCheck = async (req, res, next) => {
+// Verify Firebase token from client
+export const authCheck = async (req, res, next) => {
   try {
-    const firebaseUser = await admin
-      .auth()
-      .verifyIdToken(req.headers.authtoken);
+    const token = req.headers.authtoken;
+
+    if (!token) {
+      return res.status(401).json({
+        error: 'No authentication token provided',
+      });
+    }
+
+    const firebaseUser = await auth.verifyIdToken(token);
 
     req.user = firebaseUser;
     next();
   } catch (error) {
-    res.status(401).json({
+    console.error('Firebase authentication error:', error);
+
+    return res.status(401).json({
       error: 'Invalid or expired token',
     });
   }
 };
 
-exports.adminCheck = async (req, res, next) => {
-  const { email } = req.user;
+export const adminCheck = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const adminUser = await User.findOne({ email });
 
-  const adminUser = await User.findOne({ email }).exec();
+    if (!adminUser) {
+      return res.status(404).json({
+        error: 'User not found',
+      });
+    }
 
-  if (adminUser.role !== 'admin') {
-    res.status(403).json({
-      error: 'Admin resource. Access denied.',
+    if (adminUser.role !== 'admin') {
+      return res.status(403).json({
+        error: 'Admin resource. Access denied.',
+      });
+    }
+    next();
+  } catch (error) {
+    console.error('Admin check error:', error);
+
+    return res.status(500).json({
+      error: 'Something went wrong',
     });
   }
-  next();
 };

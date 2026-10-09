@@ -1,0 +1,430 @@
+/* =========================================
+   SHOP FILTERS
+========================================= */
+
+.shop-filters {
+  width: 100%;
+  padding: 4px 0;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   FILTER SECTION
+========================================= */
+
+.filter-section {
+  width: 100%;
+
+  margin: 0;
+
+  padding: 0;
+
+  border-bottom: 1px solid #e8e8e8;
+
+  box-sizing: border-box;
+}
+
+.filter-section:first-child {
+  border-top: 1px solid #e8e8e8;
+}
+
+/* =========================================
+   FILTER HEADER
+========================================= */
+
+.filter-section-header {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+.filter-section-title {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  color: #1d1d1d;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   FILTER SYMBOL
+========================================= */
+
+.filter-section-icon {
+  width: 18px;
+  height: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #777777;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  flex-shrink: 0;
+}
+
+/* =========================================
+   ARROW
+========================================= */
+
+.filter-arrow {
+  width: 20px;
+  height: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #999999;
+
+  font-size: 17px;
+  font-weight: 300;
+
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.filter-section-header:hover .filter-arrow {
+  color: #222222;
+}
+
+/* =========================================
+   FILTER CONTENT
+========================================= */
+
+.filter-section-content {
+  padding: 0 0 22px;
+
+  background: transparent;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PRICE SLIDER
+========================================= */
+
+.price-slider {
+  width: 100%;
+
+  padding: 3px 3px 0;
+
+  box-sizing: border-box;
+}
+
+/* Slider container */
+
+.price-slider .ant-slider {
+  margin: 10px 6px 20px;
+}
+
+/* Background rail */
+
+.price-slider .ant-slider-rail {
+  height: 3px;
+
+  background: #dedede;
+
+  border-radius: 10px;
+}
+
+/* Selected range */
+
+.price-slider .ant-slider-track {
+  height: 3px;
+
+  background: #191919;
+
+  border-radius: 10px;
+}
+
+/* =========================================
+   SLIDER HANDLE
+========================================= */
+
+.price-slider .ant-slider-handle {
+  width: 12px;
+  height: 12px;
+
+  margin-top: -4.5px;
+
+  background: #ffffff;
+
+  border: 1.5px solid #191919;
+
+  border-radius: 50%;
+
+  box-shadow: none;
+
+  opacity: 1;
+}
+
+/* Remove Ant Design default glow */
+
+.price-slider .ant-slider-handle::after {
+  display: none;
+}
+
+/* Hover */
+
+.price-slider .ant-slider-handle:hover {
+  border-color: #191919;
+
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Focus */
+
+.price-slider .ant-slider-handle:focus {
+  box-shadow: none;
+}
+
+/* =========================================
+   PRICE VALUES
+========================================= */
+
+.price-values {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 1px;
+
+  color: #333333;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Center separator */
+
+.price-values::before {
+  content: '';
+
+  position: absolute;
+}
+
+/* Chosen range */
+
+.chosen-price {
+  margin: 7px 0 0;
+
+  color: #aaaaaa;
+
+  font-size: 10px;
+
+  letter-spacing: 0.3px;
+}
+
+/* =========================================
+   CHECKBOX GROUP
+========================================= */
+
+.filter-checkbox-group {
+  width: 100%;
+
+  display: flex !important;
+
+  flex-direction: column;
+
+  gap: 11px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   CHECKBOX ITEM
+========================================= */
+
+.filter-checkbox-group .ant-checkbox-wrapper {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0 !important;
+
+  color: #777777;
+
+  font-size: 11px;
+  font-weight: 400;
+
+  line-height: 1.5;
+
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+/* Hover */
+
+.filter-checkbox-group .ant-checkbox-wrapper:hover {
+  color: #111111;
+
+  padding-left: 3px;
+}
+
+/* =========================================
+   CHECKBOX
+========================================= */
+
+.filter-checkbox-group .ant-checkbox {
+  top: 0;
+
+  margin-right: 2px;
+}
+
+/* Checkbox box */
+
+.filter-checkbox-group .ant-checkbox-inner {
+  width: 14px;
+  height: 14px;
+
+  background: #ffffff;
+
+  border: 1px solid #cccccc;
+
+  border-radius: 2px;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover checkbox */
+
+.filter-checkbox-group .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #222222;
+}
+
+/* Checked */
+
+.filter-checkbox-group .ant-checkbox-checked .ant-checkbox-inner {
+  background: #191919;
+
+  border-color: #191919;
+}
+
+/* Checked animation border */
+
+.filter-checkbox-group .ant-checkbox-checked::after {
+  border-color: #191919;
+}
+
+/* =========================================
+   RATING
+========================================= */
+
+.rating-option {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 2px;
+
+  min-height: 16px;
+}
+
+.filter-star {
+  color: #e4ad24;
+
+  font-size: 11px;
+
+  line-height: 1;
+}
+
+/* =========================================
+   DISABLED
+========================================= */
+
+.filter-checkbox-group .ant-checkbox-wrapper-disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+}
+
+.filter-checkbox-group .ant-checkbox-wrapper-disabled:hover {
+  padding-left: 0;
+
+  color: #777777;
+}
+
+.price-slider .ant-slider-disabled {
+  opacity: 0.4;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .shop-filters {
+    padding: 0 18px;
+  }
+
+  .filter-section-header {
+    min-height: 60px;
+  }
+
+  .filter-section-title {
+    font-size: 12px;
+
+    letter-spacing: 0.9px;
+  }
+
+  .filter-section-content {
+    padding-bottom: 20px;
+  }
+
+  .filter-checkbox-group {
+    gap: 12px;
+  }
+
+  .filter-checkbox-group .ant-checkbox-wrapper {
+    font-size: 12px;
+  }
+
+  .price-values {
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .shop-filters {
+    padding: 0 14px;
+  }
+
+  .filter-section-header {
+    min-height: 58px;
+  }
+
+  .filter-section-content {
+    padding-bottom: 18px;
+  }
+
+  .filter-section-title {
+    font-size: 11px;
+
+    letter-spacing: 0.8px;
+  }
+
+  .filter-checkbox-group .ant-checkbox-wrapper {
+    font-size: 11px;
+  }
+}

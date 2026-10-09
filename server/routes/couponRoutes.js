@@ -1,20 +1,18 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
 
 // controllers
-const couponController = require('../controllers/couponController');
+import {
+  createCoupon,
+  getAllCoupons,
+  deleteCoupon,
+} from '..//controllers/couponController.js';
 
 const router = express.Router();
 
-router.post('/coupons', authCheck, adminCheck, couponController.createCoupon); // create coupon
-router.get('/coupons', authCheck, adminCheck, couponController.getAllCoupons); // get all coupons list
-router.delete(
-  '/coupons/:couponId',
-  authCheck,
-  adminCheck,
-  couponController.deleteCoupon
-); // delete coupon
+router.post('/coupons', authCheck, adminCheck, createCoupon); // create coupon
+router.get('/coupons', authCheck, adminCheck, getAllCoupons); // get all coupons list
+router.delete('/coupons/:couponId', authCheck, adminCheck, deleteCoupon); // delete coupon
 
-module.exports = router;
+export default router;

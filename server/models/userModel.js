@@ -1,28 +1,31 @@
-const mongoose = require('mongoose');
-
-const { ObjectId } = mongoose.Schema;
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
-    name: String,
+    name: {
+      type: String,
+      default: 'Clone',
+    },
     email: {
       type: String,
       required: [true, 'Please provide your email'],
       unique: true,
-      lowecase: true,
+      lowercase: true,
       index: true,
     },
     role: {
       type: String,
       default: 'subscriber',
     },
+    picture: String,
+
     cart: { type: Array, default: [] },
     address: String,
-    wishlist: [{ type: ObjectId, ref: 'Product' }],
+    wishlist: [{ type: mongoose.Schema.ObjectId, ref: 'Product' }],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

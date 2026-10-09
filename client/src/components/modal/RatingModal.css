@@ -1,0 +1,253 @@
+.rating-trigger {
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: none;
+  background: transparent;
+  color: #171717;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.rating-trigger-star {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.rating-trigger-arrow {
+  color: #999999;
+  font-size: 13px;
+  transition: transform 0.2s ease;
+}
+
+.rating-trigger:hover .rating-trigger-arrow {
+  transform: translate(2px, -2px);
+}
+
+.rating-trigger:hover {
+  color: #555555;
+}
+
+/* Overlay */
+
+.rating-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  background: rgba(20, 20, 20, 0.58);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
+/* Modal */
+
+.rating-modal {
+  position: relative;
+  width: min(100%, 520px);
+  padding: 48px;
+  background: #f7f7f3;
+  color: #171717;
+  box-sizing: border-box;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
+}
+
+/* Close */
+
+.rating-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #deded9;
+  border-radius: 50%;
+  background: transparent;
+  color: #555555;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.rating-modal-close:hover {
+  background: #171717;
+  color: #ffffff;
+}
+
+/* Heading */
+
+.rating-modal-label {
+  margin-bottom: 22px;
+  color: #999999;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.rating-modal-number {
+  margin-bottom: 15px;
+  color: #aaaaaa;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.rating-modal-title {
+  margin: 0;
+  max-width: 390px;
+  color: #171717;
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.rating-modal-title span {
+  color: #999999;
+  font-weight: 400;
+}
+
+.rating-modal-description {
+  max-width: 390px;
+  margin: 20px 0 0;
+  color: #777777;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* Stars */
+
+.rating-modal-stars {
+  margin-top: 35px;
+  padding: 25px 0;
+  border-top: 1px solid #deded9;
+  border-bottom: 1px solid #deded9;
+  text-align: center;
+}
+
+.rating-modal-stars .ant-rate {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.rating-modal-stars .ant-rate-star {
+  margin: 0;
+}
+
+.rating-modal-stars .ant-rate-star-zero .ant-rate-star-first,
+.rating-modal-stars .ant-rate-star-zero .ant-rate-star-second {
+  color: #c9c9c3;
+}
+
+.rating-modal-stars .ant-rate-star-full .ant-rate-star-first,
+.rating-modal-stars .ant-rate-star-full .ant-rate-star-second {
+  color: #171717;
+}
+
+.rating-modal-stars .ant-rate-star .anticon {
+  font-size: 30px;
+}
+
+/* Selected rating */
+
+.rating-modal-selected {
+  margin-top: 14px;
+  color: #999999;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Actions */
+
+.rating-modal-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 10px;
+}
+
+.rating-modal-cancel,
+.rating-modal-submit {
+  min-height: 48px;
+  padding: 0 22px;
+  flex: 1;
+  border: 1px solid #171717;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.rating-modal-cancel {
+  background: transparent;
+  color: #171717;
+}
+
+.rating-modal-cancel:hover:not(:disabled) {
+  background: #eeeeeb;
+}
+
+.rating-modal-submit {
+  background: #171717;
+  color: #ffffff;
+}
+
+.rating-modal-submit:hover:not(:disabled) {
+  background: #333333;
+}
+
+.rating-modal-cancel:disabled,
+.rating-modal-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .rating-modal-overlay {
+    padding: 15px;
+  }
+
+  .rating-modal {
+    padding: 38px 25px 28px;
+  }
+
+  .rating-modal-title {
+    font-size: 34px;
+    letter-spacing: -1.5px;
+  }
+
+  .rating-modal-stars .ant-rate-star .anticon {
+    font-size: 25px;
+  }
+
+  .rating-modal-stars .ant-rate {
+    gap: 6px;
+  }
+
+  .rating-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .rating-modal-cancel,
+  .rating-modal-submit {
+    width: 100%;
+  }
+}

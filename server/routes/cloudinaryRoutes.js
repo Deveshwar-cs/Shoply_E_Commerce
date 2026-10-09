@@ -1,25 +1,17 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
 
 // controllers
-const cloudinaryController = require('../controllers/cloudinaryController');
+import {
+  uploadImages,
+  deleteImage,
+} from '../controllers/cloudinaryController.js';
 
 const router = express.Router();
 
-router.post(
-  '/images',
-  authCheck,
-  adminCheck,
-  cloudinaryController.uploadImages
-);
+router.post('/images', authCheck, adminCheck, uploadImages);
 
-router.delete(
-  '/images',
-  authCheck,
-  adminCheck,
-  cloudinaryController.deleteImage
-);
+router.delete('/images', authCheck, adminCheck, deleteImage);
 
-module.exports = router;
+export default router;

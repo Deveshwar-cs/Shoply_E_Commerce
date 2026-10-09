@@ -1,0 +1,219 @@
+/* ================================
+   ORDER HISTORY CARD
+================================ */
+
+.order-history-card {
+  width: 100%;
+  margin-bottom: 40px;
+
+  background: #f6f5f1;
+  border: 1px solid #d3d2cc;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.order-history-card-header {
+  min-height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.order-history-card-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #77756f;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.order-history-card-line {
+  width: 24px;
+  height: 1px;
+
+  background: #77756f;
+}
+
+.order-history-card-number {
+  color: #999791;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ================================
+   PAYMENT INFORMATION
+================================ */
+
+.order-history-payment {
+  padding: 28px 24px;
+
+  border-bottom: 1px solid #d3d2cc;
+}
+
+/* ================================
+   PRODUCTS
+================================ */
+
+.order-history-products {
+  padding: 28px 24px 0;
+}
+
+.order-history-products-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.order-history-eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #85837d;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.order-history-products-header h3 {
+  margin: 0;
+
+  color: #171717;
+
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.8px;
+}
+
+.order-history-product-count {
+  color: #a09e98;
+
+  font-size: 24px;
+  font-weight: 300;
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+.order-history-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0 24px;
+  padding: 22px 0;
+
+  border-top: 1px solid #d3d2cc;
+}
+
+.order-history-footer-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #8a8881;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.order-history-footer-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+  background: #68665f;
+}
+
+.order-history-invoice-button {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 0 15px;
+
+  border: 1px solid #171717;
+
+  background: #171717;
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.order-history-invoice-button:hover {
+  background: transparent;
+  color: #171717;
+}
+
+.order-history-invoice-arrow {
+  font-size: 15px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 600px) {
+  .order-history-card {
+    margin-bottom: 25px;
+  }
+
+  .order-history-card-header {
+    padding: 0 15px;
+  }
+
+  .order-history-payment {
+    padding: 22px 15px;
+  }
+
+  .order-history-products {
+    padding: 22px 15px 0;
+  }
+
+  .order-history-products-header h3 {
+    font-size: 20px;
+  }
+
+  .order-history-product-count {
+    font-size: 20px;
+  }
+
+  .order-history-card-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+
+    margin: 0 15px;
+  }
+
+  .order-history-invoice-button {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

@@ -1,34 +1,46 @@
-const cloudinary = require('cloudinary');
+import { v2 as cloudinary } from 'cloudinary';
 
-// cloudinary config
+// Cloudinary configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-exports.uploadImages = async (req, res) => {
+// Upload image
+export const uploadImages = async (req, res) => {
   try {
     const result = await cloudinary.uploader.upload(req.body.image, {
-      public_id: `${Date.now()}`, // public_id needs to be unique
-      resource_type: 'auto', //jpeg, png
+      public_id: `${Date.now()}`,
+      resource_type: 'auto',
     });
-    res.json({
+
+    res.status(200).json({
       public_id: result.public_id,
       url: result.secure_url,
     });
   } catch (error) {
-    res.status(400).json({
-      error,
+    console.error('Cloudinary upload error:', error);
+
+    res.status(500).json({
+      error: error.message,
     });
   }
 };
 
-exports.deleteImage = (req, res) => {
-  const public_id = req.body.public_id;
+// Delete image
+export const deleteImage = async (req, res) => {
+  try {
+    const { public_id } = req.body;
 
-  cloudinary.uploader.destroy(public_id, (result, error) => {
-    if (error) return res.json(error);
-    res.json(result);
-  });
+    const result = await cloudinary.uploader.destroy(public_id);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Cloudinary delete error:', error);
+
+    res.status(500).json({
+      error: error.message,
+    });
+  }
 };

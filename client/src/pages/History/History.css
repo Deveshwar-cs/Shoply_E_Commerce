@@ -1,0 +1,417 @@
+/* ================================
+   HISTORY PAGE
+================================ */
+
+.history-layout {
+  min-height: 100vh;
+
+  background: #f6f5f1;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.history-header {
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 30px;
+
+  background: #171717;
+
+  border: none;
+}
+
+.history-header-inner {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.history-header-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #d7d6d1;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.history-header-line {
+  width: 25px;
+  height: 1px;
+
+  background: #77756f;
+}
+
+.history-mobile-menu {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  color: #ffffff !important;
+
+  font-size: 18px;
+}
+
+/* ================================
+   BODY
+================================ */
+
+.history-body {
+  min-height: calc(100vh - 70px);
+
+  background: #f6f5f1;
+}
+
+.history-content {
+  min-height: calc(100vh - 70px);
+
+  background: #f6f5f1;
+}
+
+.history-container {
+  width: min(1180px, calc(100% - 60px));
+
+  margin: 0 auto;
+
+  padding: 65px 0 80px;
+}
+
+/* ================================
+   INTRO
+================================ */
+
+.history-intro {
+  margin-bottom: 60px;
+}
+
+.history-intro-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.history-eyebrow {
+  color: #85837d;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.history-order-count {
+  color: #999791;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.history-intro-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  padding-top: 25px;
+}
+
+.history-intro-content h1 {
+  margin: 0;
+
+  color: #171717;
+
+  font-size: clamp(48px, 7vw, 86px);
+  font-weight: 300;
+  letter-spacing: -4px;
+  line-height: 0.95;
+}
+
+.history-intro-content h1 span {
+  color: #77756f;
+}
+
+.history-intro-content p {
+  max-width: 430px;
+
+  margin: 25px 0 0;
+
+  color: #77756f;
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.history-intro-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  color: #b0aea8;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  line-height: 1.7;
+}
+
+/* ================================
+   ORDERS
+================================ */
+
+.history-orders {
+  width: 100%;
+}
+
+.history-order-wrapper {
+  position: relative;
+
+  margin-bottom: 55px;
+}
+
+.history-order-index {
+  margin-bottom: 10px;
+
+  color: #999791;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+/* ================================
+   LOADING
+================================ */
+
+.history-loading {
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  border-top: 1px solid #d3d2cc;
+  border-bottom: 1px solid #d3d2cc;
+
+  color: #85837d;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.history-loading-spinner {
+  width: 28px;
+  height: 28px;
+
+  border: 2px solid #d0cfca;
+  border-top-color: #171717;
+  border-radius: 50%;
+
+  animation: historySpin 0.8s linear infinite;
+}
+
+@keyframes historySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================================
+   EMPTY STATE
+================================ */
+
+.history-empty {
+  min-height: 360px;
+
+  display: grid;
+  grid-template-columns: 120px 1fr;
+
+  border-top: 1px solid #d3d2cc;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.history-empty-number {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding-top: 35px;
+
+  border-right: 1px solid #d3d2cc;
+
+  color: #b0aea8;
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.history-empty-content {
+  max-width: 520px;
+
+  align-self: center;
+
+  padding: 50px;
+}
+
+.history-empty-content h2 {
+  margin: 10px 0 0;
+
+  color: #171717;
+
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 300;
+  letter-spacing: -2.5px;
+}
+
+.history-empty-content h2 span {
+  color: #77756f;
+}
+
+.history-empty-content p {
+  max-width: 430px;
+
+  margin: 18px 0 25px;
+
+  color: #77756f;
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.history-shop-button {
+  min-height: 44px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+
+  padding: 0 15px;
+
+  border: 1px solid #171717;
+
+  background: #171717;
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.history-shop-button:hover {
+  background: transparent;
+  color: #171717;
+}
+
+.history-shop-button span:last-child {
+  font-size: 15px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+  .history-container {
+    width: min(100% - 30px, 700px);
+
+    padding-top: 45px;
+  }
+
+  .history-intro {
+    margin-bottom: 40px;
+  }
+
+  .history-intro-content {
+    align-items: flex-start;
+  }
+
+  .history-intro-mark {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .history-header {
+    height: 60px;
+
+    padding: 0 15px;
+  }
+
+  .history-body,
+  .history-content {
+    min-height: calc(100vh - 60px);
+  }
+
+  .history-container {
+    width: calc(100% - 24px);
+
+    padding: 35px 0 50px;
+  }
+
+  .history-intro-content h1 {
+    font-size: 50px;
+    letter-spacing: -2.5px;
+  }
+
+  .history-intro-content p {
+    max-width: 100%;
+
+    margin-top: 18px;
+
+    font-size: 11px;
+  }
+
+  .history-order-wrapper {
+    margin-bottom: 35px;
+  }
+
+  .history-empty {
+    min-height: 320px;
+
+    grid-template-columns: 55px 1fr;
+  }
+
+  .history-empty-content {
+    padding: 30px 20px;
+  }
+
+  .history-empty-content h2 {
+    font-size: 38px;
+  }
+
+  .history-empty-number {
+    padding-top: 30px;
+  }
+
+  .history-shop-button {
+    width: 100%;
+  }
+}

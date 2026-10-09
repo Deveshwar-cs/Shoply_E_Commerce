@@ -1,38 +1,24 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
-
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
 // controllers
-const categoryController = require('../controllers/categoryController');
-
+import {
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  getAllSubcategoriesByCategory,
+  getAllCategories,
+  getCategory,
+} from '../controllers/categoryController.js';
 const router = express.Router();
 
-router.get('/categories', categoryController.getAllCategories);
-router.get('/categories/:slug', categoryController.getCategory);
+router.get('/categories', getAllCategories);
+router.get('/categories/:slug', getCategory);
 
-router.post(
-  '/categories',
-  authCheck,
-  adminCheck,
-  categoryController.createCategory
-);
-router.put(
-  '/categories/:slug',
-  authCheck,
-  adminCheck,
-  categoryController.updateCategory
-);
-router.delete(
-  '/categories/:slug',
-  authCheck,
-  adminCheck,
-  categoryController.deleteCategory
-);
+router.post('/categories', authCheck, adminCheck, createCategory);
+router.put('/categories/:slug', authCheck, adminCheck, updateCategory);
+router.delete('/categories/:slug', authCheck, adminCheck, deleteCategory);
 // Get all subcategories by parent category
-router.get(
-  '/categories/subcategories/:_id',
-  categoryController.getAllSubcategoriesByCategory
-);
+router.get('/categories/subcategories/:_id', getAllSubcategoriesByCategory);
 
-module.exports = router;
+export default router;

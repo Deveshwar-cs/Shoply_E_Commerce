@@ -1,0 +1,57 @@
+.rating-average {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rating-average-stars {
+  display: flex;
+  align-items: center;
+}
+
+.rating-average-stars .ant-rate {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.rating-average-stars .ant-rate-star {
+  margin-inline-end: 0;
+}
+
+.rating-average-stars .ant-rate-star-full .ant-rate-star-second,
+.rating-average-stars .ant-rate-star-half .ant-rate-star-first {
+  color: #171717;
+}
+
+.rating-average-stars .ant-rate-star-zero .ant-rate-star-first,
+.rating-average-stars .ant-rate-star-zero .ant-rate-star-second {
+  color: #d7d7d2;
+}
+
+.rating-average-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #777;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.rating-average-score {
+  color: #171717;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.rating-average-divider {
+  color: #c5c5bf;
+}
+
+.rating-average-count {
+  color: #888;
+}

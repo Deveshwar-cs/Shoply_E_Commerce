@@ -116,6 +116,7 @@ export const cartReducer = (state = initialState, action = {}) => {
       };
       localStorage.setItem('shopping-cart', JSON.stringify(updatedCart));
       return { ...state, cart: updatedCart };
+
     case actionTypes.CLEAR_CART:
       localStorage.removeItem('shopping-cart');
       return {
@@ -149,6 +150,12 @@ export const cartReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         getCartFromDBInProgress: true,
+      };
+    case actionTypes.SET_CART:
+      localStorage.setItem('shopping-cart', JSON.stringify(payload));
+      return {
+        ...state,
+        cart: payload,
       };
     case actionTypes.GET_CART_SUCCESS:
       return {

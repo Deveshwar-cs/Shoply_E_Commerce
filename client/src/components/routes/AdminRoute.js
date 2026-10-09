@@ -1,16 +1,14 @@
-import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
-import LoadingToRedirect from './LoadingToRedirect';
-
-const AdminRoute = ({ children, ...rest }) => {
+const AdminRoute = ({ children }) => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  return isAuthenticated && user.role === 'admin' ? (
-    <Route {...rest} />
-  ) : (
-    <LoadingToRedirect />
-  );
+  if (isAuthenticated && user?.role === 'admin') {
+    return children;
+  }
+
+  return <Navigate to="/login" replace />;
 };
 
 export default AdminRoute;

@@ -24,16 +24,17 @@ export const currentUser = async (authToken) => {
   );
 };
 
-export const roleBasedRedirect = (user, history) => {
-  // check if intended – if we need to redirect to Product or Cart page when user login
-  const intended = history.location.state;
-  if (intended) {
-    history.push(intended.from);
+export const roleBasedRedirect = (user, navigate, location) => {
+  // Check if there is an intended page to return to after login
+  const intended = location?.state;
+
+  if (intended?.from) {
+    navigate(intended.from);
   } else {
     if (user.role === 'admin') {
-      history.push('/admin/dashboard');
+      navigate('/admin/dashboard');
     } else {
-      history.push('/user/history');
+      navigate('/user/history');
     }
   }
 };

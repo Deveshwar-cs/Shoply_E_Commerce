@@ -1,54 +1,45 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
 
 // controllers
-const productController = require('../controllers/productController');
-
+import {
+  createProduct,
+  productsCount,
+  getAllProducts,
+  getOneProduct,
+  deleteProduct,
+  updateProduct,
+  customProductList,
+  productRating,
+  relatedProducts,
+  searchFilters,
+} from '../controllers/productController.js';
 const router = express.Router();
 
-router.post(
-  '/products',
-  authCheck,
-  adminCheck,
-  productController.createProduct
-);
+router.post('/products', authCheck, adminCheck, createProduct);
 
 // get products total count alias for pagination
-router.get('/totalproducts', productController.productsCount);
+router.get('/totalproducts', productsCount);
 
-router.get('/products/:count', productController.getAllProducts);
+router.get('/products/:count', getAllProducts);
 
-router.get('/product/:slug', productController.getOneProduct);
+router.get('/product/:slug', getOneProduct);
 
-router.delete(
-  '/products/:slug',
-  authCheck,
-  adminCheck,
-  productController.deleteProduct
-);
+router.delete('/products/:slug', authCheck, adminCheck, deleteProduct);
 
-router.put(
-  '/products/:slug',
-  authCheck,
-  adminCheck,
-  productController.updateProduct
-);
+router.put('/products/:slug', authCheck, adminCheck, updateProduct);
 
 // get list of products with sort, filter or limit
 // using POST becouse we need send some data with request
-router.post('/customproductlist', productController.customProductList);
+router.post('/customproductlist', customProductList);
 
-router.put(
-  '/product/star/:productId',
-  authCheck,
-  productController.productRating
-);
+router.put('/product/star/:productId', authCheck, productRating);
 
 // related products
-router.get('/products/related/:productId', productController.relatedProducts);
+router.get('/products/related/:productId', relatedProducts);
 
 // search
-router.post('/search/filters', productController.searchFilters);
-module.exports = router;
+router.post('/search/filters', searchFilters);
+
+export default router;

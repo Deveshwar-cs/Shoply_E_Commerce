@@ -1,0 +1,642 @@
+/* =========================================
+   JUMBOTRON
+========================================= */
+
+.jumbotron {
+  position: relative;
+  width: 100%;
+  min-height: 680px;
+  overflow: hidden;
+  background: #f5f5f2;
+  color: #151515;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   BACKGROUND GRID
+========================================= */
+
+.jumbotron-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+
+  background-size: 90px 90px;
+}
+
+/* =========================================
+   INNER
+========================================= */
+
+.jumbotron-inner {
+  position: relative;
+  z-index: 2;
+
+  width: min(1240px, calc(100% - 80px));
+  min-height: 630px;
+
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+
+  gap: 40px;
+}
+
+/* =========================================
+   COPY
+========================================= */
+
+.jumbotron-copy {
+  padding: 70px 0;
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.jumbotron-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 30px;
+
+  color: #777777;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.jumbotron-label-line {
+  width: 35px;
+  height: 1px;
+
+  background: #222222;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.jumbotron-title {
+  max-width: 720px;
+
+  margin: 0;
+
+  color: #151515;
+
+  font-size: clamp(58px, 7vw, 104px);
+  font-weight: 700;
+
+  line-height: 0.94;
+  letter-spacing: -5px;
+}
+
+.jumbotron-title-light {
+  display: block;
+
+  color: #8b8b86;
+
+  font-weight: 300;
+}
+
+.jumbotron-typewriter {
+  display: block;
+
+  min-height: 1em;
+
+  margin-top: 8px;
+
+  color: #151515;
+
+  font-weight: 500;
+}
+
+.jumbotron-typewriter .Typewriter {
+  display: inline;
+}
+
+.jumbotron-typewriter .Typewriter__cursor {
+  color: #151515;
+  font-weight: 300;
+}
+
+/* =========================================
+   BOTTOM COPY
+========================================= */
+
+.jumbotron-bottom {
+  display: flex;
+  align-items: flex-end;
+
+  gap: 50px;
+
+  margin-top: 55px;
+}
+
+.jumbotron-description {
+  max-width: 310px;
+
+  margin: 0;
+
+  color: #777777;
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   SHOP LINK
+========================================= */
+
+.jumbotron-shop-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+
+  padding-bottom: 9px;
+
+  color: #151515;
+
+  border-bottom: 1px solid #151515;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  text-decoration: none;
+
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+
+.jumbotron-shop-link:hover {
+  gap: 26px;
+  color: #666666;
+}
+
+.jumbotron-arrow {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* =========================================
+   VISUAL
+========================================= */
+
+.jumbotron-visual {
+  position: relative;
+
+  width: 100%;
+  height: 560px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   CIRCLES
+========================================= */
+
+.jumbotron-circle {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.circle-large {
+  width: 500px;
+  height: 500px;
+
+  right: -70px;
+  top: 30px;
+}
+
+.circle-small {
+  width: 170px;
+  height: 170px;
+
+  left: 20px;
+  bottom: 20px;
+
+  background: #e9e9e4;
+}
+
+/* =========================================
+   VISUAL CARD
+========================================= */
+
+.jumbotron-card {
+  position: relative;
+
+  width: 310px;
+  height: 410px;
+
+  padding: 22px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: #1c1c1c;
+
+  color: #ffffff;
+
+  box-sizing: border-box;
+
+  transform: rotate(5deg);
+
+  box-shadow: 25px 30px 70px rgba(0, 0, 0, 0.18);
+
+  transition: transform 0.4s ease;
+}
+
+.jumbotron-card:hover {
+  transform: rotate(2deg) translateY(-8px);
+}
+
+/* =========================================
+   CARD TOP
+========================================= */
+
+.jumbotron-card-top,
+.jumbotron-card-bottom {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 1.8px;
+}
+
+.jumbotron-card-top {
+  color: #999999;
+}
+
+.jumbotron-card-bottom {
+  color: #bbbbbb;
+}
+
+/* =========================================
+   CARD SHAPE
+========================================= */
+
+.jumbotron-card-shape {
+  position: relative;
+
+  width: 190px;
+  height: 190px;
+
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jumbotron-card-shape span {
+  position: absolute;
+
+  display: block;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.jumbotron-card-shape span:nth-child(1) {
+  width: 180px;
+  height: 180px;
+}
+
+.jumbotron-card-shape span:nth-child(2) {
+  width: 125px;
+  height: 125px;
+
+  border-width: 12px;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.jumbotron-card-shape span:nth-child(3) {
+  width: 55px;
+  height: 55px;
+
+  background: #f1f1ed;
+
+  border: none;
+}
+
+/* =========================================
+   FLOATING TEXT
+========================================= */
+
+.jumbotron-floating-text {
+  position: absolute;
+
+  right: 5px;
+  top: 95px;
+
+  color: #777777;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  line-height: 1.5;
+
+  letter-spacing: 2px;
+
+  transform: rotate(90deg);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.jumbotron-footer {
+  position: absolute;
+
+  z-index: 3;
+
+  left: 50%;
+  bottom: 25px;
+
+  width: min(1240px, calc(100% - 80px));
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  color: #999999;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+}
+
+.jumbotron-footer-line {
+  flex: 1;
+
+  height: 1px;
+
+  background: #d5d5d0;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+  .jumbotron {
+    min-height: 620px;
+  }
+
+  .jumbotron-inner {
+    width: min(100% - 48px, 850px);
+
+    min-height: 570px;
+
+    grid-template-columns: 1fr 0.75fr;
+
+    gap: 10px;
+  }
+
+  .jumbotron-title {
+    font-size: clamp(52px, 8vw, 78px);
+    letter-spacing: -3.5px;
+  }
+
+  .jumbotron-visual {
+    height: 480px;
+  }
+
+  .jumbotron-card {
+    width: 260px;
+    height: 350px;
+  }
+
+  .circle-large {
+    width: 390px;
+    height: 390px;
+  }
+
+  .jumbotron-bottom {
+    gap: 30px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .jumbotron {
+    min-height: auto;
+  }
+
+  .jumbotron-inner {
+    width: calc(100% - 32px);
+
+    min-height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0;
+  }
+
+  .jumbotron-copy {
+    padding: 70px 0 20px;
+  }
+
+  .jumbotron-label {
+    margin-bottom: 24px;
+  }
+
+  .jumbotron-title {
+    max-width: 600px;
+
+    font-size: clamp(48px, 13vw, 72px);
+
+    letter-spacing: -3px;
+  }
+
+  .jumbotron-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 24px;
+
+    margin-top: 35px;
+  }
+
+  .jumbotron-description {
+    max-width: 400px;
+  }
+
+  .jumbotron-visual {
+    height: 390px;
+
+    margin-top: 15px;
+  }
+
+  .circle-large {
+    width: 330px;
+    height: 330px;
+
+    right: -70px;
+    top: 15px;
+  }
+
+  .circle-small {
+    width: 120px;
+    height: 120px;
+
+    left: 10px;
+    bottom: 15px;
+  }
+
+  .jumbotron-card {
+    width: 220px;
+    height: 300px;
+
+    padding: 18px;
+  }
+
+  .jumbotron-card-shape {
+    width: 140px;
+    height: 140px;
+  }
+
+  .jumbotron-card-shape span:nth-child(1) {
+    width: 140px;
+    height: 140px;
+  }
+
+  .jumbotron-card-shape span:nth-child(2) {
+    width: 95px;
+    height: 95px;
+  }
+
+  .jumbotron-card-shape span:nth-child(3) {
+    width: 40px;
+    height: 40px;
+  }
+
+  .jumbotron-floating-text {
+    right: 0;
+    top: 60px;
+  }
+
+  .jumbotron-footer {
+    position: relative;
+
+    left: auto;
+    bottom: auto;
+
+    width: calc(100% - 32px);
+
+    margin: 0 auto;
+    padding: 0 0 22px;
+
+    transform: none;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .jumbotron-inner {
+    width: calc(100% - 24px);
+  }
+
+  .jumbotron-copy {
+    padding-top: 55px;
+  }
+
+  .jumbotron-label {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .jumbotron-title {
+    font-size: 46px;
+    letter-spacing: -2.5px;
+    line-height: 0.97;
+  }
+
+  .jumbotron-description {
+    font-size: 12px;
+  }
+
+  .jumbotron-visual {
+    height: 330px;
+  }
+
+  .circle-large {
+    width: 280px;
+    height: 280px;
+
+    right: -80px;
+  }
+
+  .circle-small {
+    width: 95px;
+    height: 95px;
+  }
+
+  .jumbotron-card {
+    width: 190px;
+    height: 260px;
+  }
+
+  .jumbotron-card-shape {
+    width: 115px;
+    height: 115px;
+  }
+
+  .jumbotron-card-shape span:nth-child(1) {
+    width: 115px;
+    height: 115px;
+  }
+
+  .jumbotron-card-shape span:nth-child(2) {
+    width: 78px;
+    height: 78px;
+  }
+
+  .jumbotron-card-shape span:nth-child(3) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .jumbotron-footer {
+    width: calc(100% - 24px);
+
+    font-size: 7px;
+    letter-spacing: 1.2px;
+  }
+}

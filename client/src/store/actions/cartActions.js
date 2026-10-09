@@ -8,26 +8,11 @@ import {
   saveUserAddress,
   getUserAddress,
   applyCouponToUserCart,
+  removeProductFromUserCart,
+  updateProductCartQuantity,
 } from '../../functions/userFunctions';
 
-export const addToCart = (product) => ({
-  type: actionTypes.ADD_TO_CART,
-  payload: product,
-});
-export const removeFromCart = (id) => ({
-  type: actionTypes.REMOVE_FROM_CART,
-  payload: { id },
-});
-// Clear cart in localStorage
-export const clearCart = () => ({ type: actionTypes.CLEAR_CART });
-
-export const setItemQuantity = ({ quantity, id }) => ({
-  type: actionTypes.SET_ITEM_QUANTITY,
-  payload: { quantity, id },
-});
-
 // Create cart actions
-
 const createCartRequest = () => ({ type: actionTypes.CREATE_CART_REQUEST });
 const createCartSuccess = () => ({
   type: actionTypes.CREATE_CART_SUCCESS,
@@ -36,26 +21,6 @@ const createCartError = (e) => ({
   type: actionTypes.CREATE_CART_ERROR,
   payload: e,
 });
-
-export const createCartAction = (cart, token) => async (dispatch) => {
-  try {
-    dispatch(createCartRequest());
-    // Request to DB
-    const response = await createUserCart(cart, token);
-    if (response.data.ok) {
-      dispatch(createCartSuccess());
-      notification.success({
-        message: `Product cart saved to user history!`,
-      });
-    }
-  } catch (error) {
-    dispatch(createCartError(error));
-    notification.error({
-      message: `Product cart save error!`,
-    });
-    console.log('createCartAction error', error);
-  }
-};
 
 // Get cart actions
 const getCartRequest = () => ({ type: actionTypes.GET_CART_REQUEST });
@@ -68,24 +33,6 @@ const getCartError = (e) => ({
   payload: e,
 });
 
-export const getCartAction = (token) => async (dispatch) => {
-  try {
-    dispatch(getCartRequest());
-
-    // Request to DB
-    const cart = await getUserCart(token);
-    if (cart.data.cartIsEmpty) {
-      dispatch(getCartSuccess(null));
-    } else {
-      dispatch(getCartSuccess(cart.data));
-    }
-
-    return cart.data;
-  } catch (error) {
-    dispatch(getCartError(error));
-  }
-};
-
 // Empty user cart on DB actions
 const emptyCartRequest = () => ({ type: actionTypes.EMPTY_CART_REQUEST });
 const emptyCartSuccess = () => ({
@@ -95,22 +42,6 @@ const emptyCartError = (e) => ({
   type: actionTypes.EMPTY_CART_ERROR,
   payload: e,
 });
-
-export const emptyCartInDBAction = (token) => async (dispatch) => {
-  try {
-    dispatch(emptyCartRequest());
-
-    // Request to DB
-    await emptyUserCart(token);
-
-    dispatch(emptyCartSuccess());
-    notification.success({
-      message: `Cart is empty now. You can continue shopping!`,
-    });
-  } catch (error) {
-    dispatch(emptyCartError(error));
-  }
-};
 
 // Save user address on Checkout page
 
@@ -125,28 +56,6 @@ const saveUserAddressError = (e) => ({
   payload: e,
 });
 
-export const saveUserAddressAction = (address, token) => async (dispatch) => {
-  try {
-    dispatch(saveUserAddressRequest());
-    // Request to DB
-    const response = await saveUserAddress(address, token);
-    if (response.data.addressSaved) {
-      dispatch(saveUserAddressSuccess());
-      notification.success({
-        message: `Shipping address saved!`,
-      });
-    }
-  } catch (error) {
-    dispatch(saveUserAddressError(error));
-    notification.error({
-      message: `Shipping address save error!`,
-    });
-    console.log('saveUserAddressAction error', error);
-  }
-};
-
-// Get shipping address actions
-
 // Get cart actions
 const getShippingAddressRequest = () => ({
   type: actionTypes.GET_USER_ADDRESS_REQUEST,
@@ -157,6 +66,22 @@ const getShippingAddressSuccess = (address) => ({
 });
 const getShippingAddressError = (e) => ({
   type: actionTypes.GET_USER_ADDRESS_ERROR,
+  payload: e,
+});
+
+// Apply coupon to user cart actions
+
+const applyCouponRequest = () => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_REQUEST,
+});
+const applyCouponSuccess = () => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_SUCCESS,
+});
+const applyCouponFailure = () => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_FAILURE,
+});
+const applyCouponError = (e) => ({
+  type: actionTypes.APPLY_COUPON_TO_CART_ERROR,
   payload: e,
 });
 
@@ -176,22 +101,6 @@ export const getShippingAddressAction = (token) => async (dispatch) => {
     dispatch(getShippingAddressError(error));
   }
 };
-
-// Apply coupon to user cart actions
-
-const applyCouponRequest = () => ({
-  type: actionTypes.APPLY_COUPON_TO_CART_REQUEST,
-});
-const applyCouponSuccess = () => ({
-  type: actionTypes.APPLY_COUPON_TO_CART_SUCCESS,
-});
-const applyCouponFailure = () => ({
-  type: actionTypes.APPLY_COUPON_TO_CART_FAILURE,
-});
-const applyCouponError = (e) => ({
-  type: actionTypes.APPLY_COUPON_TO_CART_ERROR,
-  payload: e,
-});
 
 export const applyCouponAction = (couponName, token) => async (dispatch) => {
   try {
@@ -227,3 +136,184 @@ export const applyCouponAction = (couponName, token) => async (dispatch) => {
     });
   }
 };
+
+export const emptyCartInDBAction = (token) => async (dispatch) => {
+  try {
+    dispatch(emptyCartRequest());
+
+    const response = await emptyUserCart(token);
+
+    dispatch(emptyCartSuccess());
+
+    notification.success({
+      message: `Cart is empty now. You can continue shopping!`,
+    });
+
+    return response;
+  } catch (error) {
+    dispatch(emptyCartError(error));
+
+    notification.error({
+      message: 'Unable to empty cart!',
+    });
+
+    throw error;
+  }
+};
+
+export const saveUserAddressAction = (address, token) => async (dispatch) => {
+  try {
+    dispatch(saveUserAddressRequest());
+    // Request to DB
+    const response = await saveUserAddress(address, token);
+    if (response.data.addressSaved) {
+      dispatch(saveUserAddressSuccess());
+      notification.success({
+        message: `Shipping address saved!`,
+      });
+    }
+  } catch (error) {
+    dispatch(saveUserAddressError(error));
+    notification.error({
+      message: `Shipping address save error!`,
+    });
+    console.log('saveUserAddressAction error', error);
+  }
+};
+
+export const createCartAction = (cart, token) => async (dispatch) => {
+  try {
+    dispatch(createCartRequest());
+
+    const response = await createUserCart(cart, token);
+
+    if (response.data.ok) {
+      dispatch(createCartSuccess());
+
+      notification.success({
+        message: 'Product cart saved to user history!',
+      });
+    }
+
+    return response.data;
+  } catch (error) {
+    dispatch(createCartError(error));
+
+    notification.error({
+      message: 'Product cart save error!',
+      description: error.message,
+    });
+
+    console.log('createCartAction error', error);
+
+    throw error;
+  }
+};
+
+export const getCartAction = (token) => async (dispatch) => {
+  try {
+    dispatch(getCartRequest());
+
+    const response = await getUserCart(token);
+
+    if (response.data.cartIsEmpty) {
+      dispatch(
+        getCartSuccess({
+          products: [],
+          totalPrice: 0,
+          totalPriceAfterDiscount: 0,
+        })
+      );
+
+      dispatch({
+        type: actionTypes.SET_CART,
+        payload: {
+          items: [],
+          totalQuantity: 0,
+          totalPrice: 0,
+        },
+      });
+
+      return response.data;
+    }
+    console.log('RESPONSE DATA:=======', response.data);
+    const { products, totalPrice } = response.data;
+
+    const items = products.map((item) => ({
+      ...item.product,
+      cartQuantity: item.quantity,
+    }));
+
+    const totalQuantity = products.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+
+    const reduxCart = {
+      items,
+      totalQuantity,
+      totalPrice,
+    };
+
+    // keep database cart information
+    dispatch(getCartSuccess(response.data));
+
+    // Make database cart the active Redux cart
+    dispatch({
+      type: actionTypes.SET_CART,
+      payload: reduxCart,
+    });
+
+    return response.data;
+  } catch (error) {
+    dispatch(getCartError(error));
+  }
+};
+
+export const updateProductCartQuantityAction =
+  (productId, quantity, token) => async (dispatch) => {
+    try {
+      await updateProductCartQuantity(productId, quantity, token);
+      dispatch(
+        setItemQuantity({
+          quantity,
+          id: productId,
+        })
+      );
+    } catch (error) {
+      console.log('UPDATE PRODUCT QUANTITY ERROR', error);
+
+      notification.error({
+        message: 'Unable to update product quantity',
+      });
+    }
+  };
+
+export const removeProductFromCartDB =
+  (productId, token) => async (dispatch) => {
+    try {
+      await removeProductFromUserCart(productId, token);
+      dispatch(removeFromCart(productId));
+    } catch (error) {
+      console.log('REMOVE PRODUCT FROM CART ERROR', error);
+      notification.error({ messsage: 'Unable to remove product from cart' });
+    }
+  };
+
+export const setItemQuantity = ({ quantity, id }) => ({
+  type: actionTypes.SET_ITEM_QUANTITY,
+  payload: { quantity, id },
+});
+
+export const addToCart = (product) => ({
+  type: actionTypes.ADD_TO_CART,
+  payload: product,
+});
+
+export const removeFromCart = (id) => ({
+  type: actionTypes.REMOVE_FROM_CART,
+  payload: { id },
+});
+
+// Clear cart in localStorage
+export const clearCart = () => ({ type: actionTypes.CLEAR_CART });

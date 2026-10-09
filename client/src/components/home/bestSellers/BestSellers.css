@@ -1,0 +1,457 @@
+/* =========================================
+   BEST SELLERS
+========================================= */
+
+.best-sellers {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.best-sellers-header {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  margin-bottom: 45px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #e7e7e3;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.best-sellers-heading {
+  max-width: 570px;
+}
+
+.best-sellers-label {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+}
+
+.best-sellers-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 27px;
+  height: 27px;
+
+  border: 1px solid #d7d7d2;
+
+  border-radius: 50%;
+
+  color: #555555;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+}
+
+.best-sellers-label-text {
+  color: #888888;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.best-sellers-heading h3 {
+  margin: 0;
+
+  color: #151515;
+
+  font-size: clamp(32px, 4vw, 48px);
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+}
+
+.best-sellers-heading h3 span {
+  color: #999994;
+
+  font-weight: 300;
+}
+
+.best-sellers-heading p {
+  max-width: 450px;
+
+  margin: 17px 0 0;
+
+  color: #888888;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+/* =========================================
+   SIDE NOTE
+========================================= */
+
+.best-sellers-side-note {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  color: #999999;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  white-space: nowrap;
+}
+
+.best-sellers-side-note strong {
+  color: #222222;
+
+  font-weight: 700;
+}
+
+.best-sellers-side-line {
+  width: 25px;
+  height: 1px;
+
+  background: #222222;
+}
+
+/* =========================================
+   PRODUCTS
+========================================= */
+
+.best-sellers-products {
+  width: 100%;
+}
+
+.best-sellers-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PRODUCT ITEM
+========================================= */
+
+.best-sellers-item {
+  position: relative;
+
+  min-width: 0;
+
+  padding-top: 22px;
+
+  animation: bestSellerFade 0.45s ease both;
+}
+
+.best-sellers-item:nth-child(2) {
+  animation-delay: 0.07s;
+}
+
+.best-sellers-item:nth-child(3) {
+  animation-delay: 0.14s;
+}
+
+@keyframes bestSellerFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   RANK
+========================================= */
+
+.best-sellers-rank {
+  position: absolute;
+
+  z-index: 3;
+
+  top: 0;
+  left: 0;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #171717;
+
+  color: #ffffff;
+
+  border-radius: 50%;
+}
+
+.best-sellers-rank span {
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.best-sellers-loading {
+  width: 100%;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.best-sellers-pagination {
+  width: 100%;
+
+  margin-top: 50px;
+  padding-top: 20px;
+
+  border-top: 1px solid #e7e7e3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+}
+
+.best-sellers-pagination-info {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #999999;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+}
+
+.best-sellers-pagination-dot {
+  color: #cccccc;
+
+  font-size: 10px;
+}
+
+/* =========================================
+   ANT DESIGN PAGINATION
+========================================= */
+
+.best-sellers-pagination .ant-pagination {
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.best-sellers-pagination .ant-pagination-item {
+  min-width: 32px;
+  height: 32px;
+
+  margin: 0;
+
+  border: 1px solid transparent;
+
+  background: transparent;
+
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.best-sellers-pagination .ant-pagination-item a {
+  color: #888888;
+
+  font-size: 10px;
+}
+
+.best-sellers-pagination .ant-pagination-item:hover {
+  border-color: #dddddd;
+
+  background: #f5f5f2;
+}
+
+.best-sellers-pagination .ant-pagination-item-active {
+  border-color: #171717;
+
+  background: #171717;
+}
+
+.best-sellers-pagination .ant-pagination-item-active a {
+  color: #ffffff;
+}
+
+/* =========================================
+   PREVIOUS / NEXT
+========================================= */
+
+.best-sellers-pagination .ant-pagination-prev,
+.best-sellers-pagination .ant-pagination-next {
+  min-width: 32px;
+  height: 32px;
+
+  margin: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.best-sellers-pagination .ant-pagination-prev button,
+.best-sellers-pagination .ant-pagination-next button {
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid transparent;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #555555;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.best-sellers-pagination .ant-pagination-prev:hover button,
+.best-sellers-pagination .ant-pagination-next:hover button {
+  border-color: #dddddd;
+
+  background: #f5f5f2;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+  .best-sellers-grid {
+    gap: 18px;
+  }
+
+  .best-sellers-heading h3 {
+    font-size: 38px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .best-sellers-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+  }
+
+  .best-sellers-side-note {
+    display: none;
+  }
+
+  .best-sellers-heading h3 {
+    font-size: 34px;
+  }
+
+  .best-sellers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+  }
+
+  .best-sellers-pagination {
+    margin-top: 35px;
+  }
+
+  .best-sellers-pagination-info {
+    display: none;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .best-sellers-heading h3 {
+    font-size: 30px;
+
+    letter-spacing: -1.2px;
+  }
+
+  .best-sellers-heading p {
+    font-size: 11px;
+  }
+
+  .best-sellers-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .best-sellers-item {
+    padding-top: 20px;
+  }
+
+  .best-sellers-rank {
+    width: 38px;
+    height: 38px;
+  }
+
+  .best-sellers-pagination {
+    justify-content: center;
+
+    margin-top: 30px;
+  }
+}

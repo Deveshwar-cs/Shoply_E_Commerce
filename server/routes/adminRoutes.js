@@ -1,25 +1,16 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
 
 // controllers
-const adminController = require('../controllers/adminController');
-
+import {
+  getAllOrdersByAdmin,
+  updateOrderStatus,
+} from '../controllers/adminController.js';
 const router = express.Router();
 
 // Admin order routes
-router.get(
-  '/admin/orders',
-  authCheck,
-  adminCheck,
-  adminController.getAllOrdersByAdmin
-);
-router.put(
-  '/admin/order-status',
-  authCheck,
-  adminCheck,
-  adminController.updateOrderStatus
-);
+router.get('/admin/orders', authCheck, adminCheck, getAllOrdersByAdmin);
+router.put('/admin/order-status', authCheck, adminCheck, updateOrderStatus);
 
-module.exports = router;
+export default router;

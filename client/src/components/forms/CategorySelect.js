@@ -19,7 +19,7 @@ const CategorySelect = ({ placeholderText, oneSubCategory, allCategories }) => {
     if (oneSubCategory) {
       dispatch(setParentCategory(oneSubCategory.subcategory.category));
     }
-  }, [oneSubCategory]);
+  }, [oneSubCategory, dispatch]);
 
   useEffect(() => {
     if (parentCategory.length > 0) {
@@ -41,7 +41,7 @@ const CategorySelect = ({ placeholderText, oneSubCategory, allCategories }) => {
         dispatch(clearParentCategory());
       }
     },
-    []
+    [dispatch, oneSubCategory]
   );
 
   function onChange(value) {

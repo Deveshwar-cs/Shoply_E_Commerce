@@ -1,5 +1,5 @@
 import { useEffect, useState, memo } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Form,
@@ -55,7 +55,7 @@ const ProductUpdateForm = () => {
   const [form] = Form.useForm();
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
   const { allCategories } = useSelector((state) => state.category);
@@ -73,7 +73,7 @@ const ProductUpdateForm = () => {
   useEffect(() => {
     // get One category to fill all fields
     dispatch(getOneProductAction(slug));
-  }, []);
+  }, [dispatch, slug]);
 
   // Populate fields with product data
   useEffect(() => {
@@ -92,12 +92,12 @@ const ProductUpdateForm = () => {
         brand: oneProduct.brand,
       });
     }
-  }, [oneProduct]);
+  }, [oneProduct, form]);
 
   useEffect(() => {
     // get all categories to fill Category select
     dispatch(getAllCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   //get subcategories by parent category and fill subcategories select option
   useEffect(() => {
@@ -107,12 +107,12 @@ const ProductUpdateForm = () => {
         subcategory: oneProduct.subcategory.map((sub) => sub._id),
       });
     }
-  }, [parentCategoryId]);
+  }, [parentCategoryId, dispatch, form, oneProduct]);
 
   // Clear subcategory select when parentCategoryId changed
   useEffect(() => {
     form.resetFields(['subcategory']);
-  }, [parentCategoryId]);
+  }, [parentCategoryId, form]);
 
   // // If Admin rutern to original product category fill Select with
   useEffect(() => {
@@ -121,7 +121,7 @@ const ProductUpdateForm = () => {
         subcategory: oneProduct.subcategory.map((sub) => sub._id),
       });
     }
-  }, [parentCategoryId]);
+  }, [parentCategoryId, oneProduct, form]);
 
   //clear local state with parent category and redux state allSubsByParent when component unmount
   useEffect(
@@ -142,7 +142,7 @@ const ProductUpdateForm = () => {
         'brand',
       ]);
     },
-    []
+    [dispatch, form]
   );
 
   const onFinish = (values) => {
@@ -152,7 +152,7 @@ const ProductUpdateForm = () => {
         { ...values, images: [...productImages, ...uploadedImages] },
         user.token
       )
-    ).then(() => history.push('/admin/allproducts'));
+    ).then(() => navigate('/admin/allproducts'));
   };
 
   const onFinishFailed = (errorInfo) => {

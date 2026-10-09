@@ -21,7 +21,7 @@ const FileUpload = () => {
   // set images [] in Redux store for parent form component
   useEffect(() => {
     dispatch(setImgInUpload(uploadedImages));
-  }, [uploadedImages]);
+  }, [uploadedImages, dispatch]);
 
   // clear defaultFileList when product create
   useEffect(() => {

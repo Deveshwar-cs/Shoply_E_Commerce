@@ -1,0 +1,385 @@
+.shoply-admin-dashboard {
+  min-height: 100vh;
+  background: #f6f5f1;
+  color: #171717;
+}
+
+.shoply-admin-dashboard,
+.shoply-admin-dashboard * {
+  box-sizing: border-box;
+}
+
+.shoply-admin-dashboard-header {
+  height: 76px;
+  line-height: normal;
+  padding: 0 42px;
+  background: #f6f5f1;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-admin-dashboard-header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.shoply-admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shoply-admin-brand-name {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #171717;
+}
+
+.shoply-admin-brand-divider {
+  color: #aaa9a1;
+}
+
+.shoply-admin-brand-section {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #77766f;
+}
+
+.shoply-admin-header-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  color: #77766f;
+}
+
+.shoply-admin-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #647b5b;
+}
+
+.shoply-admin-menu-button.ant-btn {
+  color: #171717;
+  background: transparent;
+  border: 1px solid #d3d2cc;
+  box-shadow: none;
+}
+
+.shoply-admin-menu-button.ant-btn:hover,
+.shoply-admin-menu-button.ant-btn:focus {
+  color: #171717;
+  border-color: #171717;
+  background: #eeede7;
+}
+
+.shoply-admin-dashboard-body {
+  min-height: calc(100vh - 76px);
+  background: #f6f5f1;
+}
+
+.shoply-admin-dashboard-content {
+  min-width: 0;
+  padding: 0 42px;
+  background: #f6f5f1;
+}
+
+.shoply-admin-dashboard-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.shoply-admin-page-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 0 17px;
+  border-bottom: 1px solid #d3d2cc;
+  color: #77766f;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.shoply-admin-page-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 35px;
+  padding: 48px 0 43px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-admin-eyebrow {
+  display: block;
+  color: #77766f;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.7px;
+}
+
+.shoply-admin-page-title.ant-typography {
+  margin: 15px 0 12px;
+  color: #171717;
+  font-size: clamp(34px, 4.2vw, 58px);
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1.12;
+}
+
+.shoply-admin-page-title span {
+  color: #85837b;
+}
+
+.shoply-admin-page-description.ant-typography {
+  display: block;
+  max-width: 500px;
+  color: #77766f;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.shoply-admin-orders-indicator {
+  min-width: 205px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 19px;
+  border: 1px solid #d3d2cc;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.shoply-admin-orders-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d3d2cc;
+  color: #171717;
+  font-size: 18px;
+}
+
+.shoply-admin-orders-indicator > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.shoply-admin-indicator-label {
+  color: #77766f;
+  font-size: 8px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.shoply-admin-indicator-value {
+  color: #171717;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.shoply-admin-orders-section {
+  padding-top: 36px;
+}
+
+.shoply-admin-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.shoply-admin-section-title.ant-typography {
+  margin: 9px 0 0;
+  color: #171717;
+  font-size: 27px;
+  font-weight: 400;
+  letter-spacing: -0.7px;
+}
+
+.shoply-admin-order-count {
+  padding-bottom: 5px;
+  color: #77766f;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+
+.shoply-admin-orders-content {
+  min-height: 180px;
+}
+
+.shoply-admin-loading {
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border: 1px solid #d3d2cc;
+}
+
+.shoply-admin-loading .ant-spin-dot-item {
+  background-color: #171717;
+}
+
+.shoply-admin-loading-text.ant-typography {
+  color: #77766f;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.shoply-admin-empty {
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 20px;
+  border: 1px solid #d3d2cc;
+  text-align: center;
+}
+
+.shoply-admin-empty-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d3d2cc;
+  color: #77766f;
+  font-size: 21px;
+}
+
+.shoply-admin-empty-title.ant-typography {
+  margin: 18px 0 8px;
+  color: #171717;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.shoply-admin-empty-description.ant-typography {
+  max-width: 340px;
+  color: #77766f;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.shoply-admin-dashboard-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 55px;
+  padding: 19px 0;
+  border-top: 1px solid #d3d2cc;
+  color: #77766f;
+  font-size: 8px;
+  letter-spacing: 1.3px;
+}
+
+.shoply-admin-dashboard-footer span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .shoply-admin-dashboard-header {
+    padding: 0 24px;
+  }
+
+  .shoply-admin-dashboard-content {
+    padding: 0 24px;
+  }
+
+  .shoply-admin-page-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .shoply-admin-orders-indicator {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .shoply-admin-dashboard-header {
+    height: 66px;
+    padding: 0 16px;
+  }
+
+  .shoply-admin-dashboard-body {
+    min-height: calc(100vh - 66px);
+  }
+
+  .shoply-admin-dashboard-content {
+    padding: 0 16px;
+  }
+
+  .shoply-admin-brand-name {
+    font-size: 18px;
+  }
+
+  .shoply-admin-brand {
+    gap: 8px;
+  }
+
+  .shoply-admin-brand-section {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .shoply-admin-header-status {
+    font-size: 0;
+    gap: 0;
+  }
+
+  .shoply-admin-page-topline {
+    font-size: 8px;
+    letter-spacing: 0.8px;
+  }
+
+  .shoply-admin-page-topline span:last-child {
+    text-align: right;
+  }
+
+  .shoply-admin-page-intro {
+    padding: 35px 0 30px;
+    gap: 25px;
+  }
+
+  .shoply-admin-page-title.ant-typography {
+    font-size: 38px;
+    letter-spacing: -1.5px;
+  }
+
+  .shoply-admin-page-description.ant-typography {
+    font-size: 12px;
+  }
+
+  .shoply-admin-section-title.ant-typography {
+    font-size: 23px;
+  }
+
+  .shoply-admin-section-heading {
+    align-items: flex-start;
+  }
+
+  .shoply-admin-order-count {
+    font-size: 8px;
+    text-align: right;
+  }
+
+  .shoply-admin-dashboard-footer {
+    font-size: 7px;
+    letter-spacing: 0.6px;
+  }
+}

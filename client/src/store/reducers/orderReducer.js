@@ -90,7 +90,6 @@ export const orderReducer = (state = initialState, action = {}) => {
         getAllOrdersInProgress: false,
         getAllOrdersError: payload,
       };
-
     case actionTypes.UPDATE_ORDER_STATUS_REQUEST:
       return {
         ...state,
@@ -100,6 +99,14 @@ export const orderReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         updateOrderStatusInProgress: false,
+        allOrdersByAdmin: state.allOrdersByAdmin.map((order) =>
+          String(order._id) === String(action.payload.orderId)
+            ? {
+                ...order,
+                orderStatus: action.payload.orderStatus,
+              }
+            : order
+        ),
       };
     case actionTypes.UPDATE_ORDER_STATUS_ERROR:
       return {

@@ -1,39 +1,47 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const cors = require('cors');
-const { readdirSync } = require('fs');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
+import cors from 'cors';
+import { readdirSync } from 'fs';
+import dotenv from 'dotenv';
+dotenv.config();
 
-// app
+// App
 const app = express();
 
-// DB
+// Database
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
+  process.env.DATABASE_PASSWORD,
 );
 
 mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
+  .connect(DB)
+  .then(() => {
+    console.log('DB connected successfully');
   })
-  .then(() => console.log('DB CONNECTED SUCCESSFULLY!'))
-  .catch((error) => console.log('DB CONNECTION ERROR', error));
+  .catch((error) => {
+    console.error('DB connection error:', error);
+  });
 
-// middlewares
+// Middlewares
 app.use(morgan('dev'));
 app.use(express.json({ limit: '2mb' }));
 app.use(cors());
 
-// routes autoloading
-readdirSync('./routes').map((route) =>
-  app.use('/api', require('./routes/' + route))
+// Routes
+readdirSync('./routes').forEach(async (route) => {
+  const { default: router } = await import(`./routes/${route}`);
+
+  app.use('/api', router);
+});
+console.log(
+  'FIREBASE_AUTH_EMULATOR_HOST:',
+  process.env.FIREBASE_AUTH_EMULATOR_HOST,
 );
+// Server
+const PORT = process.env.PORT || 8000;
 
-const port = process.env.PORT || 8000;
-
-app.listen(port, () => console.log(`Server is running on ${port}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

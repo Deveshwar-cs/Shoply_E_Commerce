@@ -1,19 +1,36 @@
 import { auth, googleAuthProvider } from '../../firebase';
-// need use firebase import. Credential it's a static method in a static class that's why you need the namespace
-import firebase from 'firebase';
+
+import {
+  EmailAuthProvider,
+  getIdTokenResult,
+  reauthenticateWithCredential,
+  sendPasswordResetEmail,
+  sendSignInLinkToEmail,
+  signInWithEmailAndPassword,
+  signInWithEmailLink,
+  signInWithPopup,
+  signOut,
+  updatePassword as updateFirebasePassword,
+  onAuthStateChanged,
+} from 'firebase/auth';
+
+import { getCartAction, clearCart } from './cartActions';
+
 import { notification } from 'antd';
 
 import * as actionTypes from '../actions/types';
 
-import { createOrUpdateUser } from '../../functions/authFunctions';
+import { createOrUpdateUser, currentUser } from '../../functions/authFunctions';
 
 export const authInfoInRequest = () => ({
   type: actionTypes.AUTH_INFO_REQUEST,
 });
+
 export const authInfoSuccess = (user) => ({
   type: actionTypes.AUTH_INFO_SUCCESS,
   payload: user,
 });
+
 export const authInfoError = (e) => ({
   type: actionTypes.AUTH_INFO_ERROR,
   payload: e,
@@ -22,9 +39,11 @@ export const authInfoError = (e) => ({
 export const sendEmailInRequest = () => ({
   type: actionTypes.SEND_EMAIL_REQUEST,
 });
+
 export const sendEmailSuccess = () => ({
   type: actionTypes.SEND_EMAIL_SUCCESS,
 });
+
 export const sendEmailError = (e) => ({
   type: actionTypes.SEND_EMAIL_ERROR,
   payload: e,
@@ -33,9 +52,11 @@ export const sendEmailError = (e) => ({
 export const sendForgotPasswordEmailInRequest = () => ({
   type: actionTypes.SEND_FORGOT_PASSWORD_EMAIL_REQUEST,
 });
+
 export const sendForgotPasswordEmailSuccess = () => ({
   type: actionTypes.SEND_FORGOT_PASSWORD_EMAIL_SUCCESS,
 });
+
 export const sendForgotPasswordEmailError = (e) => ({
   type: actionTypes.SEND_FORGOT_PASSWORD_EMAIL_ERROR,
   payload: e,
@@ -44,19 +65,25 @@ export const sendForgotPasswordEmailError = (e) => ({
 export const updatePasswordRequest = () => ({
   type: actionTypes.UPDATE_PASSWORD_REQUEST,
 });
+
 export const updatePasswordSuccess = () => ({
   type: actionTypes.UPDATE_PASSWORD_SUCCESS,
 });
+
 export const updatePasswordError = (e) => ({
   type: actionTypes.UPDATE_PASSWORD_ERROR,
   payload: e,
 });
 
-export const loginRequest = () => ({ type: actionTypes.LOGIN_REQUEST });
+export const loginRequest = () => ({
+  type: actionTypes.LOGIN_REQUEST,
+});
+
 export const loginSuccess = (user) => ({
   type: actionTypes.LOGIN_SUCCESS,
   payload: user,
 });
+
 export const loginError = (e) => ({
   type: actionTypes.LOGIN_ERROR,
   payload: e,
@@ -65,120 +92,156 @@ export const loginError = (e) => ({
 export const loginGoogleRequest = () => ({
   type: actionTypes.LOGIN_GOOGLE_REQUEST,
 });
+
 export const loginGoogleSuccess = (user) => ({
   type: actionTypes.LOGIN_GOOGLE_SUCCESS,
   payload: user,
 });
+
 export const loginGoogleError = (e) => ({
   type: actionTypes.LOGIN_GOOGLE_ERROR,
   payload: e,
 });
 
-export const signupRequest = () => ({ type: actionTypes.SIGNUP_REQUEST });
+export const signupRequest = () => ({
+  type: actionTypes.SIGNUP_REQUEST,
+});
+
 export const signupSuccess = (user) => ({
   type: actionTypes.SIGNUP_SUCCESS,
   payload: user,
 });
+
 export const signupError = (e) => ({
   type: actionTypes.SIGNUP_ERROR,
   payload: e,
 });
 
-export const logoutRequest = () => ({ type: actionTypes.LOGOUT_REQUEST });
-export const logoutSuccess = () => ({ type: actionTypes.LOGOUT_SUCCESS });
+export const logoutRequest = () => ({
+  type: actionTypes.LOGOUT_REQUEST,
+});
+
+export const logoutSuccess = () => ({
+  type: actionTypes.LOGOUT_SUCCESS,
+});
+
 export const logoutError = (e) => ({
   type: actionTypes.LOGOUT_ERROR,
   payload: e,
 });
 
 // ERROR HANDLING -- START
-// Error Codes
+
 const LINK_ALREADY_USED = 'auth/invalid-action-code';
 const LINK_IS_BROKEN = 'auth/argument-error';
 
-// Error message handler
 const displayErrorMessage = (error) => {
   switch (error.code) {
     case LINK_ALREADY_USED:
-      return `Registration link has already been used! Please send a new registration link to your email!`;
+      return 'Registration link has already been used! Please send a new registration link to your email!';
+
     case LINK_IS_BROKEN:
-      return `Registration link is broken. Please send a new registration link to your email!`;
+      return 'Registration link is broken. Please send a new registration link to your email!';
+
     default:
       return 'Something went wrong. Try again';
   }
 };
+
 // ERROR HANDLING -- FINISH
 
 // Send Email link for signup
+
 export const sendEmail = (email) => async (dispatch) => {
+  const redirectUrl = process.env.REACT_APP_REGISTER_REDIRECT_URL;
+
+  console.log('========== SEND EMAIL START ==========');
+  console.log('EMAIL:', email);
+  console.log('REDIRECT URL:', redirectUrl);
+
   const config = {
-    url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
+    url: redirectUrl,
     handleCodeInApp: true,
   };
 
   try {
     dispatch(sendEmailInRequest());
 
-    await auth.sendSignInLinkToEmail(email, config);
+    console.log('Calling Firebase sendSignInLinkToEmail...');
+
+    const response = await sendSignInLinkToEmail(auth, email, config);
+
+    console.log('Firebase response:', response);
+    console.log('Email link sent successfully!');
 
     notification.success({
-      message: `Email is sent to ${email}. Click the link to complete your registration.`,
+      message: `Email is sent to ${email}.`,
     });
 
-    // Save user email in localStorage
     window.localStorage.setItem('emailForRegistration', email);
 
     dispatch(sendEmailSuccess());
+
+    console.log('========== SEND EMAIL SUCCESS ==========');
   } catch (error) {
+    console.log('========== SEND EMAIL ERROR ==========');
+    console.error('Full error:', error);
+    console.error('Error code:', error.code);
+    console.error('Error message:', error.message);
+    console.error('Error name:', error.name);
+    console.log('======================================');
+
     dispatch(sendEmailError(error.message));
-    console.log(error.message);
+
+    notification.error({
+      message: error.message,
+    });
   }
 };
 
 // Signup new user
+
 export const signUp = (email, password) => async (dispatch) => {
   try {
     dispatch(signupRequest());
 
-    const result = await auth.signInWithEmailLink(email, window.location.href); // in case with broken "email link" get Uncought errror in console
+    const result = await signInWithEmailLink(auth, email, window.location.href);
 
-    if (result.user.emailVerified) {
-      // delete user email from localStorage
-      window.localStorage.removeItem('emailForRegistration');
-
-      // get current user
-      let user = auth.currentUser;
-
-      // set password for current user
-      await user.updatePassword(password);
-
-      // id token
-      const idTokenResult = await user.getIdTokenResult();
-
-      // redux store
-      createOrUpdateUser(idTokenResult.token)
-        .then((res) => {
-          dispatch(
-            signupSuccess({
-              email: res.data.email,
-              token: idTokenResult.token, // token from client
-              name: res.data.name,
-              role: res.data.role,
-              _id: res.data._id,
-            })
-          );
-        })
-        .catch((error) => dispatch(signupError(error.message)));
-
-      // notification
-      notification.success({
-        message: `Сongratulations, your account ${email} has been created!`,
-      });
+    if (!result.user.emailVerified) {
+      throw new Error('Please verify your email before continuing.');
     }
-  } catch (error) {
-    //console.log('AuthActions -- SIGNUP ERROR CODE', error.code);
 
-    dispatch(signupError(error));
+    window.localStorage.removeItem('emailForRegistration');
+
+    const user = result.user;
+
+    await updateFirebasePassword(user, password);
+
+    const idTokenResult = await getIdTokenResult(user);
+    const token = idTokenResult.token;
+
+    // Wait until the MongoDB user has been created.
+    const res = await createOrUpdateUser(token);
+
+    // Update Redux only after MongoDB confirms creation.
+    dispatch(
+      signupSuccess({
+        email: res.data.email,
+        token,
+        name: res.data.name,
+        role: res.data.role,
+        _id: res.data._id,
+      })
+    );
+
+    // Fetch the cart after the account has been created.
+    dispatch(getCartAction(token));
+
+    notification.success({
+      message: `Congratulations, your account ${email} has been created!`,
+    });
+  } catch (error) {
+    dispatch(signupError(error.message || error));
 
     notification.error({
       message: displayErrorMessage(error),
@@ -192,22 +255,22 @@ export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
 
-    const result = await auth.signInWithEmailAndPassword(email, password);
+    const result = await signInWithEmailAndPassword(auth, email, password);
 
-    // id token
-    const idTokenResult = await result.user.getIdTokenResult();
+    const idTokenResult = await getIdTokenResult(result.user);
 
     createOrUpdateUser(idTokenResult.token)
       .then((res) => {
         dispatch(
           loginSuccess({
             email: res.data.email,
-            token: idTokenResult.token, // token from client
+            token: idTokenResult.token,
             name: res.data.name,
             role: res.data.role,
             _id: res.data._id,
           })
         );
+        dispatch(getCartAction(idTokenResult.token));
       })
       .catch((error) => dispatch(loginError(error.message)));
   } catch (error) {
@@ -223,30 +286,28 @@ export const login = (email, password) => async (dispatch) => {
 
 // Login with Google
 
-export const googleLogin = (email, password) => async (dispatch) => {
+export const googleLogin = (email) => async (dispatch) => {
   try {
     dispatch(loginGoogleRequest());
+    console.log('working fine till here');
 
-    const result = await auth.signInWithPopup(googleAuthProvider);
+    const result = await signInWithPopup(auth, googleAuthProvider);
 
     const { user } = result;
 
-    const idTokenResult = await user.getIdTokenResult();
-
-    // console.log('authActions--login =>', user);
-    console.log('authActions--login idTokenResult =>', idTokenResult.token);
-
+    const idTokenResult = await getIdTokenResult(user);
     createOrUpdateUser(idTokenResult.token)
       .then((res) => {
         dispatch(
           loginGoogleSuccess({
             email: res.data.email,
-            token: idTokenResult.token, // token from client
+            token: idTokenResult.token,
             name: res.data.name,
             role: res.data.role,
             _id: res.data._id,
           })
         );
+        dispatch(getCartAction(idTokenResult.token));
       })
       .catch((error) => dispatch(loginGoogleError(error.message)));
   } catch (error) {
@@ -260,15 +321,16 @@ export const googleLogin = (email, password) => async (dispatch) => {
   }
 };
 
-// Logot user
+// Logout user
+
 export const logout = () => async (dispatch) => {
   try {
     dispatch(logoutRequest());
 
-    await auth.signOut();
+    await signOut(auth);
 
     dispatch(logoutSuccess());
-
+    dispatch(clearCart());
     notification.info({
       message: 'You are succeccfuly logged out!',
     });
@@ -284,6 +346,7 @@ export const logout = () => async (dispatch) => {
 };
 
 // Forgot Password
+
 export const forgotPassword = (email) => async (dispatch) => {
   try {
     dispatch(sendForgotPasswordEmailInRequest());
@@ -293,15 +356,16 @@ export const forgotPassword = (email) => async (dispatch) => {
       handleCodeInApp: true,
     };
 
-    await auth.sendPasswordResetEmail(email, config).then(() => {
-      dispatch(sendForgotPasswordEmailSuccess());
+    await sendPasswordResetEmail(auth, email, config);
 
-      notification.success({
-        message: 'Please check your email for password reset link!',
-      });
+    dispatch(sendForgotPasswordEmailSuccess());
+
+    notification.success({
+      message: 'Please check your email for password reset link!',
     });
   } catch (error) {
     dispatch(sendForgotPasswordEmailError(error));
+
     notification.error({
       message: error.message,
     });
@@ -312,17 +376,17 @@ export const forgotPassword = (email) => async (dispatch) => {
 
 export const updatePassword =
   (currentPassword, newPassword) => async (dispatch) => {
-    const reauthenticate = (currentPassword) => {
+    const reauthenticate = async (currentPassword) => {
       const user = auth.currentUser;
-      // need use firebase import. Credential it's a static method in a static class that's why you need the namespace
-      const credential = firebase.auth.EmailAuthProvider.credential(
+
+      const credential = EmailAuthProvider.credential(
         user.email,
         currentPassword
       );
-      return user.reauthenticateWithCredential(credential);
+
+      return reauthenticateWithCredential(user, credential);
     };
 
-    // ASYNC/AWAIT IMPLEMENTATION
     try {
       dispatch(updatePasswordRequest());
 
@@ -330,7 +394,7 @@ export const updatePassword =
 
       const user = auth.currentUser;
 
-      await user.updatePassword(newPassword);
+      await updateFirebasePassword(user, newPassword);
 
       dispatch(updatePasswordSuccess());
 
@@ -338,42 +402,57 @@ export const updatePassword =
         message: 'Password successfully updated!',
       });
     } catch (error) {
-      dispatch(updatePasswordError());
+      dispatch(updatePasswordError(error));
+
       notification.error({
         message: error.message,
       });
     }
-
-    // PROMISE IMPLEMENTATION
-
-    // dispatch(updatePasswordRequest());
-
-    // reauthenticate(currentPassword)
-    //   .then(() => {
-    //     const user = auth.currentUser;
-
-    //     user
-    //       .updatePassword(newPassword)
-    //       .then(() => {
-    //         //success
-    //         dispatch(updatePasswordSuccess());
-
-    //         notification.success({
-    //           message: 'Password successfully updated!',
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         //error
-    //         dispatch(updatePasswordError());
-    //         notification.error({
-    //           message: error.message,
-    //         });
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     dispatch(updatePasswordError());
-    //     notification.error({
-    //       message: error.message,
-    //     });
-    //   });
   };
+
+export const getUser = () => async (dispatch) => {
+  dispatch(authInfoInRequest());
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      dispatch(authInfoError(null));
+      return;
+    }
+
+    try {
+      const token = await user.getIdToken();
+
+      // Ensure the MongoDB document exists before fetching it.
+      await createOrUpdateUser(token);
+
+      const res = await currentUser(token);
+
+      // Support either an array or a single object response.
+      const userData = Array.isArray(res.data) ? res.data[0] : res.data;
+
+      if (!userData) {
+        throw new Error('User record was not returned by the server.');
+      }
+
+      dispatch(
+        authInfoSuccess({
+          email: userData.email,
+          token,
+          name: userData.name,
+          role: userData.role,
+          _id: userData._id,
+        })
+      );
+
+      dispatch(getCartAction(token));
+    } catch (error) {
+      console.error('Failed to load current user:', error);
+
+      dispatch(authInfoError(error.message || error));
+
+      notification.error({
+        message: 'Unable to load your account. Please try again.',
+      });
+    }
+  });
+};

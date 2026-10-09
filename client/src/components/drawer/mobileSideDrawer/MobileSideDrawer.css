@@ -1,0 +1,164 @@
+/* ================================
+   SHOPLY MOBILE DRAWER
+================================ */
+
+.shoply-mobile-drawer .ant-drawer-content {
+  background: #f6f5f1;
+}
+
+.shoply-mobile-drawer .ant-drawer-body {
+  padding: 0;
+  background: #f6f5f1;
+}
+
+.shoply-mobile-drawer-content {
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #f6f5f1;
+  color: #171717;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.shoply-mobile-drawer-header {
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-mobile-drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shoply-mobile-drawer-line {
+  width: 20px;
+  height: 1px;
+
+  background: #171717;
+}
+
+.shoply-mobile-drawer-brand > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.shoply-mobile-drawer-eyebrow {
+  color: #171717;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.shoply-mobile-drawer-label {
+  color: #85837d;
+
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+/* ================================
+   CLOSE BUTTON
+================================ */
+
+.shoply-mobile-drawer-close {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #c9c8c2;
+  border-radius: 50%;
+
+  background: transparent;
+  color: #171717;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.shoply-mobile-drawer-close:hover {
+  border-color: #171717;
+  background: #171717;
+  color: #ffffff;
+}
+
+/* ================================
+   BODY
+================================ */
+
+.shoply-mobile-drawer-body {
+  flex: 1;
+
+  padding: 25px 20px;
+}
+
+/*
+   Remove common Ant Design navigation
+   spacing/background when UserNav is rendered
+   inside this drawer.
+*/
+
+.shoply-mobile-drawer-body .ant-menu {
+  background: transparent;
+  border-inline-end: none;
+}
+
+.shoply-mobile-drawer-body .ant-menu-item,
+.shoply-mobile-drawer-body .ant-menu-submenu-title {
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+.shoply-mobile-drawer-body .ant-menu-item {
+  height: 48px;
+  line-height: 48px;
+}
+
+.shoply-mobile-drawer-body .ant-menu-item-selected {
+  background: #e9e8e3;
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+.shoply-mobile-drawer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0 20px;
+  padding: 18px 0;
+
+  border-top: 1px solid #d3d2cc;
+
+  color: #999791;
+
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}

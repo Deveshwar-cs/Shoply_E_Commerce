@@ -1,0 +1,514 @@
+/* =========================================
+   SHOPLY — SUBCATEGORY UPDATE
+========================================= */
+
+.shoply-subcategory-update-layout {
+  min-height: 100vh;
+  background: #f6f5f1;
+  color: #171717;
+  font-family: inherit;
+}
+
+.shoply-subcategory-update-header {
+  height: 72px;
+  padding: 0 36px;
+  line-height: normal;
+  background: #f6f5f1;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-subcategory-update-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.shoply-subcategory-update-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shoply-subcategory-update-brand-name {
+  color: #171717;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.shoply-subcategory-update-brand-divider {
+  color: #a5a39c;
+  font-size: 17px;
+}
+
+.shoply-subcategory-update-brand-section,
+.shoply-subcategory-update-header-label {
+  color: #74736c;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.7px;
+}
+
+.shoply-subcategory-update-header-label {
+  text-align: right;
+}
+
+.shoply-subcategory-update-menu-button.ant-btn {
+  width: 38px;
+  height: 38px;
+  color: #171717;
+  font-size: 18px;
+  border: 1px solid #d3d2cc;
+  border-radius: 0;
+}
+
+.shoply-subcategory-update-menu-button.ant-btn:hover {
+  color: #171717 !important;
+  background: #eae9e3 !important;
+  border-color: #171717 !important;
+}
+
+.shoply-subcategory-update-body {
+  min-height: calc(100vh - 72px);
+  background: #f6f5f1;
+}
+
+.shoply-subcategory-update-content {
+  min-width: 0;
+  background: #f6f5f1;
+}
+
+.shoply-subcategory-update-page {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 36px 48px 24px;
+}
+
+.shoply-subcategory-update-breadcrumb {
+  margin-bottom: 30px;
+  font-size: 12px;
+}
+
+.shoply-subcategory-update-breadcrumb .ant-breadcrumb-link,
+.shoply-subcategory-update-breadcrumb a {
+  color: #77766f;
+}
+
+.shoply-subcategory-update-breadcrumb a:hover {
+  color: #171717;
+}
+
+/* Page intro */
+
+.shoply-subcategory-update-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-subcategory-update-eyebrow,
+.shoply-subcategory-update-panel-kicker {
+  display: block;
+  margin-bottom: 12px;
+  color: #77766f;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.shoply-subcategory-update-title.ant-typography {
+  margin: 0;
+  color: #171717;
+  font-size: clamp(38px, 5vw, 62px);
+  font-weight: 400;
+  letter-spacing: -2.8px;
+  line-height: 1.08;
+}
+
+.shoply-subcategory-update-description.ant-typography {
+  max-width: 600px;
+  margin: 18px 0 0;
+  color: #73726b;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.shoply-subcategory-update-back-link {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 0;
+  color: #171717;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid #b9b8b0;
+  transition: border-color 0.2s ease;
+}
+
+.shoply-subcategory-update-back-link:hover {
+  color: #171717;
+  border-color: #171717;
+}
+
+/* Edit panel */
+
+.shoply-subcategory-update-panel {
+  max-width: 760px;
+  margin: 36px auto 0;
+  padding: 32px;
+  background: #fbfaf7;
+  border: 1px solid #d3d2cc;
+}
+
+.shoply-subcategory-update-panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.shoply-subcategory-update-panel-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  color: #171717;
+  font-size: 17px;
+  border: 1px solid #d3d2cc;
+}
+
+.shoply-subcategory-update-panel-kicker {
+  margin-bottom: 7px;
+  font-size: 9px;
+}
+
+.shoply-subcategory-update-panel-title.ant-typography {
+  margin: 0;
+  color: #171717;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.7px;
+}
+
+.shoply-subcategory-update-divider.ant-divider {
+  margin: 25px 0;
+  border-color: #deddd7;
+}
+
+/* Current record */
+
+.shoply-subcategory-update-current {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  background: #f1f0eb;
+  border: 1px solid #e2e1db;
+}
+
+.shoply-subcategory-update-current-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #55554e;
+  background: #fbfaf7;
+  border: 1px solid #d3d2cc;
+  font-size: 15px;
+}
+
+.shoply-subcategory-update-current-info {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.shoply-subcategory-update-current-label {
+  color: #77766f;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+
+.shoply-subcategory-update-current-name.ant-typography {
+  overflow-wrap: anywhere;
+  color: #171717;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Parent category selector */
+
+.shoply-subcategory-update-field {
+  margin-bottom: 26px;
+}
+
+.shoply-subcategory-update-field-label {
+  display: block;
+  margin-bottom: 12px;
+  color: #77766f;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+
+.shoply-subcategory-update-panel .ant-select {
+  width: 100%;
+}
+
+.shoply-subcategory-update-panel .ant-select-selector {
+  min-height: 44px !important;
+  padding: 5px 12px !important;
+  background: #fff !important;
+  border: 1px solid #d3d2cc !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.shoply-subcategory-update-panel .ant-select-selection-item,
+.shoply-subcategory-update-panel .ant-select-selection-placeholder {
+  line-height: 32px !important;
+  font-size: 12px;
+}
+
+.shoply-subcategory-update-panel .ant-select-focused .ant-select-selector,
+.shoply-subcategory-update-panel .ant-select-selector:hover {
+  border-color: #171717 !important;
+  box-shadow: none !important;
+}
+
+/* CategoryForm */
+
+.shoply-subcategory-update-panel .ant-form {
+  width: 100%;
+}
+
+.shoply-subcategory-update-panel .ant-form-item {
+  margin-bottom: 15px;
+}
+
+.shoply-subcategory-update-panel .ant-form-item-label {
+  padding-bottom: 7px;
+}
+
+.shoply-subcategory-update-panel .ant-form-item-label > label {
+  color: #77766f;
+  font-size: 11px;
+}
+
+.shoply-subcategory-update-panel .ant-input,
+.shoply-subcategory-update-panel input.ant-input {
+  min-height: 44px;
+  padding: 10px 12px;
+  color: #171717;
+  background: #fff;
+  border: 1px solid #d3d2cc;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 12px;
+}
+
+.shoply-subcategory-update-panel .ant-input:hover,
+.shoply-subcategory-update-panel .ant-input:focus {
+  border-color: #171717;
+  box-shadow: none;
+}
+
+.shoply-subcategory-update-panel .ant-input::placeholder {
+  color: #a09f98;
+}
+
+.shoply-subcategory-update-panel .ant-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 5px;
+  color: #fff;
+  background: #171717;
+  border: 1px solid #171717;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.2s ease;
+}
+
+.shoply-subcategory-update-panel .ant-btn-primary:hover,
+.shoply-subcategory-update-panel .ant-btn-primary:focus {
+  color: #fff !important;
+  background: #383832 !important;
+  border-color: #383832 !important;
+}
+
+.shoply-subcategory-update-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 26px;
+  padding-top: 18px;
+  color: #77766f;
+  border-top: 1px solid #deddd7;
+}
+
+.shoply-subcategory-update-note .anticon {
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.shoply-subcategory-update-note .ant-typography {
+  color: #77766f;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* Loading */
+
+.shoply-subcategory-update-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 260px;
+}
+
+.shoply-subcategory-update-loading .ant-typography {
+  color: #77766f;
+  font-size: 12px;
+}
+
+/* Footer */
+
+.shoply-subcategory-update-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 42px;
+  padding: 20px 0;
+  color: #929189;
+  border-top: 1px solid #d3d2cc;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+  .shoply-subcategory-update-page {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .shoply-subcategory-update-header {
+    height: 64px;
+    padding: 0 20px;
+  }
+
+  .shoply-subcategory-update-body {
+    min-height: calc(100vh - 64px);
+  }
+
+  .shoply-subcategory-update-header-label {
+    max-width: 115px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .shoply-subcategory-update-brand-name {
+    font-size: 19px;
+  }
+
+  .shoply-subcategory-update-brand-section {
+    font-size: 9px;
+  }
+
+  .shoply-subcategory-update-page {
+    padding: 25px 20px 20px;
+  }
+
+  .shoply-subcategory-update-breadcrumb {
+    margin-bottom: 24px;
+  }
+
+  .shoply-subcategory-update-intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 25px;
+  }
+
+  .shoply-subcategory-update-title.ant-typography {
+    font-size: clamp(38px, 9vw, 52px);
+    letter-spacing: -2px;
+  }
+
+  .shoply-subcategory-update-description.ant-typography {
+    font-size: 13px;
+  }
+
+  .shoply-subcategory-update-panel {
+    margin-top: 25px;
+    padding: 23px;
+  }
+
+  .shoply-subcategory-update-panel-title.ant-typography {
+    font-size: 21px;
+  }
+
+  .shoply-subcategory-update-footer {
+    margin-top: 30px;
+    font-size: 8px;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .shoply-subcategory-update-header {
+    padding: 0 12px;
+  }
+
+  .shoply-subcategory-update-brand {
+    gap: 7px;
+  }
+
+  .shoply-subcategory-update-brand-name {
+    font-size: 17px;
+  }
+
+  .shoply-subcategory-update-header-label {
+    max-width: 95px;
+    font-size: 7px;
+  }
+
+  .shoply-subcategory-update-page {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .shoply-subcategory-update-panel {
+    padding: 17px;
+  }
+
+  .shoply-subcategory-update-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,541 @@
+.cart-table {
+  width: 100%;
+  color: #171717;
+}
+
+/* =========================================
+   DESKTOP HEADER
+========================================= */
+
+.cart-table-header {
+  display: grid;
+  grid-template-columns: minmax(300px, 2fr) 0.7fr 0.8fr 1fr 1fr 70px;
+  align-items: center;
+  gap: 20px;
+
+  padding: 0 20px 15px;
+
+  color: #aaa;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+/* =========================================
+   PRODUCT LIST
+========================================= */
+
+.cart-table-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* =========================================
+   PRODUCT ROW
+========================================= */
+
+.cart-table-row {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: minmax(300px, 2fr) 0.7fr 0.8fr 1fr 1fr 70px;
+  align-items: center;
+  gap: 20px;
+
+  min-height: 125px;
+  padding: 15px 20px;
+
+  background: #f7f7f3;
+  border: 1px solid transparent;
+
+  box-sizing: border-box;
+
+  transition: background 0.25s ease, border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.cart-table-row:hover {
+  background: #f2f2ed;
+  border-color: #deded8;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   PRODUCT
+========================================= */
+
+.cart-table-product {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+}
+
+/* Number */
+
+.cart-table-number {
+  width: 25px;
+  flex: 0 0 25px;
+
+  color: #aaa;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Image */
+
+.cart-table-image {
+  position: relative;
+
+  width: 82px;
+  height: 95px;
+
+  flex: 0 0 82px;
+
+  overflow: hidden;
+
+  background: #e9e9e3;
+}
+
+.cart-table-image::after {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid rgba(0, 0, 0, 0.04);
+
+  pointer-events: none;
+}
+
+.cart-table-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform 0.5s ease;
+}
+
+.cart-table-image:hover img {
+  transform: scale(1.06);
+}
+
+/* Product info */
+
+.cart-table-product-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.cart-table-title {
+  max-width: 230px;
+
+  overflow: hidden;
+
+  color: #171717;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  line-height: 1.4;
+
+  text-decoration: none;
+  text-overflow: ellipsis;
+
+  transition: color 0.2s ease;
+}
+
+.cart-table-title:hover {
+  color: #777;
+}
+
+.cart-table-mobile-brand {
+  display: none;
+}
+
+/* =========================================
+   PRICE
+========================================= */
+
+.cart-table-price {
+  color: #171717;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: -0.3px;
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.cart-table-brand {
+  color: #777;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+/* =========================================
+   QUANTITY
+========================================= */
+
+.cart-table-quantity {
+  display: inline-flex;
+  align-items: center;
+
+  width: max-content;
+
+  overflow: hidden;
+
+  border: 1px solid #d7d7d1;
+  border-radius: 30px;
+
+  background: #fff;
+}
+
+.quantity-button {
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #555;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.quantity-button:hover:not(:disabled) {
+  background: #171717;
+  color: #fff;
+}
+
+.quantity-button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.quantity-value {
+  min-width: 28px;
+
+  color: #171717;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+/* =========================================
+   SHIPPING
+========================================= */
+
+.cart-table-shipping {
+  display: flex;
+  align-items: center;
+}
+
+.shipping-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #777;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+
+  text-transform: uppercase;
+}
+
+.shipping-dot {
+  width: 7px;
+  height: 7px;
+
+  display: inline-block;
+
+  border-radius: 50%;
+
+  background: #aaa;
+}
+
+.shipping-status.available {
+  color: #4c7f5b;
+}
+
+.shipping-status.available .shipping-dot {
+  background: #4c9b63;
+}
+
+.shipping-status.unavailable {
+  color: #a75b5b;
+}
+
+.shipping-status.unavailable .shipping-dot {
+  background: #c54a4a;
+}
+
+/* =========================================
+   REMOVE
+========================================= */
+
+.cart-table-remove {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-remove-button {
+  padding: 7px 0;
+
+  border: none;
+  border-bottom: 1px solid #ccc;
+
+  background: transparent;
+
+  color: #999;
+
+  font-family: inherit;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.cart-remove-button:hover:not(:disabled) {
+  color: #b34b4b;
+  border-color: #b34b4b;
+}
+
+.cart-remove-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .cart-table-header {
+    grid-template-columns:
+      minmax(260px, 2fr)
+      0.7fr
+      0.8fr
+      1fr
+      0.9fr
+      50px;
+  }
+
+  .cart-table-row {
+    grid-template-columns:
+      minmax(260px, 2fr)
+      0.7fr
+      0.8fr
+      1fr
+      0.9fr
+      50px;
+  }
+
+  .cart-table-number {
+    display: none;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 760px) {
+  .cart-table-header {
+    display: none;
+  }
+
+  .cart-table-items {
+    gap: 10px;
+  }
+
+  .cart-table-row {
+    display: grid;
+
+    grid-template-columns: 1fr auto;
+
+    gap: 18px;
+
+    padding: 18px;
+  }
+
+  .cart-table-product {
+    grid-column: 1 / -1;
+
+    gap: 15px;
+  }
+
+  .cart-table-number {
+    display: block;
+
+    width: 22px;
+    flex-basis: 22px;
+  }
+
+  .cart-table-image {
+    width: 75px;
+    height: 85px;
+
+    flex-basis: 75px;
+  }
+
+  .cart-table-title {
+    max-width: 100%;
+
+    font-size: 12px;
+  }
+
+  .cart-table-mobile-brand {
+    display: block;
+
+    color: #999;
+
+    font-size: 7px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+  }
+
+  /* Hide desktop brand column */
+
+  .cart-table-brand {
+    display: none;
+  }
+
+  /* Price */
+
+  .cart-table-price {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    font-size: 12px;
+  }
+
+  .cart-table-price::before {
+    content: 'PRICE';
+
+    color: #aaa;
+
+    font-size: 7px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+  }
+
+  /* Quantity */
+
+  .cart-table-quantity {
+    justify-self: end;
+  }
+
+  /* Shipping */
+
+  .cart-table-shipping {
+    grid-column: 1 / -1;
+
+    padding-top: 12px;
+
+    border-top: 1px solid #deded8;
+  }
+
+  /* Remove */
+
+  .cart-table-remove {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 450px) {
+  .cart-table-row {
+    padding: 15px;
+  }
+
+  .cart-table-product {
+    gap: 11px;
+  }
+
+  .cart-table-number {
+    display: none;
+  }
+
+  .cart-table-image {
+    width: 65px;
+    height: 75px;
+
+    flex-basis: 65px;
+  }
+
+  .cart-table-title {
+    max-width: 190px;
+
+    font-size: 11px;
+  }
+
+  .quantity-button {
+    width: 27px;
+    height: 27px;
+  }
+
+  .quantity-value {
+    min-width: 25px;
+  }
+
+  .cart-table-remove {
+    top: 15px;
+    right: 15px;
+  }
+}

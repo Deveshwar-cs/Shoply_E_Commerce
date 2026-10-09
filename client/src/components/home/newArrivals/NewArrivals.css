@@ -1,0 +1,447 @@
+/* =========================================
+   NEW ARRIVALS
+========================================= */
+
+.new-arrivals {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.new-arrivals-header {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 40px;
+
+  margin-bottom: 45px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #e7e7e3;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.new-arrivals-heading {
+  max-width: 570px;
+}
+
+.new-arrivals-label {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+
+  color: #888888;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.new-arrivals-line {
+  width: 28px;
+  height: 1px;
+
+  background: #222222;
+}
+
+.new-arrivals-heading h3 {
+  margin: 0;
+
+  color: #151515;
+
+  font-size: clamp(32px, 4vw, 48px);
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+}
+
+.new-arrivals-heading h3 span {
+  color: #999994;
+
+  font-weight: 300;
+}
+
+.new-arrivals-heading p {
+  max-width: 450px;
+
+  margin: 17px 0 0;
+
+  color: #888888;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+/* =========================================
+   PRODUCT COUNT
+========================================= */
+
+.new-arrivals-meta {
+  min-width: 90px;
+
+  padding-left: 25px;
+
+  border-left: 1px solid #deded9;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+.new-arrivals-count {
+  color: #171717;
+
+  font-size: 30px;
+
+  font-weight: 500;
+
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.new-arrivals-count-label {
+  margin-top: 6px;
+
+  color: #999999;
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+}
+
+/* =========================================
+   PRODUCTS
+========================================= */
+
+.new-arrivals-products {
+  width: 100%;
+}
+
+.new-arrivals-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+
+  box-sizing: border-box;
+}
+
+.new-arrivals-item {
+  min-width: 0;
+
+  animation: newArrivalFade 0.45s ease both;
+}
+
+.new-arrivals-item:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.new-arrivals-item:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+@keyframes newArrivalFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.new-arrivals-loading {
+  width: 100%;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.new-arrivals-pagination {
+  width: 100%;
+
+  margin-top: 50px;
+  padding-top: 20px;
+
+  border-top: 1px solid #e7e7e3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PAGINATION LABEL
+========================================= */
+
+.pagination-label {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #999999;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 1.5px;
+}
+
+.pagination-label strong {
+  color: #171717;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* =========================================
+   ANT DESIGN PAGINATION
+========================================= */
+
+.new-arrivals-pagination .ant-pagination {
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+/* =========================================
+   PAGINATION ITEMS
+========================================= */
+
+.new-arrivals-pagination .ant-pagination-item {
+  min-width: 32px;
+  height: 32px;
+
+  margin: 0;
+
+  border: 1px solid transparent;
+
+  background: transparent;
+
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.new-arrivals-pagination .ant-pagination-item a {
+  color: #888888;
+
+  font-size: 10px;
+}
+
+.new-arrivals-pagination .ant-pagination-item:hover {
+  border-color: #dddddd;
+
+  background: #f5f5f2;
+}
+
+.new-arrivals-pagination .ant-pagination-item-active {
+  border-color: #171717;
+
+  background: #171717;
+}
+
+.new-arrivals-pagination .ant-pagination-item-active a {
+  color: #ffffff;
+}
+
+/* =========================================
+   PREVIOUS / NEXT
+========================================= */
+
+.new-arrivals-pagination .ant-pagination-prev,
+.new-arrivals-pagination .ant-pagination-next {
+  min-width: 32px;
+  height: 32px;
+
+  margin: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-arrivals-pagination .ant-pagination-prev button,
+.new-arrivals-pagination .ant-pagination-next button {
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid transparent;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #555555;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.new-arrivals-pagination .ant-pagination-prev:hover button,
+.new-arrivals-pagination .ant-pagination-next:hover button {
+  border-color: #dddddd;
+
+  background: #f5f5f2;
+}
+
+/* =========================================
+   ELLIPSIS
+========================================= */
+
+.new-arrivals-pagination .ant-pagination-jump-prev,
+.new-arrivals-pagination .ant-pagination-jump-next {
+  min-width: 25px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+  .new-arrivals-grid {
+    gap: 18px;
+  }
+
+  .new-arrivals-header {
+    margin-bottom: 35px;
+  }
+
+  .new-arrivals-heading h3 {
+    font-size: 38px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .new-arrivals-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+  }
+
+  .new-arrivals-heading h3 {
+    font-size: 34px;
+  }
+
+  .new-arrivals-meta {
+    padding-left: 0;
+
+    border-left: none;
+
+    flex-direction: row;
+
+    align-items: baseline;
+
+    gap: 8px;
+  }
+
+  .new-arrivals-count-label {
+    margin-top: 0;
+  }
+
+  .new-arrivals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+  }
+
+  .new-arrivals-pagination {
+    margin-top: 35px;
+
+    align-items: center;
+  }
+
+  .pagination-label {
+    display: none;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .new-arrivals-heading h3 {
+    font-size: 30px;
+
+    letter-spacing: -1.2px;
+  }
+
+  .new-arrivals-heading p {
+    font-size: 11px;
+  }
+
+  .new-arrivals-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .new-arrivals-pagination {
+    justify-content: center;
+
+    margin-top: 30px;
+  }
+
+  .new-arrivals-pagination .ant-pagination-item {
+    min-width: 30px;
+    height: 30px;
+  }
+
+  .new-arrivals-pagination .ant-pagination-prev button,
+  .new-arrivals-pagination .ant-pagination-next button {
+    width: 30px;
+    height: 30px;
+  }
+}

@@ -1,0 +1,247 @@
+/* ================================
+   USER ORDER TABLE
+================================ */
+
+.user-order-table {
+  width: 100%;
+  overflow: hidden;
+
+  border: 1px solid #d3d2cc;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.user-order-table-header {
+  min-height: 42px;
+
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) 0.8fr 1fr 0.9fr 0.6fr 1.2fr;
+  align-items: center;
+
+  padding: 0 15px;
+
+  background: #eeece7;
+
+  border-bottom: 1px solid #d3d2cc;
+
+  color: #85837d;
+
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+.user-order-table-product-heading {
+  padding-left: 34px;
+}
+
+/* ================================
+   ROW
+================================ */
+
+.user-order-table-row {
+  min-height: 70px;
+
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) 0.8fr 1fr 0.9fr 0.6fr 1.2fr;
+  align-items: center;
+
+  padding: 0 15px;
+
+  border-bottom: 1px solid #d3d2cc;
+
+  transition: background 0.2s ease;
+}
+
+.user-order-table-row:last-child {
+  border-bottom: none;
+}
+
+.user-order-table-row:hover {
+  background: #efeee9;
+}
+
+/* ================================
+   PRODUCT
+================================ */
+
+.user-order-table-product {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-order-table-number {
+  flex-shrink: 0;
+
+  color: #aaa8a1;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.user-order-table-title {
+  overflow: hidden;
+
+  color: #242320;
+
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  transition: color 0.2s ease;
+}
+
+.user-order-table-title:hover {
+  color: #77756f;
+  text-decoration: underline;
+}
+
+/* ================================
+   CELLS
+================================ */
+
+.user-order-table-cell {
+  color: #55534d;
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.user-order-table-quantity {
+  color: #171717;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.user-order-table-color {
+  display: inline-block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ================================
+   SHIPPING
+================================ */
+
+.user-order-table-shipping {
+  display: flex;
+  align-items: center;
+}
+
+.shipping-available,
+.shipping-unavailable {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.shipping-available {
+  color: #52604d;
+}
+
+.shipping-unavailable {
+  color: #8b5752;
+}
+
+.shipping-available svg,
+.shipping-unavailable svg {
+  font-size: 11px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+  .user-order-table {
+    border: none;
+  }
+
+  .user-order-table-header {
+    display: none;
+  }
+
+  .user-order-table-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .user-order-table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    border: 1px solid #d3d2cc;
+  }
+
+  .user-order-table-product {
+    grid-column: 1 / -1;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #d3d2cc;
+  }
+
+  .user-order-table-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .user-order-table-cell::before {
+    content: attr(data-label);
+
+    color: #96948e;
+
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .user-order-table-shipping {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 500px) {
+  .user-order-table-row {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+
+    padding: 15px;
+  }
+
+  .user-order-table-product {
+    gap: 9px;
+  }
+
+  .user-order-table-title {
+    font-size: 10px;
+    white-space: normal;
+  }
+}

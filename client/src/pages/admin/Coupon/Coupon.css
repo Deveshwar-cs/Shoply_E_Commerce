@@ -1,0 +1,690 @@
+/* =========================================
+   SHOPLY — COUPON MANAGEMENT
+========================================= */
+
+.shoply-coupon-layout {
+  min-height: 100vh;
+  background: #f6f5f1;
+  color: #171717;
+  font-family: inherit;
+}
+
+.shoply-coupon-header {
+  height: 72px;
+  padding: 0 36px;
+  line-height: normal;
+  background: #f6f5f1;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-coupon-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.shoply-coupon-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shoply-coupon-brand-name {
+  color: #171717;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.shoply-coupon-brand-divider {
+  color: #a5a39c;
+  font-size: 17px;
+}
+
+.shoply-coupon-brand-section,
+.shoply-coupon-header-label {
+  color: #74736c;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.7px;
+}
+
+.shoply-coupon-header-label {
+  text-align: right;
+}
+
+.shoply-coupon-menu-button.ant-btn {
+  width: 38px;
+  height: 38px;
+  color: #171717;
+  font-size: 18px;
+  border: 1px solid #d3d2cc;
+  border-radius: 0;
+}
+
+.shoply-coupon-menu-button.ant-btn:hover {
+  color: #171717 !important;
+  background: #eae9e3 !important;
+  border-color: #171717 !important;
+}
+
+.shoply-coupon-body {
+  min-height: calc(100vh - 72px);
+  background: #f6f5f1;
+}
+
+.shoply-coupon-content {
+  min-width: 0;
+  background: #f6f5f1;
+}
+
+.shoply-coupon-page {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 36px 48px 24px;
+}
+
+.shoply-coupon-breadcrumb {
+  margin-bottom: 30px;
+  font-size: 12px;
+}
+
+.shoply-coupon-breadcrumb .ant-breadcrumb-link,
+.shoply-coupon-breadcrumb a {
+  color: #77766f;
+}
+
+.shoply-coupon-breadcrumb a:hover {
+  color: #171717;
+}
+
+/* Page introduction */
+
+.shoply-coupon-intro {
+  padding-bottom: 32px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-coupon-eyebrow,
+.shoply-coupon-panel-kicker {
+  display: block;
+  margin-bottom: 12px;
+  color: #77766f;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.shoply-coupon-title.ant-typography {
+  margin: 0;
+  color: #171717;
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 400;
+  letter-spacing: -2.8px;
+  line-height: 1.08;
+}
+
+.shoply-coupon-description.ant-typography {
+  max-width: 620px;
+  margin: 18px 0 0;
+  color: #73726b;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* Summary stats */
+
+.shoply-coupon-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 32px;
+  border-bottom: 1px solid #d3d2cc;
+}
+
+.shoply-coupon-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-height: 112px;
+  padding: 24px 28px;
+  border-right: 1px solid #d3d2cc;
+}
+
+.shoply-coupon-stat:first-child {
+  padding-left: 0;
+}
+
+.shoply-coupon-stat:last-child {
+  border-right: 0;
+}
+
+.shoply-coupon-stat-label {
+  color: #77766f;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.shoply-coupon-stat-value {
+  color: #171717;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.shoply-coupon-stat-status {
+  color: #55554e;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.shoply-coupon-stat-description {
+  color: #171717;
+  font-size: 13px;
+}
+
+/* Workspace */
+
+.shoply-coupon-workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.5fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.shoply-coupon-panel {
+  min-width: 0;
+  padding: 28px;
+  background: #fbfaf7;
+  border: 1px solid #d3d2cc;
+}
+
+.shoply-coupon-panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.shoply-coupon-panel-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #171717;
+  font-size: 17px;
+  border: 1px solid #d3d2cc;
+}
+
+.shoply-coupon-panel-kicker {
+  margin-bottom: 7px;
+  font-size: 9px;
+}
+
+.shoply-coupon-panel-title.ant-typography {
+  margin: 0;
+  color: #171717;
+  font-size: 23px;
+  font-weight: 400;
+  letter-spacing: -0.7px;
+}
+
+.shoply-coupon-panel-description.ant-typography {
+  margin: 22px 0 0;
+  color: #77766f;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.shoply-coupon-divider.ant-divider {
+  margin: 23px 0;
+  border-color: #deddd7;
+}
+
+.shoply-coupon-field-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 20px;
+  color: #77766f;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+
+/* CouponForm controls */
+
+.shoply-coupon-create-panel .ant-form {
+  width: 100%;
+}
+
+.shoply-coupon-create-panel .ant-form-item {
+  margin-bottom: 18px;
+}
+
+.shoply-coupon-create-panel .ant-form-item-label {
+  padding-bottom: 7px;
+}
+
+.shoply-coupon-create-panel .ant-form-item-label > label {
+  color: #77766f;
+  font-size: 11px;
+}
+
+.shoply-coupon-create-panel .ant-input,
+.shoply-coupon-create-panel input.ant-input,
+.shoply-coupon-create-panel .ant-input-number,
+.shoply-coupon-create-panel .ant-picker {
+  width: 100%;
+  min-height: 44px;
+  color: #171717;
+  background: #fff;
+  border: 1px solid #d3d2cc;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 12px;
+}
+
+.shoply-coupon-create-panel .ant-input,
+.shoply-coupon-create-panel input.ant-input {
+  padding: 10px 12px;
+}
+
+.shoply-coupon-create-panel .ant-input-number-input {
+  height: 42px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.shoply-coupon-create-panel .ant-picker {
+  padding: 8px 12px;
+}
+
+.shoply-coupon-create-panel .ant-picker-input > input {
+  font-size: 12px;
+}
+
+.shoply-coupon-create-panel .ant-input:hover,
+.shoply-coupon-create-panel .ant-input:focus,
+.shoply-coupon-create-panel .ant-input-number:hover,
+.shoply-coupon-create-panel .ant-input-number-focused,
+.shoply-coupon-create-panel .ant-picker:hover,
+.shoply-coupon-create-panel .ant-picker-focused {
+  border-color: #171717;
+  box-shadow: none;
+}
+
+.shoply-coupon-create-panel .ant-input::placeholder {
+  color: #a09f98;
+}
+
+.shoply-coupon-create-panel .ant-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 45px;
+  margin-top: 5px;
+  color: #fff;
+  background: #171717;
+  border: 1px solid #171717;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.2s ease;
+}
+
+.shoply-coupon-create-panel .ant-btn-primary:hover,
+.shoply-coupon-create-panel .ant-btn-primary:focus {
+  color: #fff !important;
+  background: #383832 !important;
+  border-color: #383832 !important;
+}
+
+.shoply-coupon-panel-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 25px;
+  padding-top: 18px;
+  color: #77766f;
+  border-top: 1px solid #deddd7;
+}
+
+.shoply-coupon-panel-note .anticon {
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.shoply-coupon-panel-note .ant-typography {
+  color: #77766f;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* Coupon directory */
+
+.shoply-coupon-directory-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.shoply-coupon-count {
+  flex-shrink: 0;
+  padding: 7px 9px;
+  color: #77766f;
+  background: #f1f0eb;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+}
+
+.shoply-coupon-table-wrap {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+/* Table styling */
+.shoply-coupon-table-wrap .ant-table-wrapper {
+  width: 100%;
+}
+
+.shoply-coupon-table-wrap .ant-table {
+  color: #171717;
+  background: transparent;
+  font-size: 12px;
+}
+
+.shoply-coupon-table-wrap .ant-table-container {
+  border-radius: 0;
+}
+
+.shoply-coupon-table-wrap .ant-table-thead > tr > th {
+  padding: 13px 12px;
+  color: #77766f;
+  background: #f1f0eb;
+  border-bottom: 1px solid #d3d2cc;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+
+.shoply-coupon-table-wrap .ant-table-tbody > tr > td {
+  padding: 15px 12px;
+  color: #171717;
+  background: transparent;
+  border-bottom: 1px solid #e4e3dd;
+}
+
+.shoply-coupon-table-wrap .ant-table-tbody > tr:hover > td {
+  background: #f1f0eb !important;
+}
+
+.shoply-coupon-table-wrap .ant-table-cell::before {
+  display: none !important;
+}
+
+.shoply-coupon-table-wrap .ant-pagination {
+  margin-bottom: 0;
+}
+
+.shoply-coupon-table-wrap .ant-pagination .ant-pagination-item {
+  border-radius: 0;
+}
+
+.shoply-coupon-table-wrap .ant-pagination .ant-pagination-item-active {
+  border-color: #171717;
+}
+
+.shoply-coupon-table-wrap .ant-pagination .ant-pagination-item-active a {
+  color: #171717;
+}
+
+.shoply-coupon-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  min-height: 240px;
+}
+
+.shoply-coupon-loading .ant-typography {
+  color: #77766f;
+  font-size: 12px;
+}
+
+.shoply-coupon-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.shoply-coupon-empty .ant-empty-description {
+  color: #77766f;
+  font-size: 12px;
+}
+
+.shoply-coupon-empty-hint {
+  margin-top: -15px;
+  color: #929189;
+  font-size: 11px;
+}
+
+.shoply-coupon-directory-footer {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #deddd7;
+}
+
+.shoply-coupon-directory-footer .ant-typography {
+  color: #929189;
+  font-size: 10px;
+}
+
+/* Footer */
+
+.shoply-coupon-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 42px;
+  padding: 20px 0;
+  color: #929189;
+  border-top: 1px solid #d3d2cc;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+  .shoply-coupon-page {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  .shoply-coupon-workspace {
+    grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.3fr);
+    gap: 18px;
+  }
+
+  .shoply-coupon-panel {
+    padding: 23px;
+  }
+}
+
+@media (max-width: 991px) {
+  .shoply-coupon-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .shoply-coupon-create-panel {
+    order: 1;
+  }
+
+  .shoply-coupon-directory-panel {
+    order: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .shoply-coupon-header {
+    height: 64px;
+    padding: 0 20px;
+  }
+
+  .shoply-coupon-body {
+    min-height: calc(100vh - 64px);
+  }
+
+  .shoply-coupon-header-label {
+    max-width: 120px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .shoply-coupon-brand-name {
+    font-size: 19px;
+  }
+
+  .shoply-coupon-brand-section {
+    font-size: 9px;
+  }
+
+  .shoply-coupon-page {
+    padding: 25px 20px 20px;
+  }
+
+  .shoply-coupon-breadcrumb {
+    margin-bottom: 24px;
+  }
+
+  .shoply-coupon-intro {
+    padding-bottom: 25px;
+  }
+
+  .shoply-coupon-title.ant-typography {
+    font-size: clamp(38px, 9vw, 52px);
+    letter-spacing: -2px;
+  }
+
+  .shoply-coupon-description.ant-typography {
+    font-size: 13px;
+  }
+
+  .shoply-coupon-stats {
+    margin-bottom: 23px;
+  }
+
+  .shoply-coupon-stat {
+    min-height: 92px;
+    gap: 10px;
+    padding: 19px 12px;
+  }
+
+  .shoply-coupon-stat:first-child {
+    padding-left: 0;
+  }
+
+  .shoply-coupon-stat-label {
+    font-size: 8px;
+    line-height: 1.5;
+    letter-spacing: 0.7px;
+  }
+
+  .shoply-coupon-stat-value {
+    font-size: 25px;
+  }
+
+  .shoply-coupon-stat-status,
+  .shoply-coupon-stat-description {
+    font-size: 11px;
+  }
+
+  .shoply-coupon-panel {
+    padding: 21px;
+  }
+
+  .shoply-coupon-panel-title.ant-typography {
+    font-size: 21px;
+  }
+
+  .shoply-coupon-footer {
+    margin-top: 30px;
+    font-size: 8px;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .shoply-coupon-header {
+    padding: 0 12px;
+  }
+
+  .shoply-coupon-brand {
+    gap: 7px;
+  }
+
+  .shoply-coupon-brand-name {
+    font-size: 17px;
+  }
+
+  .shoply-coupon-header-label {
+    max-width: 95px;
+    font-size: 7px;
+  }
+
+  .shoply-coupon-page {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .shoply-coupon-stat {
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+
+  .shoply-coupon-stat-label {
+    font-size: 7px;
+  }
+
+  .shoply-coupon-panel {
+    padding: 17px;
+  }
+
+  .shoply-coupon-directory-heading {
+    align-items: flex-start;
+  }
+
+  .shoply-coupon-panel-title.ant-typography {
+    font-size: 19px;
+  }
+
+  .shoply-coupon-count {
+    padding: 6px;
+    font-size: 8px;
+  }
+
+  .shoply-coupon-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

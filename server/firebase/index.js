@@ -1,9 +1,10 @@
-const admin = require('firebase-admin');
+import { initializeApp, cert } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
-const serviceAccount = require('../config/fbServiceAccountKey.json');
+import serviceAccount from '../config/fbServiceAccountKey.json' with { type: 'json' };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+initializeApp({
+  credential: cert(serviceAccount),
 });
 
-module.exports = admin;
+export const auth = getAuth();

@@ -1,13 +1,10 @@
-const slugify = require('slugify');
-const ObjectId = require('bson').ObjectId;
+import slugify from 'slugify';
+import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
 
-const Product = require('../models/productModel');
-const User = require('../models/userModel');
-
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     req.body.slug = slugify(req.body.title);
-
     const newProduct = await Product.create(req.body);
 
     res.status(201).json(newProduct);
@@ -18,14 +15,16 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   try {
     const allProducts = await Product.find({})
       .limit(parseInt(req.params.count))
       .populate('category')
       .populate('subcategory')
       .sort([['createdAt', 'desc']]);
-
+    const selectedProduct = await Product.find({}).limit(
+      parseInt(req.params.count),
+    );
     res.status(201).json(allProducts);
   } catch (error) {
     res.status(400).json({
@@ -34,12 +33,17 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findOneAndDelete({
       slug: req.params.slug,
     });
-    res.status(204).json(deletedProduct);
+    console.log('Request Parameter:-', req.params.slug);
+    console.log('Deleted Product:', deleteProduct);
+    res.status(204).json({
+      success: true,
+      message: 'Product deleted successfully',
+    });
   } catch (error) {
     res.status(400).json({
       errormessage: error.message,
@@ -47,7 +51,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-exports.getOneProduct = async (req, res) => {
+export const getOneProduct = async (req, res) => {
   try {
     const product = await Product.findOne({
       slug: req.params.slug,
@@ -63,7 +67,7 @@ exports.getOneProduct = async (req, res) => {
   }
 };
 
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     if (req.body.title) {
       req.body.slug = slugify(req.body.title);
@@ -75,7 +79,7 @@ exports.updateProduct = async (req, res) => {
       req.body,
       {
         new: true,
-      }
+      },
     )
       .populate('category')
       .populate('subcategory');
@@ -88,28 +92,8 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// WITHOUT PAGINAGITION
-// exports.customProductList = async (req, res) => {
-//   try {
-//     // createdAt/updatedAt, desc/asc, 3
-//     const { sort, order, limit } = req.body;
-
-//     const customList = await Product.find({})
-//       .populate('category')
-//       .populate('subcategory')
-//       .sort([[sort, order]]) // some Mongoose weird syntax  ==> https://stackoverflow.com/questions/4299991/how-to-sort-in-mongoose
-//       .limit(limit);
-
-//     res.status(200).json(customList);
-//   } catch (error) {
-//     res.status(400).json({
-//       errormessage: error.message,
-//     });
-//   }
-// };
-
 // WITH PAGINATION
-exports.customProductList = async (req, res) => {
+export const customProductList = async (req, res) => {
   try {
     // createdAt/updatedAt, desc/asc, 3
     const { sort, order, page } = req.body;
@@ -130,10 +114,10 @@ exports.customProductList = async (req, res) => {
     });
   }
 };
-// PAGINATION
-exports.productsCount = async (req, res) => {
+
+export const productsCount = async (req, res) => {
   try {
-    const total = await Product.find({}).sort().estimatedDocumentCount();
+    const total = await Product.estimatedDocumentCount();
 
     res.status(200).json(total);
   } catch (error) {
@@ -143,52 +127,71 @@ exports.productsCount = async (req, res) => {
   }
 };
 
-exports.productRating = async (req, res) => {
+export const productRating = async (req, res) => {
   try {
     const product = await Product.findById(req.params.productId); // product that we want to rate
     const user = await User.findOne({ email: req.user.email }); // current user
     const { star } = req.body; // rating value from client
-
     // check if current user already rate this product and save result
     const existingRatnigObject = product.ratings.find(
-      (rating) => rating.postedBy.toString() === user._id.toString()
+      (rating) => rating.postedBy.toString() === user._id.toString(),
     );
-
+    console.log('EXISTING PRODUCT');
+    console.log(existingRatnigObject);
     // if current user doesn't rate product yet
-    if (!existingRatnigObject) {
+    if (existingRatnigObject === undefined) {
       const ratingAdded = await Product.updateOne(
         { _id: product._id },
-        { $push: { ratings: { star, postedBy: user._id } } },
         {
-          new: true,
-        }
+          $push: {
+            ratings: {
+              star,
+              postedBy: user._id,
+            },
+          },
+        },
       );
+      await Product.calcAverageRatings(product._id);
 
+      console.log('RATING ADDED');
+      console.log(ratingAdded);
       res.status(200).json(ratingAdded);
     }
 
     // if product have rating object by current user
     if (existingRatnigObject) {
       const ratingUpdated = await Product.updateOne(
-        { ratings: { $elemMatch: existingRatnigObject } }, // https://docs.mongodb.com/manual/reference/operator/query/elemMatch/
-        { $set: { 'ratings.$.star': star } }, // https://docs.mongodb.com/manual/reference/operator/update/set/
         {
-          new: true,
-        }
+          _id: product._id,
+          'ratings.postedBy': user._id,
+        },
+        {
+          $set: {
+            'ratings.$.star': star,
+          },
+        },
+        { new: true },
       );
-      res.status(200).json(ratingUpdated);
+
+      await Product.calcAverageRatings(product._id);
+
+      console.log('RATING UPDATED');
+      console.log(ratingUpdated);
+
+      return res.status(200).json(ratingUpdated);
     }
   } catch (error) {
-    res.status(400).json({
+    console.error('🔥 PRODUCT RATING ERROR:', error);
+
+    return res.status(400).json({
       errormessage: error.message,
     });
   }
 };
 
-exports.relatedProducts = async (req, res) => {
+export const relatedProducts = async (req, res) => {
   try {
     const product = await Product.findById(req.params.productId);
-
     const related = await Product.find({
       _id: { $ne: product._id }, // find all products with id's not equal product._id
       category: product.category, // that match product category
@@ -196,7 +199,6 @@ exports.relatedProducts = async (req, res) => {
       .limit(3)
       .populate('category')
       .populate('subcategory')
-      .populate('postedBy')
       .exec();
 
     res.status(200).json(related);
@@ -209,80 +211,100 @@ exports.relatedProducts = async (req, res) => {
 
 // SEARCH / FILTER
 
-const handleQuery = async (req, res, query) => {
+export const searchFilters = async (req, res) => {
   try {
-    const products = await Product.find({ $text: { $search: query } })
+    const {
+      query,
+      price,
+      category,
+      stars,
+      subcategories,
+      shipping,
+      color,
+      brand,
+    } = req.body;
+
+    console.log('SEARCH FILTER REQUEST:', req.body);
+
+    const filterQuery = {};
+
+    // PRICE
+    if (Array.isArray(price) && price.length === 2) {
+      filterQuery.price = {
+        $gte: Number(price[0]),
+        $lte: Number(price[1]),
+      };
+    }
+
+    // CATEGORY
+    if (Array.isArray(category) && category.length > 0) {
+      filterQuery.category = {
+        $in: category,
+      };
+    }
+
+    // RATING
+    if (Array.isArray(stars) && stars.length > 0) {
+      filterQuery.ratingsAverage = {
+        $in: stars.map(Number),
+      };
+    }
+
+    // SUBCATEGORY
+    if (Array.isArray(subcategories) && subcategories.length > 0) {
+      filterQuery.subcategory = {
+        $in: subcategories,
+      };
+    }
+
+    // SHIPPING
+    if (Array.isArray(shipping) && shipping.length > 0) {
+      filterQuery.shipping = {
+        $in: shipping,
+      };
+    }
+
+    // COLOR
+    if (Array.isArray(color) && color.length > 0) {
+      filterQuery.color = {
+        $in: color,
+      };
+    }
+
+    // BRAND
+    if (Array.isArray(brand) && brand.length > 0) {
+      filterQuery.brand = {
+        $in: brand,
+      };
+    }
+
+    // TEXT SEARCH
+    if (query && query.trim().length > 0) {
+      filterQuery.$text = {
+        $search: query.trim(),
+      };
+    }
+
+    console.log('FINAL FILTER QUERY:', JSON.stringify(filterQuery, null, 2));
+
+    const products = await Product.find(filterQuery)
       .populate('category', '_id name')
       .populate('subcategory', '_id name')
-      .populate('postedBy', '_id name');
+      .sort([['createdAt', 'desc']]);
 
-    res.status(200).json(products);
+    console.log('PRODUCTS FOUND:', products.length);
+
+    // IMPORTANT:
+    // No matching products is NOT an error.
+    // Return 200 with [].
+    return res.status(200).json(products);
   } catch (error) {
-    res.status(400).json({
-      errormessage: error.message,
+    console.error('SEARCH FILTER ERROR:', error);
+
+    return res.status(500).json({
+      success: false,
+      message: 'Unable to filter products',
+      error: error.message,
     });
-  }
-};
-
-exports.searchFilters = async (req, res) => {
-  const {
-    query,
-    price,
-    category,
-    stars,
-    subcategories,
-    shipping,
-    color,
-    brand,
-  } = req.body;
-
-  console.log('PRODUCT CONTROLLER {searchFilters} req.body ===>', req.body);
-  // build filter query
-  let filterQuery = {};
-
-  if (price) {
-    filterQuery.price = { $gte: price[0], $lte: price[1] };
-  }
-
-  if (category && category.length) {
-    filterQuery.category = category;
-  }
-
-  if (stars && stars.length) {
-    filterQuery.ratingsAverage = stars;
-  }
-  if (subcategories && subcategories.length) {
-    filterQuery.subcategory = { $in: subcategories };
-  }
-  if (shipping && shipping.length) {
-    filterQuery.shipping = shipping;
-  }
-  if (color && color.length) {
-    filterQuery.color = color;
-  }
-  if (brand && brand.length) {
-    filterQuery.brand = brand;
-  }
-  console.log(
-    'PRODUCT CONTROLLER { searchFilters – filterQuery} ===>',
-    filterQuery
-  );
-
-  if (query) {
-    await handleQuery(req, res, query);
-  } else {
-    try {
-      const products = await Product.find(filterQuery)
-        .populate('category', '_id name')
-        .populate('subcategory', '_id name')
-        .populate('postedBy', '_id name')
-        .sort([['createdAt', 'desc']]);
-
-      res.status(200).json(products);
-    } catch (error) {
-      res.status(400).json({
-        errormessage: error.message,
-      });
-    }
   }
 };

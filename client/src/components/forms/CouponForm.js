@@ -61,7 +61,7 @@ const CouponForm = ({ form, onFinish, onFinishFailed, inProgress }) => {
           },
         ]}
       >
-        <Input size="large" placeholder="Enter a coupon name" autoFocus />
+        <Input size="large" placeholder="Enter a coupon name" />
       </Item>
       <Divider style={{ fontWeight: 'bold' }}>Discount value</Divider>
       <Item

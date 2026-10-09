@@ -1,33 +1,23 @@
-const express = require('express');
-
+import express from 'express';
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/authMiddleware');
+import { authCheck, adminCheck } from '../middlewares/authMiddleware.js';
+import {
+  getAllSubCategories,
+  getSubCategory,
+  createSubCategory,
+  updateSubCategory,
+  deleteSubCategory,
+} from '../controllers/subCategoryController.js';
 
 // controllers
-const subCategoryController = require('../controllers/subCategoryController');
 
 const router = express.Router();
 
-router.get('/subcategories', subCategoryController.getAllSubCategories);
-router.get('/subcategories/:slug', subCategoryController.getSubCategory);
+router.get('/subcategories', getAllSubCategories);
+router.get('/subcategories/:slug', getSubCategory);
 
-router.post(
-  '/subcategories',
-  authCheck,
-  adminCheck,
-  subCategoryController.createSubCategory
-);
-router.put(
-  '/subcategories/:slug',
-  authCheck,
-  adminCheck,
-  subCategoryController.updateSubCategory
-);
-router.delete(
-  '/subcategories/:slug',
-  authCheck,
-  adminCheck,
-  subCategoryController.deleteSubCategory
-);
+router.post('/subcategories', authCheck, adminCheck, createSubCategory);
+router.put('/subcategories/:slug', authCheck, adminCheck, updateSubCategory);
+router.delete('/subcategories/:slug', authCheck, adminCheck, deleteSubCategory);
 
-module.exports = router;
+export default router;

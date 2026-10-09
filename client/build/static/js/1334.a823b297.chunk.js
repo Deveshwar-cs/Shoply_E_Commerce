@@ -1,0 +1,2 @@
+"use strict";(globalThis.webpackChunkclient||=[]).push([[1334],{1334(e,t,l){l.r(t);var n=l(8153),i=l(3216),s=l(579);const u=e=>{let{element:t}=e;const{isAuthenticated:l,user:u}=(0,n.d4)(e=>e.auth);return l&&"admin"===(null===u||void 0===u?void 0:u.role)?t:(0,s.jsx)(i.C5,{to:"/login",replace:!0})};l.d(t,["default",0,u])}}]);
+//# sourceMappingURL=1334.a823b297.chunk.js.map
