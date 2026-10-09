@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Layout,
   Typography,
@@ -117,12 +117,9 @@ const Password = () => {
               className="shoply-password-breadcrumb"
               items={[
                 {
-                  title: (
-                    <a onClick={() => navigate('/admin/dashboard')}>
-                      Dashboard
-                    </a>
-                  ),
+                  title: <Link to="/admin/dashboard">Dashboard </Link>,
                 },
+
                 { title: 'Account security' },
               ]}
             />
