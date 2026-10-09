@@ -50,6 +50,12 @@ async function initializeFirebase() {
 
     serviceAccount = localServiceAccount;
   }
+  console.log('Firebase Admin project:', serviceAccount.project_id);
+  console.log('Firebase Admin email:', serviceAccount.client_email);
+  console.log(
+    'Firebase emulator configured:',
+    Boolean(process.env.FIREBASE_AUTH_EMULATOR_HOST),
+  );
 
   initializeApp({
     credential: cert(serviceAccount),

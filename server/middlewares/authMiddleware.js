@@ -12,6 +12,7 @@ export const authCheck = async (req, res, next) => {
       });
     }
     console.log(req.headers.authtoken);
+
     const firebaseUser = await auth.verifyIdToken(token);
 
     req.user = firebaseUser;
