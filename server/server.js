@@ -5,6 +5,8 @@ import cors from 'cors';
 import { readdirSync } from 'fs';
 import dotenv from 'dotenv';
 dotenv.config();
+console.log('[STARTUP] server.js loaded');
+console.log('[STARTUP] Environment variables loaded');
 
 // App
 const app = express();
@@ -14,6 +16,7 @@ const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD,
 );
+console.log('[STARTUP] Connecting to MongoDB');
 
 mongoose
   .connect(DB)
@@ -28,6 +31,7 @@ mongoose
 app.use(morgan('dev'));
 app.use(express.json({ limit: '2mb' }));
 app.use(cors());
+console.log('[STARTUP] Loading routes');
 
 // Routes
 readdirSync('./routes').forEach(async (route) => {
@@ -39,6 +43,9 @@ console.log(
   'FIREBASE_AUTH_EMULATOR_HOST:',
   process.env.FIREBASE_AUTH_EMULATOR_HOST,
 );
+
+console.log('[STARTUP] All routes loaded');
+
 // Server
 const PORT = process.env.PORT || 8000;
 
