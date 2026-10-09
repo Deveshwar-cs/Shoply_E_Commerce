@@ -11,7 +11,7 @@ export const authCheck = async (req, res, next) => {
         error: 'No authentication token provided',
       });
     }
-
+    console.log(req.headers.authtoken);
     const firebaseUser = await auth.verifyIdToken(token);
 
     req.user = firebaseUser;
