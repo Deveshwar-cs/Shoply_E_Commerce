@@ -2,6 +2,9 @@ import User from '../models/userModel.js';
 import { auth } from '../firebase/index.js';
 
 // Verify Firebase token from client
+
+import { auth } from '../firebase/index.js';
+
 export const authCheck = async (req, res, next) => {
   try {
     const token = req.headers.authtoken;
@@ -11,14 +14,17 @@ export const authCheck = async (req, res, next) => {
         error: 'No authentication token provided',
       });
     }
-    console.log(req.headers.authtoken);
 
     const firebaseUser = await auth.verifyIdToken(token);
 
     req.user = firebaseUser;
-    next();
+
+    return next();
   } catch (error) {
-    console.error('Firebase authentication error:', error);
+    console.error('Firebase authentication error:', {
+      code: error.code,
+      message: error.message,
+    });
 
     return res.status(401).json({
       error: 'Invalid or expired token',
