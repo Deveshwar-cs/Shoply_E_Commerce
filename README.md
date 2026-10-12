@@ -1,69 +1,128 @@
-# MERN Ecommerce project
+# Shoply E-Commerce
 
-# [Live Demo](https://mern-ecomm-client.onrender.com/)
+Shoply is a full-stack online store with customer shopping, checkout, and administration features.
 
-### Client stack:
+**Live site:** [https://shoply-e-commerce.vercel.app/](https://shoply-e-commerce.vercel.app/)
 
-- React
-- Redux
-- React Router
-- Ant Design UI
+## Technology
 
-### Server stack:
+- **Frontend:** React 18, React Router, Redux with Redux Thunk, Ant Design, Tailwind CSS, and Axios
+- **Backend:** Node.js, Express, and MongoDB with Mongoose
+- **Authentication:** Firebase Authentication on the client and Firebase Admin token verification on the server
+- **Payments:** Stripe card payments and cash on delivery
+- **Images:** Cloudinary
+- **Invoices:** PDF generation with `@react-pdf/renderer`
 
-- Node/Express
-- MongoDB/Mongoose
+## Features
 
-### Other technologies:
+- Customer registration and sign-in, including Google sign-in
+- Product browsing, search, filtering, categories, and subcategories
+- Product ratings and reviews
+- Shopping cart, wishlist, and coupon support
+- Stripe card checkout and cash-on-delivery orders
+- Customer order history, address management, and downloadable PDF invoices
+- Admin dashboard for managing products, categories, coupons, and orders
+- Responsive layouts for desktop and mobile
 
-- Firebase Auth
-- Axios
-- Cloudinary API
-- Stripe
+## Project structure
 
-### Project features:
+```text
+client/   React application
+server/   Express API, MongoDB models, and Firebase Admin integration
+```
 
-- Login Registration System
-- Login with email/password and social login (Google)
-- Admin dashboard and order management system
-- Products CRUD with advance features including categories, sub-categories, multiple image uploads etc
-- Plenty of advance searching and filtering options
-- Star rating system
-- Cart functionality with both backend/frontend implementation
-- Checkout with stripe for credit card payments
-- Checkout with cash on delivery (no online payment required)
-- User dashboard with password update, purchase history, Invoice/PDF download etc
+## Local setup
 
-Project based on [this course](https://www.udemy.com/course/react-redux-ecommerce/) with a lot of changes:
+### Prerequisites
 
-- used only Ant Design UI (because why to use two UI libraries with same features);
-- more complex Redux setup (there is a lot of Redux here 😂);
-- added mobile layout for all pages;
-- new implementation for calculating average product rating (with mongoose middlewares + changes in the model);
-- new implementation for filtering products feature (now we can combine filters for more specific results – original project miss this functionality);
+- Node.js and npm
+- A MongoDB database, local or [MongoDB Atlas](https://www.mongodb.com/atlas/database)
+- A [Firebase](https://console.firebase.google.com/) project with Authentication enabled
+- A [Cloudinary](https://cloudinary.com/) account for product image uploads
+- A [Stripe](https://stripe.com/) account for card payments
 
-### How to run the project locally?
+### 1. Install dependencies
 
-1. Clone repo;
-2. In `client` directory run terminal command `npm install`;
-3. In `server` directory run terminal command `npm install`;
-4. Setup MongoDB instance – local or [Atlas](https://www.mongodb.com/atlas/database);
-5. Setup [Firebase](https://console.firebase.google.com/) project;
-6. Setup [Cloudinary](https://cloudinary.com/) API;
-7. Setup [Stripe](https://stripe.com/) project;
-8. In `server` directory run terminal command `npm run dev`;
+Run these commands from the project root:
 
-### Screenshots
+```bash
+cd server
+npm install
+cd ../client
+npm install
+```
 
-**By User**
-![home-page](https://user-images.githubusercontent.com/20335885/148426821-c12d797b-6610-490d-b18a-0b1e9cce338f.jpg)
-![shop-page](https://user-images.githubusercontent.com/20335885/148426882-b3c67245-325e-46f6-95aa-616959909827.jpg)
-![product-page](https://user-images.githubusercontent.com/20335885/148426915-1966a7b9-451f-4034-a2ac-9d1dcad0548e.jpg)
-![cart-page](https://user-images.githubusercontent.com/20335885/148426967-170cf311-f53c-4cff-9f18-dd0ef93696a8.jpg)
-![checkout-page](https://user-images.githubusercontent.com/20335885/148427018-f7195fc3-4702-41de-93fb-e56970a1bfef.jpg)
-![card-payment-page](https://user-images.githubusercontent.com/20335885/148427079-e25dfd12-f2aa-4742-9a53-3a9e5e24bc23.jpg)
-![card-payment-success](https://user-images.githubusercontent.com/20335885/148427138-41723ed1-e3f1-4ff7-935e-a5b14b08b3ea.jpg)
-![user-order-history-page](https://user-images.githubusercontent.com/20335885/148427194-314c13d7-3b39-4cf5-bf75-b418ca9176ac.jpg)
+### 2. Configure the server
 
-**By Admin**
-![admin-dashboard-page](https://user-images.githubusercontent.com/20335885/148427256-b9a55636-0dcb-4ed8-bbdb-0c19e956a6e4.jpg)
+Create `server/.env` with the following settings. Replace the placeholders with your own credentials; do not commit `.env` files or service-account keys.
+
+```dotenv
+PORT=8000
+DATABASE=mongodb+srv://<username>:<PASSWORD>@<cluster>/<database>?retryWrites=true&w=majority
+DATABASE_PASSWORD=your-mongodb-password
+STRIPE_SECRET=sk_test_your_stripe_secret_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
+
+For local development, download a Firebase Admin service-account key for your Firebase project and save it as:
+
+```text
+server/config/fbServiceAccountKey.json
+```
+
+Keep this file private and out of version control. In production, the server instead reads Firebase Admin credentials from environment variables: `FIREBASE_PROJECT_ID`, `FIREBASE_PRIVATE_KEY`, and `FIREBASE_CLIENT_EMAIL` are required. The private key can be stored with escaped newlines (`\n`).
+
+### 3. Configure the client
+
+Create `client/.env` and add the Firebase web-app settings from your Firebase project, along with the API URL and Stripe publishable key:
+
+```dotenv
+REACT_APP_API=http://localhost:8000/api
+REACT_APP_STRIPE_KEY=pk_test_your_stripe_publishable_key
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+REACT_APP_FIREBASE_MESSAGIN_SENDER_ID=your_messaging_sender_id
+REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
+```
+
+The sender-ID variable is named `REACT_APP_FIREBASE_MESSAGIN_SENDER_ID` in the current application. Enable the Google sign-in provider in Firebase Authentication if you want to use Google login.
+
+### 4. Start the application
+
+To start the API and React development server together:
+
+```bash
+cd server
+npm run dev
+```
+
+The API runs on `http://localhost:8000`; the React app runs on `http://localhost:3000`.
+
+Alternatively, start each part in a separate terminal:
+
+```bash
+# Terminal 1
+cd server
+npm run server
+
+# Terminal 2
+cd client
+npm start
+```
+
+## Useful commands
+
+Run these from the corresponding directory:
+
+| Directory | Command          | Description                        |
+| --------- | ---------------- | ---------------------------------- |
+| `server/` | `npm start`      | Start the API                      |
+| `server/` | `npm run server` | Start the API with Nodemon         |
+| `server/` | `npm run dev`    | Start the API and client together  |
+| `client/` | `npm start`      | Start the React development server |
+| `client/` | `npm run build`  | Create a production client build   |
+| `client/` | `npm test`       | Run client tests                   |
